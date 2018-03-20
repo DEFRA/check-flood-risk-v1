@@ -6,7 +6,7 @@
   h2 {
     //@include bold-24;
     margin-top: 0.3em;
-    margin-bottom: 0.5em;
+    margin-bottom: 10px;
   }
 
   .description {
@@ -26,11 +26,15 @@
       // reset the default browser styles
       padding: 0;
 
-      margin-bottom: 0.75em;
+      margin-bottom: 10px;
 
       &.related-items-more {
         font-weight: bold;
       }
+    }
+
+    a {
+      text-decoration: none;
     }
   }
 }

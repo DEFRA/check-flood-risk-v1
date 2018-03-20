@@ -2654,7 +2654,7 @@ a.subsection-header:focus .font-small {
 
 .govuk-related-items h2 {
   margin-top: 0.3em;
-  margin-bottom: 0.5em;
+  margin-bottom: 10px;
 }
 
 .govuk-related-items .description {
@@ -2693,11 +2693,15 @@ a.subsection-header:focus .font-small {
 
 .govuk-related-items ul li {
   padding: 0;
-  margin-bottom: 0.75em;
+  margin-bottom: 10px;
 }
 
 .govuk-related-items ul li.related-items-more {
   font-weight: bold;
+}
+
+.govuk-related-items ul a {
+  text-decoration: none;
 }
 
 .part-navigation-container {
