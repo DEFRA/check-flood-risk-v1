@@ -16,10 +16,11 @@ $path: "/public/";
 @import 'components/govuk/guide';
 @import 'components/govuk/title';
 @import 'components/govuk/previous-and-next-navigation';
+@import 'components/govuk/feedback';
 
 @import 'components/tables';
 @import 'components/forms';
 @import 'components/maps';
 @import 'components/buttons';
 
-@import 'utilities/margins';
+@import 'utilities/margins-borders';

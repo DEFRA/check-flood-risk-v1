@@ -139,7 +139,11 @@ module.exports = [
 		}
 	},
 
-	// Prepare
+	//
+	// Preapring
+	//
+
+	// Prepare for a flood
 	{
 		method: 'GET',
 		path: '/preparing-for-a-flood',
@@ -154,6 +158,10 @@ module.exports = [
 		}
 	},
 
+	//
+	// Responding
+	//
+
 	// Responding to a flood - Overview
 	{
 		method: 'GET',
@@ -163,6 +171,7 @@ module.exports = [
 				return reply.view('gov-uk/responding-to-a-flood/overview', {
 					'pageTitle' : 'Responding to a flood - GOV.UK',
 					'pageDescription' : 'What to do during a flood.',
+					'bodyClasses': 'guide',
 					'serviceName' : ''
 				})
 			}
@@ -178,6 +187,7 @@ module.exports = [
 				return reply.view('gov-uk/responding-to-a-flood/getting-a-flood-alert', {
 					'pageTitle' : 'Getting a flood alert - GOV.UK',
 					'pageDescription' : 'What to do if you get a flood alert.',
+					'bodyClasses': 'guide',
 					'serviceName' : ''
 				})
 			}
@@ -193,6 +203,7 @@ module.exports = [
 				return reply.view('gov-uk/responding-to-a-flood/getting-a-flood-warning', {
 					'pageTitle' : 'Getting a flood warning - GOV.UK',
 					'pageDescription' : 'What to do if you get a flood warning.',
+					'bodyClasses': 'guide',
 					'serviceName' : ''
 				})
 			}
@@ -208,21 +219,223 @@ module.exports = [
 				return reply.view('gov-uk/responding-to-a-flood/getting-a-severe-flood-warning', {
 					'pageTitle' : 'Getting a severe flood warning - GOV.UK',
 					'pageDescription' : 'What to do if you get a severe flood warning.',
+					'bodyClasses': 'guide',
 					'serviceName' : ''
 				})
 			}
 		}
 	},
 
+	//
 	// Recover
+	//
+
+	// Recovering from a flood - Contact your insurance company
 	{
 		method: 'GET',
 		path: '/recovering-from-a-flood',
 		config: {
 			handler: function (request, reply) {
-				return reply.view('gov-uk/recovering-from-a-flood', {
-					'pageTitle' : 'Recovering from a flood - GOV.UK',
-					'pageDescription' : 'What to do after a flood.',
+				return reply.view('gov-uk/recovering-from-a-flood/contact-insurance-company', {
+					'pageTitle' : 'Contact your insurance company - Recovering form a flood - GOV.UK',
+					'pageDescription' : '',
+					'bodyClasses': 'guide',
+					'serviceName' : ''
+				})
+			}
+		}
+	},
+
+	// Recovering from a flood - Get help
+	{
+		method: 'GET',
+		path: '/recovering-from-a-flood/get-help',
+		config: {
+			handler: function (request, reply) {
+				return reply.view('gov-uk/recovering-from-a-flood/get-help', {
+					'pageTitle' : 'Get help - Recovering form a flood - GOV.UK',
+					'pageDescription' : '',
+					'bodyClasses': 'guide',
+					'serviceName' : ''
+				})
+			}
+		}
+	},
+
+	// Recovering from a flood - Check if you can return home
+	{
+		method: 'GET',
+		path: '/recovering-from-a-flood/check-if-you-can-return-home',
+		config: {
+			handler: function (request, reply) {
+				return reply.view('gov-uk/recovering-from-a-flood/check-if-you-can-return-home', {
+					'pageTitle' : 'Check if you can return home - Recovering form a flood - GOV.UK',
+					'pageDescription' : '',
+					'bodyClasses': 'guide',
+					'serviceName' : ''
+				})
+			}
+		}
+	},
+
+	// Recovering from a flood - Clean up
+	{
+		method: 'GET',
+		path: '/recovering-from-a-flood/clean-up',
+		config: {
+			handler: function (request, reply) {
+				return reply.view('gov-uk/recovering-from-a-flood/clean-up', {
+					'pageTitle' : 'Clean up - Recovering form a flood - GOV.UK',
+					'pageDescription' : '',
+					'bodyClasses': 'guide',
+					'serviceName' : ''
+				})
+			}
+		}
+	},
+
+	// Recovering from a flood - Stay healthy
+	{
+		method: 'GET',
+		path: '/recovering-from-a-flood/stay-healthy',
+		config: {
+			handler: function (request, reply) {
+				return reply.view('gov-uk/recovering-from-a-flood/stay-healthy', {
+					'pageTitle' : 'Stay healthy - Recovering form a flood - GOV.UK',
+					'pageDescription' : '',
+					'bodyClasses': 'guide',
+					'serviceName' : ''
+				})
+			}
+		}
+	},
+
+	// Recovering from a flood - Make repairs
+	{
+		method: 'GET',
+		path: '/recovering-from-a-flood/make-repairs',
+		config: {
+			handler: function (request, reply) {
+				return reply.view('gov-uk/recovering-from-a-flood/make-repairs', {
+					'pageTitle' : 'Make repairs - Recovering form a flood - GOV.UK',
+					'pageDescription' : '',
+					'bodyClasses': 'guide',
+					'serviceName' : ''
+				})
+			}
+		}
+	},
+
+	// Recovering from a flood - Prepare for future floods
+	{
+		method: 'GET',
+		path: '/recovering-from-a-flood/prepare-for-future-floods',
+		config: {
+			handler: function (request, reply) {
+				return reply.view('gov-uk/recovering-from-a-flood/prepare-for-future-floods', {
+					'pageTitle' : 'Prepare for future floods - Recovering form a flood - GOV.UK',
+					'pageDescription' : '',
+					'bodyClasses': 'guide',
+					'serviceName' : ''
+				})
+			}
+		}
+	},
+
+	//
+	// What happens after a flood
+	//
+
+	// What happens after a flood - Overview
+	{
+		method: 'GET',
+		path: '/what-happens-after-a-flood',
+		config: {
+			handler: function (request, reply) {
+				return reply.view('gov-uk/what-happens-after-a-flood/overview', {
+					'pageTitle' : 'What happens after a flood - GOV.UK',
+					'pageDescription' : '',
+					'bodyClasses': 'guide',
+					'serviceName' : ''
+				})
+			}
+		}
+	},
+
+	// What happens after a flood - 1 - 3 days after the flood
+	{
+		method: 'GET',
+		path: '/what-happens-after-a-flood/1-3-days',
+		config: {
+			handler: function (request, reply) {
+				return reply.view('gov-uk/what-happens-after-a-flood/1-3-days', {
+					'pageTitle' : 'What happens 1-3 days after a flood - GOV.UK',
+					'pageDescription' : '',
+					'bodyClasses': 'guide',
+					'serviceName' : ''
+				})
+			}
+		}
+	},
+
+	// What happens after a flood - A week after the flood
+	{
+		method: 'GET',
+		path: '/what-happens-after-a-flood/a-week',
+		config: {
+			handler: function (request, reply) {
+				return reply.view('gov-uk/what-happens-after-a-flood/a-week', {
+					'pageTitle' : 'What happens a week after a flood - GOV.UK',
+					'pageDescription' : '',
+					'bodyClasses': 'guide',
+					'serviceName' : ''
+				})
+			}
+		}
+	},
+
+	// What happens after a flood - A month after the flood
+	{
+		method: 'GET',
+		path: '/what-happens-after-a-flood/a-month',
+		config: {
+			handler: function (request, reply) {
+				return reply.view('gov-uk/what-happens-after-a-flood/a-month', {
+					'pageTitle' : 'What happens a month after a flood - GOV.UK',
+					'pageDescription' : '',
+					'bodyClasses': 'guide',
+					'serviceName' : ''
+				})
+			}
+		}
+	},
+
+	// What happens after a flood - 3 months after the flood
+	{
+		method: 'GET',
+		path: '/what-happens-after-a-flood/3-months',
+		config: {
+			handler: function (request, reply) {
+				return reply.view('gov-uk/what-happens-after-a-flood/3-months', {
+					'pageTitle' : 'What happens 3 months after a flood - GOV.UK',
+					'pageDescription' : '',
+					'bodyClasses': 'guide',
+					'serviceName' : ''
+				})
+			}
+		}
+	},
+
+	// What happens after a flood - A year after the flood
+	{
+		method: 'GET',
+		path: '/what-happens-after-a-flood/a-year',
+		config: {
+			handler: function (request, reply) {
+				return reply.view('gov-uk/what-happens-after-a-flood/a-year', {
+					'pageTitle' : 'What happens a year after a flood - GOV.UK',
+					'pageDescription' : '',
+					'bodyClasses': 'guide',
 					'serviceName' : ''
 				})
 			}
