@@ -143,7 +143,6 @@ module.exports = [
 	// Preapring
 	//
 
-	// Prepare for a flood
 	{
 		method: 'GET',
 		path: '/preparing-for-a-flood',
@@ -152,6 +151,7 @@ module.exports = [
 				return reply.view('gov-uk/preparing-for-a-flood', {
 					'pageTitle' : 'Preparing for a flood - GOV.UK',
 					'pageDescription' : 'What to do before a flood: how to protect your porpeorty; get insurance; sign up to flood warnings and make a flood plan.',
+					'bodyClasses': 'guide',
 					'serviceName' : ''
 				})
 			}
@@ -346,94 +346,13 @@ module.exports = [
 	// What happens after a flood
 	//
 
-	// What happens after a flood - Overview
 	{
 		method: 'GET',
 		path: '/what-happens-after-a-flood',
 		config: {
 			handler: function (request, reply) {
-				return reply.view('gov-uk/what-happens-after-a-flood/overview', {
+				return reply.view('gov-uk/what-happens-after-a-flood', {
 					'pageTitle' : 'What happens after a flood - GOV.UK',
-					'pageDescription' : '',
-					'bodyClasses': 'guide',
-					'serviceName' : ''
-				})
-			}
-		}
-	},
-
-	// What happens after a flood - 1 - 3 days after the flood
-	{
-		method: 'GET',
-		path: '/what-happens-after-a-flood/1-3-days',
-		config: {
-			handler: function (request, reply) {
-				return reply.view('gov-uk/what-happens-after-a-flood/1-3-days', {
-					'pageTitle' : 'What happens 1-3 days after a flood - GOV.UK',
-					'pageDescription' : '',
-					'bodyClasses': 'guide',
-					'serviceName' : ''
-				})
-			}
-		}
-	},
-
-	// What happens after a flood - A week after the flood
-	{
-		method: 'GET',
-		path: '/what-happens-after-a-flood/a-week',
-		config: {
-			handler: function (request, reply) {
-				return reply.view('gov-uk/what-happens-after-a-flood/a-week', {
-					'pageTitle' : 'What happens a week after a flood - GOV.UK',
-					'pageDescription' : '',
-					'bodyClasses': 'guide',
-					'serviceName' : ''
-				})
-			}
-		}
-	},
-
-	// What happens after a flood - A month after the flood
-	{
-		method: 'GET',
-		path: '/what-happens-after-a-flood/a-month',
-		config: {
-			handler: function (request, reply) {
-				return reply.view('gov-uk/what-happens-after-a-flood/a-month', {
-					'pageTitle' : 'What happens a month after a flood - GOV.UK',
-					'pageDescription' : '',
-					'bodyClasses': 'guide',
-					'serviceName' : ''
-				})
-			}
-		}
-	},
-
-	// What happens after a flood - 3 months after the flood
-	{
-		method: 'GET',
-		path: '/what-happens-after-a-flood/3-months',
-		config: {
-			handler: function (request, reply) {
-				return reply.view('gov-uk/what-happens-after-a-flood/3-months', {
-					'pageTitle' : 'What happens 3 months after a flood - GOV.UK',
-					'pageDescription' : '',
-					'bodyClasses': 'guide',
-					'serviceName' : ''
-				})
-			}
-		}
-	},
-
-	// What happens after a flood - A year after the flood
-	{
-		method: 'GET',
-		path: '/what-happens-after-a-flood/a-year',
-		config: {
-			handler: function (request, reply) {
-				return reply.view('gov-uk/what-happens-after-a-flood/a-year', {
-					'pageTitle' : 'What happens a year after a flood - GOV.UK',
 					'pageDescription' : '',
 					'bodyClasses': 'guide',
 					'serviceName' : ''
