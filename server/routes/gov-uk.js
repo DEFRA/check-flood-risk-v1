@@ -185,7 +185,7 @@ module.exports = [
 		config: {
 			handler: function (request, reply) {
 				return reply.view('gov-uk/what-to-do-in-a-flood/getting-a-flood-alert', {
-					'pageTitle' : 'Getting a flood alert - GOV.UK',
+					'pageTitle' : 'What to do if you get a flood alert - GOV.UK',
 					'pageDescription' : '',
 					'bodyClasses': 'guide',
 					'serviceName' : ''
@@ -201,7 +201,7 @@ module.exports = [
 		config: {
 			handler: function (request, reply) {
 				return reply.view('gov-uk/what-to-do-in-a-flood/getting-a-flood-warning', {
-					'pageTitle' : 'Getting a flood warning - GOV.UK',
+					'pageTitle' : 'What to do if you get a flood warning - GOV.UK',
 					'pageDescription' : '',
 					'bodyClasses': 'guide',
 					'serviceName' : ''
@@ -217,7 +217,7 @@ module.exports = [
 		config: {
 			handler: function (request, reply) {
 				return reply.view('gov-uk/what-to-do-in-a-flood/getting-a-severe-flood-warning', {
-					'pageTitle' : 'Getting a severe flood warning - GOV.UK',
+					'pageTitle' : 'What to do if you get a severe flood warning - GOV.UK',
 					'pageDescription' : '',
 					'bodyClasses': 'guide',
 					'serviceName' : ''
