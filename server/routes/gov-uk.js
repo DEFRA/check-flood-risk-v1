@@ -237,7 +237,7 @@ module.exports = [
 		config: {
 			handler: function (request, reply) {
 				return reply.view('gov-uk/recovering-after-a-flood/contact-insurance-company', {
-					'pageTitle' : 'Contact your insurance company - Recovering form a flood - GOV.UK',
+					'pageTitle' : 'Contact your insurance company - Recovering after a flood - GOV.UK',
 					'pageDescription' : '',
 					'bodyClasses': 'guide',
 					'serviceName' : ''
@@ -253,7 +253,7 @@ module.exports = [
 		config: {
 			handler: function (request, reply) {
 				return reply.view('gov-uk/recovering-after-a-flood/get-help', {
-					'pageTitle' : 'Get help - Recovering form a flood - GOV.UK',
+					'pageTitle' : 'Get help - Recovering after a flood - GOV.UK',
 					'pageDescription' : '',
 					'bodyClasses': 'guide',
 					'serviceName' : ''
@@ -269,7 +269,7 @@ module.exports = [
 		config: {
 			handler: function (request, reply) {
 				return reply.view('gov-uk/recovering-after-a-flood/check-if-you-can-return-home', {
-					'pageTitle' : 'Check if you can return home - Recovering form a flood - GOV.UK',
+					'pageTitle' : 'Check if you can return home - Recovering after a flood - GOV.UK',
 					'pageDescription' : '',
 					'bodyClasses': 'guide',
 					'serviceName' : ''
@@ -285,7 +285,7 @@ module.exports = [
 		config: {
 			handler: function (request, reply) {
 				return reply.view('gov-uk/recovering-after-a-flood/clean-up', {
-					'pageTitle' : 'Clean up - Recovering form a flood - GOV.UK',
+					'pageTitle' : 'Clean up - Recovering after a flood - GOV.UK',
 					'pageDescription' : '',
 					'bodyClasses': 'guide',
 					'serviceName' : ''
@@ -301,7 +301,7 @@ module.exports = [
 		config: {
 			handler: function (request, reply) {
 				return reply.view('gov-uk/recovering-after-a-flood/stay-healthy', {
-					'pageTitle' : 'Stay healthy - Recovering form a flood - GOV.UK',
+					'pageTitle' : 'Stay healthy - Recovering after a flood - GOV.UK',
 					'pageDescription' : '',
 					'bodyClasses': 'guide',
 					'serviceName' : ''
@@ -317,7 +317,7 @@ module.exports = [
 		config: {
 			handler: function (request, reply) {
 				return reply.view('gov-uk/recovering-after-a-flood/make-repairs', {
-					'pageTitle' : 'Make repairs - Recovering form a flood - GOV.UK',
+					'pageTitle' : 'Make repairs - Recovering after a flood - GOV.UK',
 					'pageDescription' : '',
 					'bodyClasses': 'guide',
 					'serviceName' : ''
@@ -333,7 +333,7 @@ module.exports = [
 		config: {
 			handler: function (request, reply) {
 				return reply.view('gov-uk/recovering-after-a-flood/prepare-for-future-floods', {
-					'pageTitle' : 'Prepare for future floods - Recovering form a flood - GOV.UK',
+					'pageTitle' : 'Prepare for future floods - Recovering after a flood - GOV.UK',
 					'pageDescription' : '',
 					'bodyClasses': 'guide',
 					'serviceName' : ''
