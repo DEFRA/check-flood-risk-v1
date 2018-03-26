@@ -810,7 +810,6 @@ function updateUrl(feature) {
         
     }
 
-<<<<<<< HEAD
 }
 
 // Detect window print
@@ -834,7 +833,3 @@ function updateUrl(feature) {
     window.onbeforeprint = beforePrint
     window.onafterprint = afterPrint
 }())
-
-=======
-}
->>>>>>> b275c85e6eaa70541766f76de6d65c5623db99bd
