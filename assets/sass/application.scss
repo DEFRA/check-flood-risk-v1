@@ -1,6 +1,9 @@
 $path: "/public/";
 
 @import 'govuk-elements';
+@import 'generic/govuk/margins';
+@import 'generic/govuk/conditionals';
+
 @import 'gov-uk';
 @import 'banner';
 @import 'message';
@@ -9,14 +12,17 @@ $path: "/public/";
 @import 'accordion';
 @import 'notices';
 
-@import 'components/related-items';
+@import 'components/govuk/related-items';
+@import 'components/govuk/guide';
+@import 'components/govuk/title';
+@import 'components/govuk/previous-and-next-navigation';
+@import 'components/govuk/feedback';
+@import 'components/govuk/govspeak/contact';
+@import 'components/govuk/govspeak/typography';
+
 @import 'components/tables';
 @import 'components/forms';
 @import 'components/maps';
 @import 'components/buttons';
-@import 'components/collections/accordion';
-@import 'components/collections/taxon-list';
-@import 'components/collections/topic-list';
 
-@import 'utilities/margins';
-
+@import 'utilities/margins-borders';

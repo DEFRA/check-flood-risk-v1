@@ -1,0 +1,65 @@
+
+.part-navigation-container {
+  margin-top: $gutter;
+  margin-bottom: $gutter;
+  @include media(tablet) {
+    //margin-bottom: $gutter * 1.5;
+    margin-bottom:0;  // Addition
+  }
+  border-bottom: 1px solid $grey-2;
+  padding-bottom: 15px; // Added
+}
+
+.part-navigation {
+  margin-bottom: $gutter / 2;
+  @include core-19;
+
+  @include media(tablet) {
+    @include core-16;
+  }
+
+  li {
+    list-style: none;
+    margin-bottom: 0.75em;
+
+    a {
+      display: block;
+    }
+  }
+}
+
+
+.part-navigation li {
+  list-style: decimal;
+  margin-left: 1.5em;
+  padding-left: 0.3em;
+}
+
+.part-title {
+  @include bold-27;
+  margin-bottom: $gutter-half;
+  @include media(tablet) {
+    margin-top: 20px; // Addition
+    margin-bottom: $gutter-two-thirds;
+  }
+}
+
+.add-title-margin {
+  // @include responsive-top-margin;
+}
+
+
+// FIXME: Remove when typography improvements made to
+//        govspeak component
+//
+// Distinguish between part titles (27px) and h2s
+// within content of part by reducing font-size
+//
+// Override h2 sizes to match layout used by alphagov/frontend
+// https://github.com/alphagov/static/blob/f44470edc4e4159ea37481985c641034741623ac/app/assets/stylesheets/helpers/_text.scss#L38
+.govuk-govspeak {
+  h2 {
+    @include bold-24;
+  }
+}
+

@@ -1,0 +1,179 @@
+// govuk_frontend_toolkit
+@import 'grid_layout';
+@import 'design-patterns/buttons';
+
+.gem-c-feedback {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.gem-c-feedback--top-margin {
+  margin-top: $gutter;
+
+  @include media(tablet) {
+    margin-top: $gutter * 2;
+  }
+}
+
+// hide without js
+// show with js, unless also has the js-hidden class
+.gem-c-feedback__js-show {
+  display: none;
+
+  .js-enabled & {
+    display: block;
+
+    &.js-hidden {
+      display: none;
+    }
+  }
+}
+
+.gem-c-feedback__grid-row {
+  @extend %grid-row;
+}
+
+.gem-c-feedback__column-two-thirds {
+  @include grid-column( 2 / 3 );
+}
+
+.gem-c-feedback__prompt {
+  @extend %contain-floats;
+  background-color: $govuk-blue;
+  color: $white;
+  padding: $gutter-one-third $gutter-half 0;
+  outline: 0;
+}
+
+.gem-c-feedback__prompt-question,
+.gem-c-feedback__prompt-success {
+  @include bold-19;
+  display: inline-block;
+
+  // There's a global h3 rule in some layouts that interferes with this component
+  margin-top: 0;
+
+  &:focus {
+    outline: 0;
+  }
+
+  @include media(tablet) {
+    @include bold-16;
+    float: left;
+  }
+}
+
+.gem-c-feedback__prompt-link {
+  @include core-19;
+  margin-left: $gutter-half;
+
+  @include media(tablet) {
+    @include core-16;
+    float: left; // needed to ensure vertical alignment consistent with prompt-link--wrong
+    margin-left: $gutter-one-third;
+  }
+}
+
+.gem-c-feedback__prompt-link:link,
+.gem-c-feedback__prompt-link:visited {
+  color: $white;
+}
+
+.gem-c-feedback__prompt-link--wrong {
+  display: block;
+  clear: both;
+  margin-top: $gutter-half;
+  margin-left: 0;
+
+  @include media(tablet) {
+    float: right;
+    clear: none;
+    margin-top: 0;
+    margin-left: $gutter-one-third;
+  }
+}
+
+.gem-c-feedback__error-summary {
+  margin-bottom: $gutter-half;
+  padding: $gutter-half;
+  border: solid 4px $error-colour;
+  clear: both;
+
+  &:focus {
+    outline: solid 3px $focus-colour;
+  }
+
+  @include media(tablet) {
+    border-width: 5px;
+  }
+
+  // this comes from the backend so we can't put a class on it
+  h2,
+  .gem-c-feedback__heading {
+    @include bold-24;
+    margin: 0;
+  }
+
+  p {
+    @include core-19;
+    margin: $gutter-one-third 0;
+  }
+}
+
+.gem-c-feedback__error-message {
+  @include bold-19;
+  display: block;
+  padding: 4px 0 0;
+  color: $error-colour;
+}
+
+.gem-c-feedback__form {
+  margin-top: $gutter-half;
+  padding: $gutter-half 0;
+  border-top: $gutter-one-third solid $govuk-blue;
+
+  @include media(tablet) {
+    padding: $gutter 0;
+  }
+}
+
+.gem-c-feedback__form-heading {
+  @include bold-24;
+  margin-bottom: $gutter-half;
+}
+
+.gem-c-feedback__form-paragraph {
+  @include core-19;
+  margin-bottom: $gutter;
+}
+
+.gem-c-feedback__form-label {
+  @include core-16;
+  display: block;
+  padding-bottom: $gutter-half;
+}
+
+.gem-c-feedback__close {
+  @include core-19;
+  float: right;
+  margin-bottom: $gutter-one-third;
+
+  @include media(tablet) {
+    padding-top: 0;
+  }
+}
+
+.gem-c-feedback__email-link {
+  display: block;
+  margin-top: $gutter-half;
+
+  @include media(tablet) {
+    display: inline-block;
+    margin-top: 0;
+    margin-left: $gutter-half;
+  }
+}
+
+.gem-c-feedback__submit {
+  @include button;
+}

@@ -1,12 +1,12 @@
 .govuk-related-items {
-  border-top: 10px solid $mainstream-brand;
+  border-top: 2px solid $mainstream-brand;
   padding-top: 5px;
-  margin-top:30px;
+  //margin-top:30px;
 
   h2 {
-    @include bold-24;
+    //@include bold-24;
     margin-top: 0.3em;
-    margin-bottom: 0.5em;
+    margin-bottom: 10px;
   }
 
   .description {
@@ -26,11 +26,15 @@
       // reset the default browser styles
       padding: 0;
 
-      margin-bottom: 0.75em;
+      margin-bottom: 10px;
 
       &.related-items-more {
         font-weight: bold;
       }
+    }
+
+    a {
+      text-decoration: none;
     }
   }
 }

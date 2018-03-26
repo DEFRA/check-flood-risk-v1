@@ -15,3 +15,14 @@
         margin-bottom:1.5em;
       }
 }
+
+// Guide
+.guide #content {
+    padding-bottom:0;
+}
+.guide main {
+    padding-bottom:90px;
+}
+.guide #footer {
+    border-top: 10px solid $govuk-blue;
+}
