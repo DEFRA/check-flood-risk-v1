@@ -145,11 +145,11 @@ module.exports = [
 
 	{
 		method: 'GET',
-		path: '/preparing-for-a-flood',
+		path: '/plan-ahead-for-a-flood',
 		config: {
 			handler: function (request, reply) {
-				return reply.view('gov-uk/preparing-for-a-flood', {
-					'pageTitle' : 'Preparing for a flood - GOV.UK',
+				return reply.view('gov-uk/plan-ahead-for-a-flood', {
+					'pageTitle' : 'How to plan ahead for flooding - GOV.UK',
 					'pageDescription' : 'What to do before a flood: how to protect your porpeorty; get insurance; sign up to flood warnings and make a flood plan.',
 					'bodyClasses': 'guide',
 					'serviceName' : ''
