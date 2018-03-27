@@ -236,8 +236,8 @@ module.exports = [
 		path: '/recovering-after-a-flood',
 		config: {
 			handler: function (request, reply) {
-				return reply.view('gov-uk/recovering-after-a-flood/contact-insurance-company', {
-					'pageTitle' : 'Contact your insurance company - Recovering after a flood - GOV.UK',
+				return reply.view('gov-uk/recovering-after-a-flood', {
+					'pageTitle' : 'How to recover after a flood - GOV.UK',
 					'pageDescription' : '',
 					'bodyClasses': 'guide',
 					'serviceName' : ''
@@ -246,6 +246,7 @@ module.exports = [
 		}
 	},
 
+	/*
 	// Recovering from a flood - Get help
 	{
 		method: 'GET',
@@ -341,6 +342,7 @@ module.exports = [
 			}
 		}
 	},
+	*/
 
 	//
 	// What happens after a flood
