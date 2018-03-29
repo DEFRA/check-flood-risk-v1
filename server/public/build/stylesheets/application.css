@@ -4726,3 +4726,7 @@ li .key-feature-group {
 .guide #footer {
   border-top: 10px solid #005ea5;
 }
+
+.guide .no-top-margin {
+  margin-top: 0;
+}

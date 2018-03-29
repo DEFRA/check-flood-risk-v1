@@ -145,10 +145,10 @@ module.exports = [
 
 	{
 		method: 'GET',
-		path: '/plan-ahead-for-a-flood',
+		path: '/plan-ahead-for-flooding',
 		config: {
 			handler: function (request, reply) {
-				return reply.view('gov-uk/plan-ahead-for-a-flood', {
+				return reply.view('gov-uk/plan-ahead-for-flooding', {
 					'pageTitle' : 'How to plan ahead for flooding - GOV.UK',
 					'pageDescription' : 'What to do before a flood: how to protect your porpeorty; get insurance; sign up to flood warnings and make a flood plan.',
 					'bodyClasses': 'guide',
@@ -230,110 +230,13 @@ module.exports = [
 	// Recover
 	//
 
-	// Recovering from a flood - Contact your insurance company
 	{
 		method: 'GET',
 		path: '/recovering-after-a-flood',
 		config: {
 			handler: function (request, reply) {
-				return reply.view('gov-uk/recovering-after-a-flood/contact-insurance-company', {
-					'pageTitle' : 'Contact your insurance company - Recovering after a flood - GOV.UK',
-					'pageDescription' : '',
-					'bodyClasses': 'guide',
-					'serviceName' : ''
-				})
-			}
-		}
-	},
-
-	// Recovering from a flood - Get help
-	{
-		method: 'GET',
-		path: '/recovering-after-a-flood/get-help',
-		config: {
-			handler: function (request, reply) {
-				return reply.view('gov-uk/recovering-after-a-flood/get-help', {
-					'pageTitle' : 'Get help - Recovering after a flood - GOV.UK',
-					'pageDescription' : '',
-					'bodyClasses': 'guide',
-					'serviceName' : ''
-				})
-			}
-		}
-	},
-
-	// Recovering from a flood - Check if you can return home
-	{
-		method: 'GET',
-		path: '/recovering-after-a-flood/check-if-you-can-return-home',
-		config: {
-			handler: function (request, reply) {
-				return reply.view('gov-uk/recovering-after-a-flood/check-if-you-can-return-home', {
-					'pageTitle' : 'Check if you can return home - Recovering after a flood - GOV.UK',
-					'pageDescription' : '',
-					'bodyClasses': 'guide',
-					'serviceName' : ''
-				})
-			}
-		}
-	},
-
-	// Recovering from a flood - Clean up
-	{
-		method: 'GET',
-		path: '/recovering-after-a-flood/clean-up',
-		config: {
-			handler: function (request, reply) {
-				return reply.view('gov-uk/recovering-after-a-flood/clean-up', {
-					'pageTitle' : 'Clean up - Recovering after a flood - GOV.UK',
-					'pageDescription' : '',
-					'bodyClasses': 'guide',
-					'serviceName' : ''
-				})
-			}
-		}
-	},
-
-	// Recovering from a flood - Stay healthy
-	{
-		method: 'GET',
-		path: '/recovering-after-a-flood/stay-healthy',
-		config: {
-			handler: function (request, reply) {
-				return reply.view('gov-uk/recovering-after-a-flood/stay-healthy', {
-					'pageTitle' : 'Stay healthy - Recovering after a flood - GOV.UK',
-					'pageDescription' : '',
-					'bodyClasses': 'guide',
-					'serviceName' : ''
-				})
-			}
-		}
-	},
-
-	// Recovering from a flood - Make repairs
-	{
-		method: 'GET',
-		path: '/recovering-after-a-flood/make-repairs',
-		config: {
-			handler: function (request, reply) {
-				return reply.view('gov-uk/recovering-after-a-flood/make-repairs', {
-					'pageTitle' : 'Make repairs - Recovering after a flood - GOV.UK',
-					'pageDescription' : '',
-					'bodyClasses': 'guide',
-					'serviceName' : ''
-				})
-			}
-		}
-	},
-
-	// Recovering from a flood - Prepare for future floods
-	{
-		method: 'GET',
-		path: '/recovering-after-a-flood/prepare-for-future-floods',
-		config: {
-			handler: function (request, reply) {
-				return reply.view('gov-uk/recovering-after-a-flood/prepare-for-future-floods', {
-					'pageTitle' : 'Prepare for future floods - Recovering after a flood - GOV.UK',
+				return reply.view('gov-uk/recovering-after-a-flood', {
+					'pageTitle' : 'How to recover after a flood - GOV.UK',
 					'pageDescription' : '',
 					'bodyClasses': 'guide',
 					'serviceName' : ''
