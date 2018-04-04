@@ -32,16 +32,16 @@ module.exports = [
 		}
 	},
 
-	// Check a propeties long term flood risk - Task start page (GOV.UK)
+	// Check long term flood risk - Task start page (GOV.UK)
 	{
 		method: 'GET',
-		path: '/get-property-flood-risk-assessment',
+		path: '/check-long-term-flood-risk',
 		config: {
 			handler: function (request, reply) {
 				const scenario = request.query.s ? request.query.s : 'a'
-				return reply.view('gov-uk/get-property-flood-risk-assessment', {
+				return reply.view('gov-uk/check-long-term-flood-risk', {
 					'model' : { 'scenario' : scenario },
-					'pageTitle' : 'Get a property&#39;s flood risk assessment - GOV.UK',
+					'pageTitle' : 'Check long term flood risk - GOV.UK',
 					'serviceName' : ''
 				})
 			}

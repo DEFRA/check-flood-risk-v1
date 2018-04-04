@@ -1,4 +1,4 @@
-const modelData = require('../models/property')
+const modelData = require('../models/long-term')
 var Joi = require('joi')
 
 module.exports = [
@@ -10,8 +10,8 @@ module.exports = [
 
 				var model = { 'scenario' : request.query.s ? request.query.s : 'a' }
 
-				return reply.view('property/find-address', {
-					'pageTitle' : 'Find address - Property flood risk - GOV.UK',
+				return reply.view('long-term/find-address', {
+					'pageTitle' : 'Find address - Long term flood risk - GOV.UK',
 					'model' : model
 				})
 
@@ -43,8 +43,8 @@ module.exports = [
 
 					// Postcode is in Scotland, Wales or Northern Ireland
 					else {
-						return reply.view('property/alternate-service', {
-							'pageTitle' : 'Error: Find address - Property flood risk - GOV.UK',
+						return reply.view('long-term/alternate-service', {
+							'pageTitle' : 'Error: Find address - Long term flood risk - GOV.UK',
 							'model' : model
 						})
 					}
@@ -53,8 +53,8 @@ module.exports = [
 
 				// We don't have an existing address
 				else {
-					return reply.view('property/find-address', {
-						'pageTitle' : 'Error: Find address - Property flood risk - GOV.UK',
+					return reply.view('long-term/find-address', {
+						'pageTitle' : 'Error: Find address - Long term flood risk - GOV.UK',
 						'model' : model
 					}) // .code(error ? 400 : 200) // HTTP status code depending on error
 				}
@@ -80,8 +80,8 @@ module.exports = [
 						error
 					)			
 					
-					return reply.view('property/find-address', {
-						'pageTitle' : 'Error: Find address - Property flood risk - GOV.UK',
+					return reply.view('long-term/find-address', {
+						'pageTitle' : 'Error: Find address - Long term flood risk - GOV.UK',
 						'model' : model
 					}) // .code(error ? 400 : 200) // HTTP status code depending on error
 
@@ -102,8 +102,8 @@ module.exports = [
 					request.query.s ? request.query.s : 'a'
 				)
 
-				return reply.view('property/confirm-address', {
-					'pageTitle' : 'Select address - Property flood risk - GOV.UK',
+				return reply.view('long-term/confirm-address', {
+					'pageTitle' : 'Select address - Long term flood risk - GOV.UK',
 					'model' : model
 				})
 
@@ -119,7 +119,7 @@ module.exports = [
 				const scenario = request.payload.scenario ? request.payload.scenario : 'a'
 				const property = request.payload.property
 
-				return reply.redirect('/property/' + property + '?s='+ scenario)
+				return reply.redirect('/long-term/' + property + '?s='+ scenario)
 
 			},
 			validate: {
@@ -139,8 +139,8 @@ module.exports = [
 						error
 					)
 
-					return reply.view('property/confirm-address', {
-						'pageTitle' : 'Error: Select address - Property flood risk - GOV.UK',
+					return reply.view('long-term/confirm-address', {
+						'pageTitle' : 'Error: Select address - Long term flood risk - GOV.UK',
 						'model' : model
 					}) // .code(error ? 400 : 200) // HTTP status code depending on error
 				}
