@@ -7,205 +7,138 @@ var renderMap = function(options) {
     var defaults = {
         lonLat: [0,0],
         zoom: 15,
-        JSONfloodZones: ''
+        dataJSON: '',
+        targetAreaStates: [],
+        minIconResolution: 300
     }
     options = Object.assign({}, defaults, options)
-
-    //
-    // Add html elements to map
-    //
-
-    // Setup fullscreen container and key (legend) elements
-
-    var mapContainer = document.querySelector('.map').children[0]
-    var mapContainerInner = document.createElement('div')
-    mapContainerInner.classList.add('map-container-inner')
-    mapContainerInner.id = 'map-container-inner'
-
-    // Add key
-
-    var key = document.createElement('div')
-    key.classList.add('map-key')
-
-    var keyToggle = document.createElement('button')
-    keyToggle.innerHTML = '<span>Key</span>'
-    keyToggle.setAttribute('title','Find out what the features are')
-    keyToggle.classList.add('map-control','map-control-key')
-    keyToggle.addEventListener('click', function(e) {
-        e.preventDefault()
-        key.classList.toggle('map-key-open')
-    })
-
-    var keyContainer = document.createElement('div')
-    keyContainer.classList.add('map-key-container')
-
-    var keyHeading = document.createElement('div')
-    keyHeading.classList.add('map-key-heading')
-    keyHeading.innerHTML = '<h2 class="bold-medium">Key</h2>'
-
-    var keyFeatures = document.createElement('div')
-    keyFeatures.classList.add('map-key-features')
-    keyFeatures.innerHTML = `
-        <ul>
-            <li class="key-feature key-section">
-                <div class="multiple-choice-key">
-                    <input id="flood-zones" name="flood-zones" type="checkbox" value="flood-zones" checked>
-                    <label for="flood-zones">Flood risk zones</label>
-                </div>
-                <ul class="key-feature-group">
-                    <li>
-                        <span class="key-feature-label">
-                            <span class="key-symbol key-symbol-zone3">
-                                <svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="0" y="0" width="100%" height="100%" fill="#464D95" />
-                                </svg>
-                            </span>
-                            Zone 3
-                        </span>
-                    </li>
-                    <li>
-                        <span class="key-feature-label">                            
-                            <span class="key-symbol key-symbol-zone3-benefitting">
-                                <svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
-                                    <defs>
-                                        <pattern id="hatch" width="5" height="5" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
-                                            <line x1="0" y1="0" x2="0" y2="10" style="stroke:#464D95; stroke-width:5" />
-                                        </pattern>
-                                    </defs>
-                                    <rect x="1" y="1" width="24" height="17" stroke="#464D95" stroke-width="2" fill="url(#hatch)" />
-                                </svg>
-                            </span>
-                            Zone 3 - Areas benefitting from flood defences
-                        </span>
-                    </li>
-                    <li>
-                        <span class="key-feature-label">
-                            <span class="key-symbol key-symbol-zone2">
-                                <svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="0" y="0" width="100%" height="100%" fill="#ABD6FF" />
-                                </svg>
-                            </span>
-                            Zone 2
-                        </span>
-                    </li>
-                    <!--
-                    <li>
-                        <span class="key-feature-label"><span class="key-symbol key-symbol-zone1"></span>Zone 1</span>
-                    </li>
-                    -->
-                </ul>
-            </li>
-            <li class="key-feature">
-                <div class="multiple-choice-key">
-                    <input id="flood-defence" name="flood-defence" type="checkbox" value="flood-defence" checked>
-                    <label for="flood-defence">
-                        <span class="key-feature-label">
-                            <span class="key-symbol key-symbol-flood-defence">
-                                <svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="0" y="6" width="100%" height="7" fill="#F47738" />
-                                </svg>
-                            </span>
-                            Flood defence
-                        </span>
-                    </label>
-                </div>
-            </li>
-            <li class="key-feature">
-                <div class="multiple-choice-key">
-                    <input id="main-river" name="main-river" type="checkbox" value="main-river" checked>
-                    <label for="main-river">
-                        <span class="key-feature-label">
-                            <span class="key-symbol key-symbol-main-river">
-                                <svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="0" y="6" width="100%" height="7" fill="#2B8CC4" />
-                                </svg>
-                            </span>
-                            Main river
-                        </span>
-                    </label>
-                </div>
-            </li>
-            <li class="key-feature">
-                <div class="multiple-choice-key">
-                    <input id="flood-storage" name="flood-storage" type="checkbox" value="flood-storage" checked>
-                    <label for="flood-storage">
-                        <span class="key-feature-label">
-                            <span class="key-symbol key-symbol-flood-storage">
-                                <svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
-                                    <defs>
-                                        <pattern id="dots" x="0" y="0" width="7" height="7" patternUnits="userSpaceOnUse" >
-                                            <circle cx="2.5" cy="2.5" r="2.5" style="stroke: none; fill: #2B8CC4" />
-                                        </pattern>
-                                    </defs>
-                                    <rect x="0" y="0" width="100%" height="100%" fill="url(#dots)" />
-                                </svg>
-                            </span>
-                            Flood storage area
-                        </span>
-                    </label>
-                </div>
-            </li>
-        </ul>
-    `
-
-    var keyCopyright = document.createElement('div')
-    keyCopyright.innerHTML = '\u00A9 <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    keyCopyright.classList.add('map-key-copyright')
-
-    keyContainer.appendChild(keyHeading)
-    keyContainer.appendChild(keyFeatures)
-    keyContainer.appendChild(keyCopyright)
-    key.appendChild(keyToggle)
-    key.appendChild(keyContainer)
-
-    if (options.hasKey) {
-        mapContainerInner.appendChild(key)
-    }
-
-    // Add inner comtainer
-    mapContainer.appendChild(mapContainerInner)
-
-    // Start drawing boolean used to address finishDrawing bug
-    var drawingStarted = false
-    var drawingFinished = false
 
     //
     // Define styles
     //
 
     // Style function for flood zones
-    var styleFunctionFloodZones = function(feature, resolution) {
+    var styleFeatures = function(feature, resolution) {
 
         // Defaults
-        var strokeColour = 'transparent';
-        var fillColour = 'transparent';
+        var strokeColour = 'transparent'
+        var fillColour = 'transparent'
+        var strokeWidth = 0
         var zIndex = 1
+        var image = ''
+        var source = '' // Icon image source
 
-        //Flood zone 1
-        if (feature.get('type') == 3) {
-            fillColour = '#464D95';
-            zIndex = 3;
+        //
+        // Flood zones
+        //
+
+        if (feature.get('type') == 'floodZone') {
+            //Flood zone 1
+            if (feature.get('zone') == 3) {
+                fillColour = '#464D95'
+                zIndex = 3
+            }
+            // Flood zone 2
+            else if (feature.get('zone') == 2) {
+                fillColour = '#ABD6FF'
+                zIndex = 2
+            }
         }
 
-        // Flood zone 2
-        else if (feature.get('type') == 2) {
-            fillColour = '#ABD6FF';
-            zIndex = 2;
+        //
+        // Target areas
+        //
+
+        else if (feature.get('type') == 'targetArea') {
+            
+            var targetArea = options.targetAreaStates.find(x => x.id == feature.getId())
+
+            if (targetArea) {
+
+                if (resolution <= options.minIconResolution) {
+
+                    // Warning or severe warning colours
+                    if (targetArea.state == 1 || targetArea.state == 2) {
+                        strokeColour = '#e3000f'
+                        strokeWidth = 2
+                        fillColour = '#e3000f'
+                        zIndex = 3
+                        source = '/public/icon-flood-warning-small-2x.png'
+                    }
+
+                    // Alert area colours
+                    else if (targetArea.state == 3) {
+                        strokeColour = '#f18700'
+                        strokeWidth = 2
+                        fillColour = '#f18700'
+                        zIndex = 2
+                        source = '/public/icon-flood-alert-small-2x.png'
+                    }
+
+                    // Warning removed colours
+                    else if (targetArea.state == 4) {
+                        strokeColour = '#6f777b'
+                        strokeWidth = 2
+                        fillColour = '#6f777b'
+                        zIndex = 3
+                        source = ''
+                    }
+
+                    // Generate style
+                    var style = new ol.style.Style({
+                        fill: new ol.style.Fill({ color: fillColour }),			
+                        stroke: new ol.style.Stroke({ color: strokeColour, width: strokeWidth, miterLimit: 2, lineJoin: 'round' }),
+                        zIndex: zIndex 
+                    });
+
+                } else {
+
+                    // Warning or severe warning colours
+                    if (targetArea.state == 1 || targetArea.state == 2) {
+                        zIndex = 3
+                        source = '/public/icon-flood-warning-small-2x.png'
+                    }
+
+                    // Alert area colours
+                    else if (targetArea.state == 3) {
+                        zIndex = 2
+                        source = '/public/icon-flood-alert-small-2x.png'
+                    }
+
+                    // Warning removed colours
+                    else if (targetArea.state == 4) {
+                        zIndex = 3;
+                        source = ''
+                    }
+
+                    // Add image
+                    image = new ol.style.Icon({
+                        src: source,
+                        size: [68, 68],
+                        anchor: [0.5, 1],
+                        scale: 0.5
+                    })
+
+                }
+
+            }
+
         }
 
         // Generate style
-        var styleFloodZones = new ol.style.Style({
+        var style = new ol.style.Style({
             fill: new ol.style.Fill({ color: fillColour }),			
-            stroke: new ol.style.Stroke({ color: strokeColour, width: 0, miterLimit: 2, lineJoin: 'round' }),
+            stroke: new ol.style.Stroke({ color: strokeColour, width: strokeWidth, miterLimit: 2, lineJoin: 'round' }),
+            image: image,
             zIndex: zIndex 
         })
 
-        return styleFloodZones
+        return style
 
     }
 
     // Style function for interactions
-    var styleFunctionInteractions = function(feature, resolution) {
+    var styleInteractiveFeatures = function(feature, resolution) {
         
         var featureType = feature.getGeometry().getType()
         
@@ -262,6 +195,8 @@ var renderMap = function(options) {
 
     }
 
+    // Styles for interacting
+
     // Start polygon drawing style
     var styleDraw = new ol.style.Style({
         fill: new ol.style.Fill({
@@ -311,9 +246,9 @@ var renderMap = function(options) {
     //
 
     // Flood zones source
-    var sourceFloodZones = new ol.source.Vector({
+    var sourceFeatures = new ol.source.Vector({
         format: new ol.format.GeoJSON(),
-        url: options.JSONfloodZones,
+        url: options.dataJSON,
         projection: 'EPSG:3857'
     })
 
@@ -333,19 +268,19 @@ var renderMap = function(options) {
     })
 
     // Flood zones layer
-    var layerFloodZones = new ol.layer.Image({
+    var layerFeatures = new ol.layer.Image({
         source: new ol.source.ImageVector({
-            source: sourceFloodZones,
+            source: sourceFeatures,
             // Use custom style function to colour individual features accordingley
-            style: styleFunctionFloodZones
+            style: styleFeatures
         }),
-        opacity: 0.7
+        opacity: 1
     })
 
     // Marker layer
     var layerMarker = new ol.layer.Vector({
         source: sourceMarker,
-        style: styleFunctionInteractions,
+        style: styleInteractiveFeatures,
         visibility: false
     })
     layerMarker.setVisible(false)
@@ -353,7 +288,7 @@ var renderMap = function(options) {
     // Shape layer
     var layerShape = new ol.layer.Vector({
         source: sourceShape,
-        style: styleFunctionInteractions,
+        style: styleInteractiveFeatures,
         visibility: false
     })
     layerShape.setVisible(false)
@@ -371,6 +306,14 @@ var renderMap = function(options) {
     //
     // Define the map control buttons
     //
+
+    // Key toggle button
+    var key = document.querySelector('.map-key')
+    var keyToggleButton = document.querySelector('.map-control-key')
+    keyToggleButton.addEventListener('click', function(e) {
+        e.preventDefault()
+        key.classList.toggle('map-key-open')
+    })
 
     // Zoom buttons
     var zoomElement = document.createElement('button')
@@ -599,13 +542,16 @@ var renderMap = function(options) {
     // Setup
     //
 
-    // Render map
+    // Start drawing boolean used to address finishDrawing bug
+    var drawingStarted = false
+    var drawingFinished = false
 
+    // Render map
     map = new ol.Map({
         target: 'map-container-inner',
         interactions: interactions,
         controls: controls,
-        layers: [tile, layerFloodZones, layerShape, layerMarker],
+        layers: [tile, layerFeatures, layerShape, layerMarker],
         view: view
     })
     
@@ -620,7 +566,6 @@ var renderMap = function(options) {
     label.setPosition(featurePoint)
     map.addOverlay(label)
     layerMarker.setVisible(true)
-    //document.getElementsByClassName('ol-overlay-container')[0].style.visibility = 'visible'
     document.getElementsByClassName('map')[0].classList.add('has-overlay')
 
     //
@@ -700,6 +645,34 @@ var renderMap = function(options) {
 
         }
 
+    })
+
+    // Update layer opacity setting for different map resolutions
+    map.on('moveend', function(){
+
+        resolution = map.getView().getResolution()
+
+        /*
+        if (resolution < 5) { 
+            layerOpacity = 0.6 
+        }
+        else if (resolution < 10) { 
+            layerOpacity = 0.7 
+        }
+        else if (resolution < 20) { 
+            layerOpacity = 0.85 
+        } 
+        else if (resolution < 30) {
+            layerOpacity = 1
+        }
+        */
+
+        layerOpacity = 1
+        
+        console.log(resolution)
+        
+        layerFeatures.setOpacity(layerOpacity)
+        
     })
 
 }

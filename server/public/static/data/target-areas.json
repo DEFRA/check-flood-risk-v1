@@ -5,6 +5,7 @@
             "type": "Feature",
             "id": "6",
             "properties": {
+                "type": "targetArea",
                 "name": "Todmorden to Eastwood (River Calder)",
                 "severity": -1,
                 "legacyId": "123FWF308"
@@ -21,6 +22,7 @@
             "type": "Feature",
             "id": "5",
             "properties": {
+                "type": "targetArea",
                 "name": "Hebden Bridge - Old Gate (Hebden Water)",
                 "severity": -1,
                 "legacyId": "123FWF313"
@@ -37,6 +39,7 @@
             "type": "Feature",
             "id": 4,
             "properties": {
+                "type": "targetArea",
                 "name": "Hebden Bridge (River Calder and Hebden Water)",
                 "severity": -1,
                 "legacyId": "123FWF312"
@@ -53,6 +56,7 @@
             "type": "Feature",
             "id": "3",
             "properties": {
+                "type": "targetArea",
                 "name": "Brearley and Luddenden Foot (River Calder)",
                 "severity": -1,
                 "legacyId": "123FWF318"
@@ -69,6 +73,7 @@
             "type": "Feature",
             "id": "2",
             "properties": {
+                "type": "targetArea",
                 "name": "Mytholmroyd (River Calder and Cragg Brook)",
                 "severity": -1,
                 "legacyId": "123FWF315"
@@ -85,6 +90,7 @@
             "type": "Feature",
             "id": "1",
             "properties": {
+                "type": "targetArea",
                 "name": "Central Mytholmroyd (River Calder)",
                 "severity": -1,
                 "legacyId" : "123FWF316"
@@ -101,6 +107,7 @@
             "type": "Feature",
             "id": 101,
             "properties": {
+                "type": "targetArea",
                 "name": "River Calder Upper Catchment",
                 "severity": -1,
                 "legacyId": "123WAF963"

@@ -5,7 +5,8 @@
             "type": "Feature",
             "id": "1",
             "properties": {
-                "type": "3"
+                "type": "floodZone",
+                "zone": "3"
             },
             "geometry": {
                 "type": "GeometryCollection",
@@ -18,7 +19,8 @@
             "type": "Feature",
             "id": "2",
             "properties": {
-                "type": "3"
+                "type": "floodZone",
+                "zone": "3"
             },
             "geometry": {
                 "type": "GeometryCollection",
@@ -31,7 +33,8 @@
             "type": "Feature",
             "id": "3",
             "properties": {
-                "type": "3"
+                "type": "floodZone",
+                "zone": "3"
             },
             "geometry": {
                 "type": "GeometryCollection",
@@ -44,7 +47,8 @@
             "type": "Feature",
             "id": "4",
             "properties": {
-                "type": "3"
+                "type": "floodZone",
+                "zone": "3"
             },
             "geometry": {
                 "type": "GeometryCollection",
@@ -57,7 +61,8 @@
             "type": "Feature",
             "id": "5",
             "properties": {
-                "type": "3"
+                "type": "floodZone",
+                "zone": "3"
             },
             "geometry": {
                 "type": "GeometryCollection",
@@ -70,7 +75,8 @@
             "type": "Feature",
             "id": "6",
             "properties": {
-                "type": "3"
+                "type": "floodZone",
+                "zone": "3"
             },
             "geometry": {
                 "type": "GeometryCollection",
@@ -83,7 +89,8 @@
             "type": "Feature",
             "id": "8",
             "properties": {
-                "type": "2"
+                "type": "floodZone",
+                "zone": "2"
             },
             "geometry": {
                 "type": "GeometryCollection",
