@@ -45,7 +45,7 @@
 						{{#if model.isError}}
 						<span class="error-message">Shape has not been drawn</span>
 						{{/if }}
-						<figure class="map map-has-key" id="map">
+						<figure class="map" id="map">
 							<div class="map-container map-container-planning"></div>
 							<figcaption class="visuallyhidden">Site boundary</figcaption>
 						</figure>
@@ -68,8 +68,6 @@
 						<input id="scenario" name="scenario" type="hidden" value=""/>
 						<input id="lonLat" name="lonLat" type="hidden" value="{{ model.lonLat }}"/>
 						<input id="zoom" name="zoom" type="hidden" value="{{ model.zoom }}"/>
-						<input id="path" name="path" type="hidden" value="{{ model.path }}"/>
-						<input id="point" name="point" type="hidden" value=""/>
 						<button type="submit" class="button-text" >Get a flood zone report</button>
 					</div>
 
@@ -87,22 +85,26 @@
 {{#section 'bodyScripts' }}
 <!-- Add before closing body tag -->
 <script src="/public/javascripts/ol-v4.5.0.js"></script>
+<script src="/public/javascripts/map-planning.js"></script>
+
 <script>
 
-	// Set centre variable for map control
-	var centre = {{{ json model.lonLat }}}
+	renderMap({
+		lonLat: JSON.parse('[' + document.getElementById('lonLat').value + ']'),
+		zoom: document.getElementById('zoom').value,
+		hasKey: true,
+		JSONfloodZones: '/public/data/flood-zones.json'
+	})
 
+	/*
 	$(document).ready(function () {
-
 		// Turn off jQuery animation
 		jQuery.fx.off = true
-	
 		// If there is an error, set focus to the summary
 		$('.js-error .error-summary:visible').first().focus()
-	
 	})
+	*/
+
 </script>
-<script src="/public/javascripts/json-url/json-url.js"></script>
-<script src="/public/javascripts/map-planning.js"></script>
 <!-- end before closing body tag -->
 {{/section }}

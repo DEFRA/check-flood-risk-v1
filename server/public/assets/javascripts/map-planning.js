@@ -1,26 +1,15 @@
-// Global variables
-var url, lonLat, zoom, path, point, geoJson
+var renderMap = function(options) {
 
-// Codec used for compression
-var codec
+    //
+    // Define options
+    //
 
-// Reference required to redraw map
-var map, layerShape, label
-
-var init = function() {
-
-    // Default values
-    url = [location.protocol, '//', location.host, location.pathname].join('')
-    lonLat = getParameterByName('lonLat') || ''
-    zoom = getParameterByName('zoom') || 15
-    path = getParameterByName('path') || ''
-    geoJson = { }
-    
-    // Map properties from html classes
-    hasKey = document.querySelector('.map').classList.contains('map-has-key')
-
-    // JSON for features
-    var floodZonesJSON = '/public/data/flood-zones.json';
+    var defaults = {
+        lonLat: [0,0],
+        zoom: 15,
+        JSONfloodZones: ''
+    }
+    options = Object.assign({}, defaults, options)
 
     //
     // Add html elements to map
@@ -37,7 +26,6 @@ var init = function() {
 
     var key = document.createElement('div')
     key.classList.add('map-key')
-    //key.classList.add('map-key-open')
 
     var keyToggle = document.createElement('button')
     keyToggle.innerHTML = '<span>Key</span>'
@@ -170,7 +158,7 @@ var init = function() {
     key.appendChild(keyToggle)
     key.appendChild(keyContainer)
 
-    if (hasKey) {
+    if (options.hasKey) {
         mapContainerInner.appendChild(key)
     }
 
@@ -181,8 +169,9 @@ var init = function() {
     var drawingStarted = false
     var drawingFinished = false
 
-    // Set up compression codec
-    codec = JsonUrl('lzma')
+    //
+    // Define styles
+    //
 
     // Style function for flood zones
     var styleFunctionFloodZones = function(feature, resolution) {
@@ -254,7 +243,7 @@ var init = function() {
                 }
             }
         })
-        // Markey style
+        // Marker style
         var styleMarker = new ol.style.Style({
             image: new ol.style.Icon({
                 src: '/public/icon-locator-blue-2x.png',
@@ -264,6 +253,7 @@ var init = function() {
             })
         })
 
+        // Return appropriate style
         if (featureType == 'Polygon') {
             return [styleDrawComplete, styleDrawCompleteGeometry]
         } else if (featureType == 'Point') {
@@ -316,26 +306,33 @@ var init = function() {
         })
     })
 
-    // Source: flood zones
+    //
+    // Define sources
+    //
+
+    // Flood zones source
     var sourceFloodZones = new ol.source.Vector({
         format: new ol.format.GeoJSON(),
-        url: floodZonesJSON,
+        url: options.JSONfloodZones,
         projection: 'EPSG:3857'
     })
 
-    // Source: marker
+    // Marker source
     var sourceMarker = new ol.source.Vector()
 
-    // Source: shape
+    // Shape source
     var sourceShape = new ol.source.Vector()
-    sourceShape.addFeature(new ol.Feature())
 
-    // Layer: background map
+    //
+    // Define layers
+    //
+
+    // Background map layer
     var tile = new ol.layer.Tile({
         source: new ol.source.OSM()
     })
 
-    // Layer: flood zones
+    // Flood zones layer
     var layerFloodZones = new ol.layer.Image({
         source: new ol.source.ImageVector({
             source: sourceFloodZones,
@@ -345,28 +342,35 @@ var init = function() {
         opacity: 0.7
     })
 
-    // Layer: marker
-    layerMarker = new ol.layer.Vector({
+    // Marker layer
+    var layerMarker = new ol.layer.Vector({
         source: sourceMarker,
         style: styleFunctionInteractions,
         visibility: false
     })
     layerMarker.setVisible(false)
 
-    // Layer: shape
-    layerShape = new ol.layer.Vector({
+    // Shape layer
+    var layerShape = new ol.layer.Vector({
         source: sourceShape,
         style: styleFunctionInteractions,
         visibility: false
     })
     layerShape.setVisible(false)
 
-    // The map view object
+    //
+    // Define the map view object
+    //
+
     var view = new ol.View({
-        center: ol.proj.fromLonLat(centre),
+        center: ol.proj.fromLonLat(options.lonLat),
         enableRotation: false,
-        zoom: zoom
-    });
+        zoom: options.zoom
+    })
+
+    //
+    // Define the map control buttons
+    //
 
     // Zoom buttons
     var zoomElement = document.createElement('button')
@@ -406,21 +410,27 @@ var init = function() {
     drawShapeElement.setAttribute('title','Start drawing a new shape')
     drawShapeElement.addEventListener('click', function(e) {
         e.preventDefault()
-        // Add shape interactions
-        map.addInteraction(draw)
-        map.addInteraction(snap)
-        map.addInteraction(modifyPolygon)
-        // Hide marker and show shape
+        // Hide marker layer and show shape layer
         this.disabled = true
         placeMarkerElement.disabled = false
         layerMarker.setVisible(false)
         layerShape.setVisible(true)
-        document.getElementsByClassName('ol-overlay-container')[0].style.visibility = 'hidden'
         document.getElementsByClassName('map')[0].classList.remove('has-overlay')
+        // Hide marker overlay if exists
+        if(layerMarker.getSource().getFeatures().length){
+            document.getElementsByClassName('ol-overlay-container')[0].style.visibility = 'hidden'
+        }
         deleteFeatureElement.disabled = true
-        // Enable delete if feature on this layer exists
-        if(layerShape.getSource().getFeatures()[0].getGeometry()){
+        // Enable delete if shape has already been drawn
+        if(layerShape.getSource().getFeatures().length){
             deleteFeatureElement.disabled = false
+        }
+        // Add shape feature and interactions if shape has not yet been drawn
+        else {
+            layerShape.getSource().addFeature(new ol.Feature())
+            map.addInteraction(draw)
+            map.addInteraction(snap)
+            map.addInteraction(modifyPolygon)
         }
     })
     var drawShape = new ol.control.Control({
@@ -451,10 +461,12 @@ var init = function() {
         drawShapeElement.disabled = false
         layerShape.setVisible(false)
         layerMarker.setVisible(true)
-        document.getElementsByClassName('ol-overlay-container')[0].style.visibility = 'visible'
+        if(layerMarker.getSource().getFeatures().length){
+            document.getElementsByClassName('ol-overlay-container')[0].style.visibility = 'visible'
+        }
         document.getElementsByClassName('map')[0].classList.add('has-overlay')
         deleteFeatureElement.disabled = true
-        // Enable delete if feature on this layer exists
+        // Enable delete if feature on this layer exists and show overlay
         if(layerMarker.getSource().getFeatures().length){
             deleteFeatureElement.disabled = false
         }
@@ -497,21 +509,27 @@ var init = function() {
     deleteFeatureElement.addEventListener('click', function(e) {
         e.preventDefault()
         this.disabled = true
-        // If marker layer
+        // If shape layer
         if(layerShape.getVisible()) {
             layerShape.getSource().clear()
+            // End drawing if started
+            if(drawingStarted){
+                draw.finishDrawing()
+            }
             drawingStarted = false
             drawingFinished = false
+            // Add shape feature and interactions
+            layerShape.getSource().addFeature(new ol.Feature())
+            map.addInteraction(draw)
+            map.addInteraction(snap)
+            map.addInteraction(modifyPolygon)
         }
-        // If shape layer
+        // If marker layer
         else {
             layerMarker.getSource().clear()
             map.removeOverlay(label)
             document.getElementsByClassName('map')[0].classList.remove('has-overlay')
         }
-        // Update url
-        //feature = new ol.Feature()
-        //updateUrl(feature)
     })
     var deleteFeature = new ol.control.Control({
         element: deleteFeatureElement
@@ -527,10 +545,10 @@ var init = function() {
         positioning: 'bottom-left'
     })
 
-    // Marker
-    var featureMarker = new ol.Feature()
+    //
+    // Configure interactions
+    //
 
-    // Setup interactions
     var interactions = ol.interaction.defaults({
         altShiftDragRotate:false, 
         pinchRotate:false,
@@ -558,7 +576,9 @@ var init = function() {
         source: sourceShape
     })
 
-    // Add and remove controls
+    //
+    // Configure controls
+    //
 
     var controls = ol.control.defaults({
         zoom: false,
@@ -575,6 +595,10 @@ var init = function() {
         zoom
     ])
 
+    //
+    // Setup
+    //
+
     // Render map
 
     map = new ol.Map({
@@ -584,48 +608,24 @@ var init = function() {
         layers: [tile, layerFloodZones, layerShape, layerMarker],
         view: view
     })
-
-    // Setup
-
-    // Add feature from path
-    if (path) {
-        codec.decompress(path).then(result => {
-            // Check for valid geoJson
-            feature = new ol.format.GeoJSON().readFeature(result)
-            layerShape.getSource().getFeatures()[0].setGeometry(feature.getGeometry())
-            map.addInteraction(snap)
-            map.addInteraction(modifyPolygon)
-            drawShapeElement.disabled = true
-            deleteFeatureElement.disabled = false
-            drawingStarted = true
-            drawingFinished = true
-            layerShape.setVisible(true)
-        })
-    } 
+    
+    //
     // Add initial locator
-    else {
-        var pointLonLat = ol.proj.transform(map.getView().getCenter(), 'EPSG:3857', 'EPSG:4326')
-        pointLonLat[0] = pointLonLat[0].toFixed(6)
-        pointLonLat[1] = pointLonLat[1].toFixed(6)
-        document.getElementById('point').value = pointLonLat
-        centreCoordinate = ol.proj.transform(centre, 'EPSG:4326','EPSG:3857')
-        featureMarker.setGeometry(new ol.geom.Point(centreCoordinate))
-        layerMarker.getSource().addFeature(featureMarker)
-        label.setPosition(centreCoordinate)
-        map.addOverlay(label)
-        layerMarker.setVisible(true)
-        document.getElementsByClassName('ol-overlay-container')[0].style.visibility = 'visible'
-        document.getElementsByClassName('map')[0].classList.add('has-overlay')
-    }
-
-    //
-    // Map events
     //
 
-    // Update url when zoom changes
-    map.on('moveend', function(e) {
-        //updateUrl(feature)
-    })
+    var featureMarker = new ol.Feature()
+    featurePoint = ol.proj.transform(options.lonLat, 'EPSG:4326', 'EPSG:3857')
+    featureMarker.setGeometry(new ol.geom.Point(featurePoint))
+    layerMarker.getSource().addFeature(featureMarker)
+    label.setPosition(featurePoint)
+    map.addOverlay(label)
+    layerMarker.setVisible(true)
+    //document.getElementsByClassName('ol-overlay-container')[0].style.visibility = 'visible'
+    document.getElementsByClassName('map')[0].classList.add('has-overlay')
+
+    //
+    // Configure map events
+    //
 
     // Close key or place marker if map is clicked
     map.on('click', function(e) {
@@ -638,9 +638,6 @@ var init = function() {
         else {
             // Place marker
             if (layerMarker.getVisible()) {
-                // Set form value
-                point = ol.proj.transform(e.coordinate, 'EPSG:3857', 'EPSG:4326')
-                document.getElementById('point').value = point
                 // Marker object
                 geometryPoint = new ol.geom.Point(e.coordinate)
                 featureMarker.setGeometry(geometryPoint)
@@ -649,20 +646,12 @@ var init = function() {
                 layerMarker.getSource().addFeature(featureMarker)
                 label.setPosition(e.coordinate)
                 map.addOverlay(label)
-                document.getElementsByClassName('ol-overlay-container')[0].style.visibility = 'visible'
+                //document.getElementsByClassName('ol-overlay-container')[0].style.visibility = 'visible'
                 document.getElementsByClassName('map')[0].classList.add('has-overlay')
             }
             // Enable delete
             deleteFeatureElement.disabled = false
         }
-
-        // Get layer if needed
-        /*
-        map.forEachLayerAtPixel(e.pixel, function(layer){ 
-            if( layer === tile ) {
-            } 
-        })
-        */
     })
 
     draw.on('drawShape', function (e) {
@@ -684,13 +673,12 @@ var init = function() {
             drawShapeElement.disabled = true
             drawingFinished = true
             feature = e.feature
-            updateUrl(feature)
             map.removeInteraction(this)
         }
     })
 
-     // Finish drawing on escape key
-     document.addEventListener('keyup', function() {
+    // Finish drawing on escape key
+    document.addEventListener('keyup', function() {
 
         // Escape key pressed
         if (event.keyCode === 27) {
@@ -714,31 +702,7 @@ var init = function() {
 
     })
 
-    // Update url when feature has been modified
-    modifyPolygon.on('modifyend',function(e){
-        // Get the modified feature
-        var features = e.features.getArray(), counter
-        for (i = 0; i < features.length; i++) {
-            var rev = features[i].getRevision()
-            if (rev > 1) {
-                counter = i
-                break
-            }
-        }
-        feature = features[counter]
-        updateUrl(feature)
-    })
-
-    // Apply greyscale filter.
-    /*
-    tile.on('postcompose', function(event) {
-        greyscale(event.context);
-    })
-    */
-
 }
-
-init()
 
 // Function to get query string parameter
 function getParameterByName(name) {
@@ -746,7 +710,7 @@ function getParameterByName(name) {
     return v ? v[1] : null
 }
 
-// function applies greyscale to every pixel in canvas
+// Function applies greyscale to every pixel in canvas
 function greyscale(context) {
     var canvas = context.canvas
     var width = canvas.width
@@ -769,67 +733,3 @@ function greyscale(context) {
     }
     context.putImageData(imageData,0,0)
 }
-
-// Update url
-function updateUrl(feature) {
-
-    // Set current map centre and reduce decimal places
-    var centreLonLat = ol.proj.transform(map.getView().getCenter(), 'EPSG:3857', 'EPSG:4326')
-    centreLonLat[0] = centreLonLat[0].toFixed(6)
-    centreLonLat[1] = centreLonLat[1].toFixed(6)
-    document.getElementById('lonLat').value = centreLonLat
-
-    // Set current zoom level
-    zoom = map.getView().getZoom().toFixed(2)
-    document.getElementById('zoom').value = zoom
-
-    // We have a new or modified feature
-    if (feature) {
-        // Write feature as GeoJson
-        var writer = new ol.format.GeoJSON()
-        geoJson = writer.writeFeature(feature,{
-            featureProjection : 'EPSG:4326',
-            decimals : 6 // This should reduce size of data and still gives +- 4inch precision
-        })
-        // Compress the String and update the url
-        codec.compress(geoJson).then(result => {
-            path = result
-            document.getElementById('path').value = path
-            // Add or update path in url
-            //history.replaceState(null, null, url + '?lonLat=' + centreLonLat + '&zoom=' + zoom + '&path=' + path)
-            
-        })
-    }
-    
-    // We don't have a feature
-    else {
-        // Clear the path value
-        document.getElementById('path').value = ''
-        // Remove path from url
-        // history.replaceState(null, null, url + '?lonLat=' + centreLonLat + '&zoom=' + zoom)
-        
-    }
-
-}
-
-// Detect window print
-(function() {
-    var beforePrint = function() {
-        console.log('Before printing.')
-    }
-    var afterPrint = function() {
-        console.log('After printing')
-    }
-    if (window.matchMedia) {
-        var mediaQueryList = window.matchMedia('print')
-        mediaQueryList.addListener(function(mql) {
-            if (mql.matches) {
-                beforePrint()
-            } else {
-                afterPrint()
-            }
-        })
-    }
-    window.onbeforeprint = beforePrint
-    window.onafterprint = afterPrint
-}())
