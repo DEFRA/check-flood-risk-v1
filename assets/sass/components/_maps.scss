@@ -120,7 +120,7 @@ $path: "/public/";
 
 // Map control start / reset drawing
 
-.ol-place-marker {
+.ol-place-locator {
   position:absolute;
   font-size: 16px;
   color:white;
@@ -139,7 +139,7 @@ $path: "/public/";
   background-size:50%;
   background-position:center center;
   &:before {
-    content:'Marker'
+    content:'locator'
   }
   span {
     display:none;
@@ -264,7 +264,7 @@ $path: "/public/";
 
 .ol-draw-delete:hover,
 .ol-draw-shape:hover,
-.ol-place-marker:hover,
+.ol-place-locator:hover,
 .ol-draw-undo:hover,
 .ol-draw-redo:hover {
   background-color:$focus-colour;
@@ -272,7 +272,7 @@ $path: "/public/";
 
 .ol-draw-delete:disabled,
 .ol-draw-shape:disabled,
-.ol-place-marker:disabled,
+.ol-place-locator:disabled,
 .ol-draw-undo:disabled,
 .ol-draw-redo:disabled {
   background-color:$border-colour;
@@ -280,7 +280,7 @@ $path: "/public/";
 }
 
 .ol-draw-delete:focus,
-.ol-place-marker:focus,
+.ol-place-locator:focus,
 .ol-draw-shape:focus,
 .ol-draw-undo:focus,
 .ol-draw-redo:focus {
@@ -290,7 +290,7 @@ $path: "/public/";
 // Bottom controls with overlay
 
 .has-overlay {
-  .ol-place-marker,
+  .ol-place-locator,
   .ol-draw-shape,
   .ol-draw-undo,
   .ol-draw-redo,

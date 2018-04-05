@@ -4016,7 +4016,7 @@ table.select-areas th {
   z-index: 2;
 }
 
-.ol-place-marker {
+.ol-place-locator {
   position: absolute;
   font-size: 16px;
   color: white;
@@ -4036,23 +4036,23 @@ table.select-areas th {
   background-position: center center;
 }
 
-.ol-place-marker:before {
-  content: 'Marker';
+.ol-place-locator:before {
+  content: 'locator';
 }
 
-.ol-place-marker span {
+.ol-place-locator span {
   display: none;
 }
 
 @media (min-width: 641px) {
-  .ol-place-marker {
+  .ol-place-locator {
     height: 30px;
     width: 104px;
   }
-  .ol-place-marker:before {
+  .ol-place-locator:before {
     content: '';
   }
-  .ol-place-marker span {
+  .ol-place-locator span {
     display: inline;
   }
 }
@@ -4179,7 +4179,7 @@ table.select-areas th {
 
 .ol-draw-delete:hover,
 .ol-draw-shape:hover,
-.ol-place-marker:hover,
+.ol-place-locator:hover,
 .ol-draw-undo:hover,
 .ol-draw-redo:hover {
   background-color: #ffbf47;
@@ -4187,7 +4187,7 @@ table.select-areas th {
 
 .ol-draw-delete:disabled,
 .ol-draw-shape:disabled,
-.ol-place-marker:disabled,
+.ol-place-locator:disabled,
 .ol-draw-undo:disabled,
 .ol-draw-redo:disabled {
   background-color: #bfc1c3;
@@ -4195,7 +4195,7 @@ table.select-areas th {
 }
 
 .ol-draw-delete:focus,
-.ol-place-marker:focus,
+.ol-place-locator:focus,
 .ol-draw-shape:focus,
 .ol-draw-undo:focus,
 .ol-draw-redo:focus {
@@ -4203,7 +4203,7 @@ table.select-areas th {
 }
 
 @media (max-width: 640px) {
-  .has-overlay .ol-place-marker,
+  .has-overlay .ol-place-locator,
   .has-overlay .ol-draw-shape,
   .has-overlay .ol-draw-undo,
   .has-overlay .ol-draw-redo,

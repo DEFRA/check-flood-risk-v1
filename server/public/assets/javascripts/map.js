@@ -251,6 +251,7 @@ var init = function() {
 
         }
 
+        console.log(feature.getId())
         return style;
     };
 
@@ -307,7 +308,7 @@ var init = function() {
     var view = new ol.View({
         center: ol.proj.fromLonLat(centre),
         enableRotation: false,
-        zoom: 13
+        zoom: 9
     });
 
     // Add river level features if available
@@ -399,13 +400,16 @@ var init = function() {
         //    another copy of the background clipped inside the selected feature
         // 4. Only target areas that intersect with the slected feature also
         //    clipped inside the selected feature
-        layers: [tile, targetAreas, tileSelected, targetAreasIntersecting, levels],
+        //layers: [tile, targetAreas, tileSelected, targetAreasIntersecting, levels],
+        layers: [tile, targetAreas],
         view: view
     })
 
     //
     // Map events
     //
+
+    /*
 
     // Draw the outer glow (border) then
     // add a background map that is clipped to the selected feature
@@ -463,12 +467,15 @@ var init = function() {
         targetAreasIntersecting.setOpacity(layerOpacity)
     });
 
+
     // Change pointer type and highlight style
     map.on('pointermove', function (e) {
         var pixel = map.getEventPixel(e.originalEvent)
         var hit = map.hasFeatureAtPixel(pixel)
         map.getViewport().style.cursor = hit ? 'pointer' : ''
     });
+
+    */
 
     // When main source has loaded if there is a selected feature
     // generate intersecting features source and
@@ -483,7 +490,6 @@ var init = function() {
             map.getView().fit(extent, map.getSize())
         }
 
-        /*
         // Set selected target area
         if (selectedId) {
             if(e.target.getState() === 'ready'){
@@ -501,7 +507,7 @@ var init = function() {
         } else {
             //map.getView().fit(sourceTargetAreas.getExtent());
         }
-        */
+
     })
 
 }

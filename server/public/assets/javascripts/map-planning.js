@@ -6,10 +6,14 @@ var renderMap = function(options) {
 
     var defaults = {
         lonLat: [0,0],
-        zoom: 15,
+        zoom: 12,
         dataJSON: '',
         targetAreaStates: [],
-        minIconResolution: 300
+        minIconResolution: 300,
+        showLocator: false,
+        hasLocator: false,
+        hasDrawing: false,
+        hasZoomReset: false
     }
     options = Object.assign({}, defaults, options)
 
@@ -18,6 +22,7 @@ var renderMap = function(options) {
     //
 
     // Style function for flood zones
+
     var styleFeatures = function(feature, resolution) {
 
         // Defaults
@@ -25,24 +30,27 @@ var renderMap = function(options) {
         var fillColour = 'transparent'
         var strokeWidth = 0
         var zIndex = 1
-        var image = ''
         var source = '' // Icon image source
+        var image = null
 
         //
         // Flood zones
         //
 
         if (feature.get('type') == 'floodZone') {
+
             //Flood zone 1
             if (feature.get('zone') == 3) {
                 fillColour = '#464D95'
                 zIndex = 3
             }
+
             // Flood zone 2
             else if (feature.get('zone') == 2) {
                 fillColour = '#ABD6FF'
                 zIndex = 2
             }
+            
         }
 
         //
@@ -50,10 +58,10 @@ var renderMap = function(options) {
         //
 
         else if (feature.get('type') == 'targetArea') {
-            
+
             var targetArea = options.targetAreaStates.find(x => x.id == feature.getId())
 
-            if (targetArea) {
+            if (isObject(targetArea)) {
 
                 if (resolution <= options.minIconResolution) {
 
@@ -63,7 +71,6 @@ var renderMap = function(options) {
                         strokeWidth = 2
                         fillColour = '#e3000f'
                         zIndex = 3
-                        source = '/public/icon-flood-warning-small-2x.png'
                     }
 
                     // Alert area colours
@@ -72,7 +79,6 @@ var renderMap = function(options) {
                         strokeWidth = 2
                         fillColour = '#f18700'
                         zIndex = 2
-                        source = '/public/icon-flood-alert-small-2x.png'
                     }
 
                     // Warning removed colours
@@ -80,16 +86,8 @@ var renderMap = function(options) {
                         strokeColour = '#6f777b'
                         strokeWidth = 2
                         fillColour = '#6f777b'
-                        zIndex = 3
-                        source = ''
+                        zIndex = 1
                     }
-
-                    // Generate style
-                    var style = new ol.style.Style({
-                        fill: new ol.style.Fill({ color: fillColour }),			
-                        stroke: new ol.style.Stroke({ color: strokeColour, width: strokeWidth, miterLimit: 2, lineJoin: 'round' }),
-                        zIndex: zIndex 
-                    });
 
                 } else {
 
@@ -107,11 +105,11 @@ var renderMap = function(options) {
 
                     // Warning removed colours
                     else if (targetArea.state == 4) {
-                        zIndex = 3;
+                        zIndex = 1;
                         source = ''
                     }
 
-                    // Add image
+                    // Configure icon 
                     image = new ol.style.Icon({
                         src: source,
                         size: [68, 68],
@@ -132,7 +130,7 @@ var renderMap = function(options) {
             image: image,
             zIndex: zIndex 
         })
-
+ 
         return style
 
     }
@@ -176,8 +174,8 @@ var renderMap = function(options) {
                 }
             }
         })
-        // Marker style
-        var styleMarker = new ol.style.Style({
+        // locator style
+        var styleLocator = new ol.style.Style({
             image: new ol.style.Icon({
                 src: '/public/icon-locator-blue-2x.png',
                 size: [53, 71],
@@ -190,7 +188,7 @@ var renderMap = function(options) {
         if (featureType == 'Polygon') {
             return [styleDrawComplete, styleDrawCompleteGeometry]
         } else if (featureType == 'Point') {
-            return [styleMarker]
+            return [styleLocator]
         }
 
     }
@@ -252,8 +250,8 @@ var renderMap = function(options) {
         projection: 'EPSG:3857'
     })
 
-    // Marker source
-    var sourceMarker = new ol.source.Vector()
+    // locator source
+    var sourceLocator = new ol.source.Vector()
 
     // Shape source
     var sourceShape = new ol.source.Vector()
@@ -273,25 +271,28 @@ var renderMap = function(options) {
             source: sourceFeatures,
             // Use custom style function to colour individual features accordingley
             style: styleFeatures
-        }),
-        opacity: 1
+        })
     })
 
-    // Marker layer
-    var layerMarker = new ol.layer.Vector({
-        source: sourceMarker,
+    // Locator layer
+    var layerLocator = new ol.layer.Vector({
+        source: sourceLocator,
         style: styleInteractiveFeatures,
-        visibility: false
+        visible: true
     })
-    layerMarker.setVisible(false)
 
     // Shape layer
     var layerShape = new ol.layer.Vector({
         source: sourceShape,
         style: styleInteractiveFeatures,
-        visibility: false
+        visible: false
     })
-    layerShape.setVisible(false)
+
+    //
+    // Define intial features
+    //
+
+    var featureLocator = new ol.Feature()
 
     //
     // Define the map view object
@@ -353,18 +354,22 @@ var renderMap = function(options) {
     drawShapeElement.setAttribute('title','Start drawing a new shape')
     drawShapeElement.addEventListener('click', function(e) {
         e.preventDefault()
-        // Hide marker layer and show shape layer
-        this.disabled = true
-        placeMarkerElement.disabled = false
-        layerMarker.setVisible(false)
+        // Hide locator layer and show shape layer
+        layerLocator.setVisible(false)
         layerShape.setVisible(true)
-        document.getElementsByClassName('map')[0].classList.remove('has-overlay')
-        // Hide marker overlay if exists
-        if(layerMarker.getSource().getFeatures().length){
+        // Set button disabled properties
+        this.disabled = true
+        deleteFeatureElement.disabled = true
+        placeLocatorElement.disabled = false
+        // Add shape interactions
+        map.addInteraction(snap)
+        map.addInteraction(modifyPolygon)
+        // Hide locator overlay if exists
+        if(layerLocator.getSource().getFeatures().length){
             document.getElementsByClassName('ol-overlay-container')[0].style.visibility = 'hidden'
         }
-        deleteFeatureElement.disabled = true
-        // Enable delete if shape has already been drawn
+        document.getElementsByClassName('map')[0].classList.remove('has-overlay')
+        // Enable delete if shape has already been drawn (feature and geometry exist)
         if(layerShape.getSource().getFeatures().length){
             deleteFeatureElement.disabled = false
         }
@@ -372,25 +377,29 @@ var renderMap = function(options) {
         else {
             layerShape.getSource().addFeature(new ol.Feature())
             map.addInteraction(draw)
-            map.addInteraction(snap)
-            map.addInteraction(modifyPolygon)
         }
     })
     var drawShape = new ol.control.Control({
         element: drawShapeElement
     })
 
-    // Place marker button
-    var placeMarkerElement = document.createElement('button')
-    placeMarkerElement.innerHTML = '<span>Place marker</span>'
-    placeMarkerElement.className = 'ol-place-marker'
-    placeMarkerElement.setAttribute('title','Place a marker')
-    placeMarkerElement.disabled = true
-    placeMarkerElement.addEventListener('click', function(e) {
+    // Place locator button
+    var placeLocatorElement = document.createElement('button')
+    placeLocatorElement.innerHTML = '<span>Place locator</span>'
+    placeLocatorElement.className = 'ol-place-locator'
+    placeLocatorElement.setAttribute('title','Place a locator')
+    placeLocatorElement.disabled = true
+    placeLocatorElement.addEventListener('click', function(e) {
         e.preventDefault()
         // End drawing if started
         if(drawingStarted){
             draw.finishDrawing()
+        }
+        // Delete empty shape feature
+        if(layerShape.getSource().getFeatures().length) {
+            if(!layerShape.getSource().getFeatures()[0].getGeometry()) {
+                layerShape.getSource().clear()
+            }
         }
         // Reset draw properties
         drawingStarted = false
@@ -399,23 +408,25 @@ var renderMap = function(options) {
         map.removeInteraction(draw)
         map.removeInteraction(snap)
         map.removeInteraction(modifyPolygon)
-        // Hide shape and show marker
+        // Hide shape layer and show locator layer
+        layerShape.setVisible(false)
+        layerLocator.setVisible(true)
+        // Set button disabled properties
         this.disabled = true
         drawShapeElement.disabled = false
-        layerShape.setVisible(false)
-        layerMarker.setVisible(true)
-        if(layerMarker.getSource().getFeatures().length){
+        deleteFeatureElement.disabled = true
+        // Show locator overlay if exists
+        if(layerLocator.getSource().getFeatures().length){
             document.getElementsByClassName('ol-overlay-container')[0].style.visibility = 'visible'
         }
         document.getElementsByClassName('map')[0].classList.add('has-overlay')
-        deleteFeatureElement.disabled = true
         // Enable delete if feature on this layer exists and show overlay
-        if(layerMarker.getSource().getFeatures().length){
+        if(layerLocator.getSource().getFeatures().length){
             deleteFeatureElement.disabled = false
         }
     })
-    var placeMarker = new ol.control.Control({
-        element: placeMarkerElement
+    var placeLocator = new ol.control.Control({
+        element: placeLocatorElement
     })
 
     // Draw undo
@@ -448,7 +459,8 @@ var renderMap = function(options) {
     var deleteFeatureElement = document.createElement('button')
     deleteFeatureElement.innerHTML = '<span>Clear</span>'
     deleteFeatureElement.className = 'ol-draw-delete'
-    deleteFeatureElement.setAttribute('title','Delete the shape or marker')
+    deleteFeatureElement.setAttribute('title','Delete the shape or locator')
+    deleteFeatureElement.disabled = true
     deleteFeatureElement.addEventListener('click', function(e) {
         e.preventDefault()
         this.disabled = true
@@ -467,9 +479,9 @@ var renderMap = function(options) {
             map.addInteraction(snap)
             map.addInteraction(modifyPolygon)
         }
-        // If marker layer
+        // If locator layer
         else {
-            layerMarker.getSource().clear()
+            layerLocator.getSource().clear()
             map.removeOverlay(label)
             document.getElementsByClassName('map')[0].classList.remove('has-overlay')
         }
@@ -523,20 +535,26 @@ var renderMap = function(options) {
     // Configure controls
     //
 
+    var customControls = []
+    if (options.hasDrawing) {
+        customControls.push(
+            placeLocator,
+            drawShape,
+            drawUndo,
+            drawRedo,
+            deleteFeature
+        )
+    }
+    customControls.push(fullScreen)
+    if (options.hasZoomReset) {
+        customControls.push(zoomReset)
+    }
+    customControls.push(zoom)
     var controls = ol.control.defaults({
         zoom: false,
         rotate: false,
         attribution: false
-    }).extend([
-        placeMarker,
-        drawShape,
-        drawUndo,
-        drawRedo,
-        deleteFeature,
-        fullScreen,
-        zoomReset,
-        zoom
-    ])
+    }).extend(customControls)
 
     //
     // Setup
@@ -551,7 +569,7 @@ var renderMap = function(options) {
         target: 'map-container-inner',
         interactions: interactions,
         controls: controls,
-        layers: [tile, layerFeatures, layerShape, layerMarker],
+        layers: [tile, layerFeatures, layerShape, layerLocator],
         view: view
     })
     
@@ -559,20 +577,21 @@ var renderMap = function(options) {
     // Add initial locator
     //
 
-    var featureMarker = new ol.Feature()
-    featurePoint = ol.proj.transform(options.lonLat, 'EPSG:4326', 'EPSG:3857')
-    featureMarker.setGeometry(new ol.geom.Point(featurePoint))
-    layerMarker.getSource().addFeature(featureMarker)
-    label.setPosition(featurePoint)
-    map.addOverlay(label)
-    layerMarker.setVisible(true)
-    document.getElementsByClassName('map')[0].classList.add('has-overlay')
+    if (options.showLocator) {
+        geometryPoint = ol.proj.transform(options.lonLat, 'EPSG:4326', 'EPSG:3857')
+        featureLocator.setGeometry(new ol.geom.Point(geometryPoint))
+        layerLocator.getSource().addFeature(featureLocator)
+        layerLocator.setVisible(true)
+        label.setPosition(geometryPoint)
+        map.addOverlay(label)
+        document.getElementsByClassName('map')[0].classList.add('has-overlay')
+    }
 
     //
     // Configure map events
     //
 
-    // Close key or place marker if map is clicked
+    // Close key or place locator if map is clicked
     map.on('click', function(e) {
         var keyOpen = document.getElementsByClassName('map-key-open')
         // Close key
@@ -581,21 +600,23 @@ var renderMap = function(options) {
         } 
         // If key is closed
         else {
-            // Place marker
-            if (layerMarker.getVisible()) {
-                // Marker object
-                geometryPoint = new ol.geom.Point(e.coordinate)
-                featureMarker.setGeometry(geometryPoint)
-                labelElement.innerHTML = '<p><strong class="bold-small">Flood zone 1</strong><br/>(<abbr title="Easting and northing">EN</abbr> 123456/123456)</p>'
-                layerMarker.getSource().clear()
-                layerMarker.getSource().addFeature(featureMarker)
-                label.setPosition(e.coordinate)
-                map.addOverlay(label)
-                //document.getElementsByClassName('ol-overlay-container')[0].style.visibility = 'visible'
-                document.getElementsByClassName('map')[0].classList.add('has-overlay')
+            // Place locator
+            if(options.hasLocator) {
+                if (layerLocator.getVisible()) {
+                    // locator object
+                    geometryPoint = new ol.geom.Point(e.coordinate)
+                    featureLocator.setGeometry(geometryPoint)
+                    labelElement.innerHTML = '<p><strong class="bold-small">Flood zone 1</strong><br/>(<abbr title="Easting and northing">EN</abbr> 123456/123456)</p>'
+                    layerLocator.getSource().clear()
+                    layerLocator.getSource().addFeature(featureLocator)
+                    layerLocator.setVisible(true)
+                    label.setPosition(e.coordinate)
+                    map.addOverlay(label)
+                    document.getElementsByClassName('map')[0].classList.add('has-overlay')
+                }
+                // Enable delete
+                deleteFeatureElement.disabled = false
             }
-            // Enable delete
-            deleteFeatureElement.disabled = false
         }
     })
 
@@ -649,30 +670,20 @@ var renderMap = function(options) {
 
     // Update layer opacity setting for different map resolutions
     map.on('moveend', function(){
-
         resolution = map.getView().getResolution()
-
-        /*
-        if (resolution < 5) { 
-            layerOpacity = 0.6 
+        if (resolution > 20) { 
+            layerOpacity = 1 
         }
-        else if (resolution < 10) { 
+        else if (resolution > 10) { 
+            layerOpacity = 0.85 
+        }
+        else if (resolution > 5) { 
             layerOpacity = 0.7 
         }
-        else if (resolution < 20) { 
-            layerOpacity = 0.85 
+        else {
+            layerOpacity = 0.6 
         } 
-        else if (resolution < 30) {
-            layerOpacity = 1
-        }
-        */
-
-        layerOpacity = 1
-        
-        console.log(resolution)
-        
         layerFeatures.setOpacity(layerOpacity)
-        
     })
 
 }
@@ -705,4 +716,9 @@ function greyscale(context) {
         data[i+3] = 255 // Alpha
     }
     context.putImageData(imageData,0,0)
+}
+
+// Test for object
+function isObject(obj) {
+    return obj === Object(obj);
 }
