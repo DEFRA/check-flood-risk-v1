@@ -10,12 +10,20 @@ var renderMap = function(options) {
         dataJSON: '',
         targetAreaStates: [],
         minIconResolution: 300,
-        showLocator: false,
+        hasKey: false,
         hasLocator: false,
         hasDrawing: false,
+        hasUndoRedo: false,
         hasZoomReset: false
     }
     options = Object.assign({}, defaults, options)
+
+    //
+    // DOM elements
+    //
+
+    var elementMap = document.getElementsByClassName('map')[0]
+    var elementMapContainer = document.getElementById('map').firstElementChild
 
     //
     // Define styles
@@ -243,14 +251,14 @@ var renderMap = function(options) {
     // Define sources
     //
 
-    // Flood zones source
+    // Features source
     var sourceFeatures = new ol.source.Vector({
         format: new ol.format.GeoJSON(),
         url: options.dataJSON,
         projection: 'EPSG:3857'
     })
 
-    // locator source
+    // Locator source
     var sourceLocator = new ol.source.Vector()
 
     // Shape source
@@ -265,13 +273,12 @@ var renderMap = function(options) {
         source: new ol.source.OSM()
     })
 
-    // Flood zones layer
-    var layerFeatures = new ol.layer.Image({
-        source: new ol.source.ImageVector({
-            source: sourceFeatures,
-            // Use custom style function to colour individual features accordingley
-            style: styleFeatures
-        })
+    // Features layer
+    var layerFeatures = new ol.layer.Vector({
+        renderMode: 'image',
+        source: sourceFeatures,
+        // Use custom style function to colour individual features accordingley
+        style: styleFeatures
     })
 
     // Locator layer
@@ -289,7 +296,7 @@ var renderMap = function(options) {
     })
 
     //
-    // Define intial features
+    // Define any intial interactive features
     //
 
     var featureLocator = new ol.Feature()
@@ -339,7 +346,7 @@ var renderMap = function(options) {
     fullScreenElement.className = 'ol-full-screen'
     fullScreenElement.addEventListener('click', function(e) {
         e.preventDefault()
-        mapContainer.classList.toggle('map-container-fullscreen')
+        elementMapContainer.classList.toggle('map-container-fullscreen')
         this.classList.toggle('ol-full-screen-open')
         map.updateSize()
     })
@@ -368,7 +375,7 @@ var renderMap = function(options) {
         if(layerLocator.getSource().getFeatures().length){
             document.getElementsByClassName('ol-overlay-container')[0].style.visibility = 'hidden'
         }
-        document.getElementsByClassName('map')[0].classList.remove('has-overlay')
+        elementMap.classList.remove('has-overlay')
         // Enable delete if shape has already been drawn (feature and geometry exist)
         if(layerShape.getSource().getFeatures().length){
             deleteFeatureElement.disabled = false
@@ -385,9 +392,9 @@ var renderMap = function(options) {
 
     // Place locator button
     var placeLocatorElement = document.createElement('button')
-    placeLocatorElement.innerHTML = '<span>Place locator</span>'
+    placeLocatorElement.innerHTML = '<span>Place marker</span>'
     placeLocatorElement.className = 'ol-place-locator'
-    placeLocatorElement.setAttribute('title','Place a locator')
+    placeLocatorElement.setAttribute('title','Place a marker to identify features')
     placeLocatorElement.disabled = true
     placeLocatorElement.addEventListener('click', function(e) {
         e.preventDefault()
@@ -419,7 +426,7 @@ var renderMap = function(options) {
         if(layerLocator.getSource().getFeatures().length){
             document.getElementsByClassName('ol-overlay-container')[0].style.visibility = 'visible'
         }
-        document.getElementsByClassName('map')[0].classList.add('has-overlay')
+        elementMap.classList.add('has-overlay')
         // Enable delete if feature on this layer exists and show overlay
         if(layerLocator.getSource().getFeatures().length){
             deleteFeatureElement.disabled = false
@@ -457,9 +464,9 @@ var renderMap = function(options) {
 
     // Delete button
     var deleteFeatureElement = document.createElement('button')
-    deleteFeatureElement.innerHTML = '<span>Clear</span>'
+    deleteFeatureElement.innerHTML = '<span>Delete</span>'
     deleteFeatureElement.className = 'ol-draw-delete'
-    deleteFeatureElement.setAttribute('title','Delete the shape or locator')
+    deleteFeatureElement.setAttribute('title','Delete the shape or marker')
     deleteFeatureElement.disabled = true
     deleteFeatureElement.addEventListener('click', function(e) {
         e.preventDefault()
@@ -483,7 +490,7 @@ var renderMap = function(options) {
         else {
             layerLocator.getSource().clear()
             map.removeOverlay(label)
-            document.getElementsByClassName('map')[0].classList.remove('has-overlay')
+            elementMap.classList.remove('has-overlay')
         }
     })
     var deleteFeature = new ol.control.Control({
@@ -536,12 +543,20 @@ var renderMap = function(options) {
     //
 
     var customControls = []
-    if (options.hasDrawing) {
+    if (options.hasDrawing && options.hasUndoRedo) {
+        elementMap.classList.add('has-undoredo')
         customControls.push(
             placeLocator,
             drawShape,
             drawUndo,
             drawRedo,
+            deleteFeature
+        )
+    }
+    else if (options.hasDrawing) {
+        customControls.push(
+            placeLocator,
+            drawShape,
             deleteFeature
         )
     }
@@ -577,14 +592,14 @@ var renderMap = function(options) {
     // Add initial locator
     //
 
-    if (options.showLocator) {
+    if (options.hasLocator) {
         geometryPoint = ol.proj.transform(options.lonLat, 'EPSG:4326', 'EPSG:3857')
         featureLocator.setGeometry(new ol.geom.Point(geometryPoint))
         layerLocator.getSource().addFeature(featureLocator)
         layerLocator.setVisible(true)
         label.setPosition(geometryPoint)
         map.addOverlay(label)
-        document.getElementsByClassName('map')[0].classList.add('has-overlay')
+        elementMap.classList.add('has-overlay')
     }
 
     //
@@ -612,7 +627,7 @@ var renderMap = function(options) {
                     layerLocator.setVisible(true)
                     label.setPosition(e.coordinate)
                     map.addOverlay(label)
-                    document.getElementsByClassName('map')[0].classList.add('has-overlay')
+                    elementMap.classList.add('has-overlay')
                 }
                 // Enable delete
                 deleteFeatureElement.disabled = false
@@ -675,13 +690,13 @@ var renderMap = function(options) {
             layerOpacity = 1 
         }
         else if (resolution > 10) { 
-            layerOpacity = 0.85 
+            layerOpacity = 0.8 
         }
         else if (resolution > 5) { 
-            layerOpacity = 0.7 
+            layerOpacity = 0.65 
         }
         else {
-            layerOpacity = 0.6 
+            layerOpacity = 0.5 
         } 
         layerFeatures.setOpacity(layerOpacity)
     })

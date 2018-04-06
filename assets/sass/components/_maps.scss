@@ -139,7 +139,7 @@ $path: "/public/";
   background-size:50%;
   background-position:center center;
   &:before {
-    content:'locator'
+    content:'Marker'
   }
   span {
     display:none;
@@ -214,10 +214,15 @@ $path: "/public/";
   background-position:center center;
   cursor:pointer;
   @include media(tablet) {
-    left:280px;
+    left:215px;
     height:30px;
     width:30px;
     background-size:60%;
+  }
+}
+.has-undoredo .ol-draw-delete {
+  @include media(tablet) {
+    left:280px;
   }
 }
 
@@ -246,7 +251,7 @@ $path: "/public/";
   text-indent:-5000px;
   @include media(tablet) {
     display:block;
-    left:215px;;
+    left:215px;
     height:30px;
     width:30px;
     background-size:60%;

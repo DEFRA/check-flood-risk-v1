@@ -4037,7 +4037,7 @@ table.select-areas th {
 }
 
 .ol-place-locator:before {
-  content: 'locator';
+  content: 'Marker';
 }
 
 .ol-place-locator span {
@@ -4122,10 +4122,16 @@ table.select-areas th {
 
 @media (min-width: 641px) {
   .ol-draw-delete {
-    left: 280px;
+    left: 215px;
     height: 30px;
     width: 30px;
     background-size: 60%;
+  }
+}
+
+@media (min-width: 641px) {
+  .has-undoredo .ol-draw-delete {
+    left: 280px;
   }
 }
 

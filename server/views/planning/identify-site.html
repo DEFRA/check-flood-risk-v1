@@ -198,7 +198,7 @@
 
 {{#section 'bodyScripts' }}
 <!-- Add before closing body tag -->
-<script src="/public/javascripts/ol-v4.5.0.js"></script>
+<script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
 <script src="/public/javascripts/map-planning.js"></script>
 
 <script>
@@ -207,10 +207,13 @@
 		lonLat: JSON.parse('[' + document.getElementById('lonLat').value + ']'),
 		zoom: document.getElementById('zoom').value,
 		hasKey: true,
-		//hasDrawing: true,
-		dataJSON: '/public/data/target-areas.json',
+		hasDrawing: true,
+		hasLocator: true,
+		hasUndoRedo: false,
+        hasZoomReset: false,
+		dataJSON: '/public/data/flood-zones.json',
 		targetAreaStates: [{'id':1,'state':2},{'id':2,'state':2},{'id':3,'state':2},{'id':4,'state':2},{'id':5,'state':2},{'id':6,'state':2},{'id':101,'state':3}],
-		zoom: 9
+		zoom: 13
 	})
 
 	/*
