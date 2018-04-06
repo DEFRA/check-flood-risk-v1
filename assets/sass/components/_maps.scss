@@ -414,7 +414,6 @@ $path: "/public/";
   right:0;
   height:45px;
   z-index:2;
-  border-bottom:1px solid $border-colour;
   padding-top:15px;
   padding-left:10px;
   padding-right:10px;
@@ -499,48 +498,20 @@ $path: "/public/";
   bottom:44px;
   left:0;
   right:0;
-  padding:10px 0;
+  padding:0;
   @include media(tablet) {
-    padding:15px 0;
     bottom:49px;
   }
   overflow:hidden;
   overflow:auto;
 }
-.multiple-choice-key {
-  @extend .multiple-choice;
-  padding-left:28px;
-  margin-bottom:7px;
+.key-section {
+  border-top:1px solid $border-colour;
+  padding-top:10px;
+  padding-bottom:3px;
   @include media(tablet) {
-    margin-bottom:10px;
-  }
-  input {
-    width:28px;
-    height:28px;
-  }
-  label {
-    padding: 7px 10px 5px 10px;
-    @include core-16;
-    @include media(tablet) {
-      padding: 5px 10px 4px 12px;
-    }
-  }
-}
-.multiple-choice-key [type=checkbox] + label::before {
-  width: 24px;
-  height: 24px;
-}
-.multiple-choice-key [type=checkbox] + label::after {
-  top: 8px;
-  left: 6px;
-  width: 12px;
-  height: 5px;
-  border-width: 0 0 4px 4px;
-}
-.multiple-choice-key:last-child, .multiple-choice-key:last-of-type {
-  margin-bottom:7px;
-  @include media(tablet) {
-    margin-bottom:10px;
+    padding-top:15px;
+    padding-bottom:5px;
   }
 }
 .key-feature {
@@ -548,15 +519,6 @@ $path: "/public/";
   padding:0 10px;
   @include media(tablet) {
     padding:0 15px;
-  }
-  &.key-section {
-    border-bottom:1px solid $border-colour;
-    margin-bottom:10px;
-    padding-bottom:3px;
-    @include media(tablet) {
-      margin-bottom:15px;
-      padding-bottom:5px;
-    }
   }
 }
 .key-feature:after {
@@ -618,5 +580,50 @@ li .key-feature-group {
   }
   &.key-symbol-flood-storage {
     background-color:transparent;
+  }
+}
+.multiple-choice-key {
+  @extend .multiple-choice;
+  padding-left:28px;
+  margin-bottom:7px;
+  @include media(tablet) {
+    margin-bottom:10px;
+  }
+  input {
+    width:28px;
+    height:28px;
+  }
+  label {
+    padding: 7px 10px 5px 10px;
+    @include core-16;
+    @include media(tablet) {
+      padding: 5px 10px 4px 12px;
+    }
+  }
+}
+.multiple-choice-key [type=checkbox] + label::before {
+  width: 24px;
+  height: 24px;
+}
+.multiple-choice-key [type=checkbox] + label::after {
+  top: 8px;
+  left: 6px;
+  width: 12px;
+  height: 5px;
+  border-width: 0 0 4px 4px;
+}
+.multiple-choice-key [type=radio] + label::before {
+  width: 24px;
+  height: 24px;
+}
+.multiple-choice-key [type=radio] + label::after {
+  border: 8px solid;
+  top: 6px;
+  left: 6px;
+}
+.multiple-choice-key:last-child, .multiple-choice-key:last-of-type {
+  margin-bottom:7px;
+  @include media(tablet) {
+    margin-bottom:10px;
   }
 }

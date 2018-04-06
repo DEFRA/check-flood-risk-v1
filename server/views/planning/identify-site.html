@@ -55,8 +55,26 @@
 												<h2 class="bold-medium">Key</h2>
 											</div>
 											<div class="map-key-features">
-												<ul>
-													<li class="key-feature key-section">
+												<ul class="key-section">
+													<li class="key-feature">
+														<div class="multiple-choice-key">
+															<input id="map-view" name="view-type" type="radio" value="map-view" checked>
+															<label for="map-view">
+																Map view
+															</label>
+														</div>
+													</li>
+													<li class="key-feature">
+														<div class="multiple-choice-key">
+															<input id="satellite-view" name="view-type" type="radio" value="satellite-view">
+															<label for="satellite-view">
+																Satellite view
+															</label>
+														</div>
+													</li>
+												</ul>
+												<ul class="key-section">
+													<li class="key-feature">
 														<div class="multiple-choice-key">
 															<input id="flood-zones" name="flood-zones" type="checkbox" value="flood-zones" checked="">
 															<label for="flood-zones">Flood risk zones</label>
@@ -104,6 +122,8 @@
 															-->
 														</ul>
 													</li>
+												</ul>
+												<ul class="key-section">
 													<li class="key-feature">
 														<div class="multiple-choice-key">
 															<input id="flood-defence" name="flood-defence" type="checkbox" value="flood-defence" checked="">
@@ -211,11 +231,11 @@
 		hasLocator: false,
 		hasUndoRedo: false,
 		hasZoomReset: false,
-		//floodZonesJSON: '/public/data/flood-zones.json',
-		targetAreasJSON: '/public/data/target-areas.json',
+		floodZonesJSON: '/public/data/flood-zones.json',
+		//targetAreasJSON: '/public/data/target-areas.json',
 		//riverLevelsJSON: '/public/data/river-levels.json',
-		targetAreaStates: [{'id':1,'state':2},{'id':2,'state':2},{'id':3,'state':2},{'id':4,'state':2},{'id':5,'state':2},{'id':6,'state':2},{'id':101,'state':3}],
-		zoom: 13
+		//targetAreaStates: [{'id':1,'state':2},{'id':2,'state':2},{'id':3,'state':2},{'id':4,'state':2},{'id':5,'state':2},{'id':6,'state':2},{'id':101,'state':3}],
+		zoom: 15
 	})
 
 	/*
