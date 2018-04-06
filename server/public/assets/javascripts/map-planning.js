@@ -315,7 +315,7 @@ var renderMap = function(options) {
 
     // Target areas layer
     var layerTargetAreas = new ol.layer.Vector({
-        renderMode: 'image',
+        renderMode: 'hybrid',
         source: sourceTargetAreas,
         style: styleFeatures
     })
