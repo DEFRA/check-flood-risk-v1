@@ -24,6 +24,7 @@ var renderMap = function(options) {
 
     var elementMap = document.getElementsByClassName('map')[0]
     var elementMapContainer = document.getElementById('map').firstElementChild
+    var elementMapContainerInner = elementMapContainer.firstElementChild
 
     //
     // Define styles
@@ -346,7 +347,7 @@ var renderMap = function(options) {
     fullScreenElement.className = 'ol-full-screen'
     fullScreenElement.addEventListener('click', function(e) {
         e.preventDefault()
-        elementMapContainer.classList.toggle('map-container-fullscreen')
+        elementMapContainerInner.classList.toggle('map-container-inner-fullscreen')
         this.classList.toggle('ol-full-screen-open')
         map.updateSize()
     })
@@ -402,7 +403,7 @@ var renderMap = function(options) {
         if(drawingStarted){
             draw.finishDrawing()
         }
-        // Delete empty shape feature
+        // Delete existing polygon feature if it has no geometry
         if(layerShape.getSource().getFeatures().length) {
             if(!layerShape.getSource().getFeatures()[0].getGeometry()) {
                 layerShape.getSource().clear()
@@ -425,8 +426,8 @@ var renderMap = function(options) {
         // Show locator overlay if exists
         if(layerLocator.getSource().getFeatures().length){
             document.getElementsByClassName('ol-overlay-container')[0].style.visibility = 'visible'
+            elementMap.classList.add('has-overlay')
         }
-        elementMap.classList.add('has-overlay')
         // Enable delete if feature on this layer exists and show overlay
         if(layerLocator.getSource().getFeatures().length){
             deleteFeatureElement.disabled = false
@@ -467,7 +468,6 @@ var renderMap = function(options) {
     deleteFeatureElement.innerHTML = '<span>Delete</span>'
     deleteFeatureElement.className = 'ol-draw-delete'
     deleteFeatureElement.setAttribute('title','Delete the shape or marker')
-    deleteFeatureElement.disabled = true
     deleteFeatureElement.addEventListener('click', function(e) {
         e.preventDefault()
         this.disabled = true
@@ -539,7 +539,7 @@ var renderMap = function(options) {
     })
 
     //
-    // Configure controls
+    // Add controls
     //
 
     var customControls = []
@@ -592,7 +592,7 @@ var renderMap = function(options) {
     // Add initial locator
     //
 
-    if (options.hasLocator) {
+    if (options.hasLocator || options.hasDrawing) {
         geometryPoint = ol.proj.transform(options.lonLat, 'EPSG:4326', 'EPSG:3857')
         featureLocator.setGeometry(new ol.geom.Point(geometryPoint))
         layerLocator.getSource().addFeature(featureLocator)
@@ -616,7 +616,7 @@ var renderMap = function(options) {
         // If key is closed
         else {
             // Place locator
-            if(options.hasLocator) {
+            if(options.hasLocator || options.hasDrawing) {
                 if (layerLocator.getVisible()) {
                     // locator object
                     geometryPoint = new ol.geom.Point(e.coordinate)

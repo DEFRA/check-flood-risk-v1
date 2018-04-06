@@ -409,8 +409,6 @@ var init = function() {
     // Map events
     //
 
-    /*
-
     // Draw the outer glow (border) then
     // add a background map that is clipped to the selected feature
     tileSelected.on('precompose', function(e){
@@ -474,8 +472,6 @@ var init = function() {
         var hit = map.hasFeatureAtPixel(pixel)
         map.getViewport().style.cursor = hit ? 'pointer' : ''
     });
-
-    */
 
     // When main source has loaded if there is a selected feature
     // generate intersecting features source and

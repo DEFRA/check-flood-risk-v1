@@ -1,4 +1,4 @@
-<main {{#if model.isError}}class="js-error"{{/if }} class="flood-zones">
+<main {{#if model.isError}}class="js-error"{{/if }}>
 
 	<div class="grid-row no-bottom">
 		<div class="column-full no-bottom">
@@ -208,7 +208,7 @@
 		zoom: document.getElementById('zoom').value,
 		hasKey: true,
 		hasDrawing: true,
-		hasLocator: true,
+		hasLocator: false,
 		hasUndoRedo: false,
         hasZoomReset: false,
 		dataJSON: '/public/data/flood-zones.json',
