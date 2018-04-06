@@ -6,8 +6,8 @@
             "id": "8321",
             "properties": {
                 "type": "riverLevel",
-                "name":"Mytholmroyd Dauber Bridge",
-                "river":"Cragg Brook",
+                "name": "Mytholmroyd Dauber Bridge",
+                "river": "Cragg Brook",
                 "path" : "cragg-brook-at-mytholmroyd-dauber-bridge"
             },
             "geometry": {
@@ -20,8 +20,8 @@
             "id": "9031",
             "properties": {
                 "type": "riverLevel",
-                "name":"Brearley",
-                "river":"River Calder",
+                "name": "Brearley",
+                "river": "River Calder",
                 "path" : "river-calder-at-brearley"
             },
             "geometry": {
@@ -34,8 +34,8 @@
             "id": "8048",
             "properties": {
                 "type": "riverLevel",
-                "name":"Mytholmroyd",
-                "river":"River Calder",
+                "name": "Mytholmroyd",
+                "river": "River Calder",
                 "path" : "river-calder-at-mytholmroyd"
             },
             "geometry": {
@@ -48,8 +48,8 @@
             "id": "8097",
             "properties": {
                 "type": "riverLevel",
-                "name":"Hebden Bridge",
-                "river":"River Calder",
+                "name": "Hebden Bridge",
+                "river": "River Calder",
                 "path" : "river-calder-at-hebden-bridge"
             },
             "geometry": {
@@ -62,8 +62,8 @@
             "id": "8343",
             "properties": {
                 "type": "riverLevel",
-                "name":"Todmorden Callis Bridge",
-                "river":"River Calder",
+                "name": "Todmorden Callis Bridge",
+                "river": "River Calder",
                 "path" : "river-calder-at-todmorden-callis-bridge"
             },
             "geometry": {
@@ -76,8 +76,8 @@
             "id": "8205",
             "properties": {
                 "type": "riverLevel",
-                "name":"Todmorden",
-                "river":"River Calder",
+                "name": "Todmorden",
+                "river": "River Calder",
                 "path" : "river-calder-at-todmorden"
             },
             "geometry": {
@@ -90,8 +90,8 @@
             "id": "8152",
             "properties": {
                 "type": "riverLevel",
-                "name":"Nutclough",
-                "river":"Hebden Water",
+                "name": "Nutclough",
+                "river": "Hebden Water",
                 "path" : "hebdon-water-at-nutclough"
             },
             "geometry": {
@@ -104,8 +104,8 @@
             "id": "8305",
             "properties": {
                 "type": "riverLevel",
-                "name":"Portsmouth Lennox Road",
-                "river":"River Calder",
+                "name": "Portsmouth Lennox Road",
+                "river": "River Calder",
                 "path" : "river-calder-at-portsmouth-lennox-road"
             },
             "geometry": {
@@ -118,8 +118,8 @@
             "id": "8310",
             "properties": {
                 "type": "riverLevel",
-                "name":"Todmorden Salford",
-                "river":"Walsden Water",
+                "name": "Todmorden Salford",
+                "river": "Walsden Water",
                 "path" : "walsden-water-at-todmorden-salford"
             },
             "geometry": {
@@ -132,8 +132,8 @@
             "id": "8211",
             "properties": {
                 "type": "riverLevel",
-                "name":"Walsden",
-                "river":"Walsden Water",
+                "name": "Walsden",
+                "river": "Walsden Water",
                 "path" : "walsden-water-at-walsden"
             },
             "geometry": {

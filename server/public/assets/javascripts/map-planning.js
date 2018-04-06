@@ -7,7 +7,9 @@ var renderMap = function(options) {
     var defaults = {
         lonLat: [0,0],
         zoom: 12,
-        dataJSON: '',
+        floodZonesJSON: '',
+        targetAreasJSON: '',
+        riverLevelsJSON: '',
         targetAreaStates: [],
         minIconResolution: 300,
         hasKey: false,
@@ -118,7 +120,7 @@ var renderMap = function(options) {
                         source = ''
                     }
 
-                    // Configure icon 
+                    // Define icon 
                     image = new ol.style.Icon({
                         src: source,
                         size: [68, 68],
@@ -130,6 +132,22 @@ var renderMap = function(options) {
 
             }
 
+        }
+
+        //
+        // River levels
+        //
+
+        else if (feature.get('type') == 'riverLevel') {
+            
+            // Define icon
+            image = new ol.style.Icon({
+                src: '/public/icon-locator-blue-2x.png',
+                size: [53, 71],
+                anchor: [0.5, 1],
+                scale: 0.5
+            })
+            
         }
 
         // Generate style
@@ -252,10 +270,24 @@ var renderMap = function(options) {
     // Define sources
     //
 
-    // Features source
-    var sourceFeatures = new ol.source.Vector({
+    // Flood zones source
+    var sourceFloodZones = new ol.source.Vector({
         format: new ol.format.GeoJSON(),
-        url: options.dataJSON,
+        url: options.floodZonesJSON,
+        projection: 'EPSG:3857'
+    })
+
+    // Target areas source
+    var sourceTargetAreas = new ol.source.Vector({
+        format: new ol.format.GeoJSON(),
+        url: options.targetAreasJSON,
+        projection: 'EPSG:3857'
+    })
+
+    // River levels source
+    var sourceRiverLevels = new ol.source.Vector({
+        format: new ol.format.GeoJSON(),
+        url: options.riverLevelsJSON,
         projection: 'EPSG:3857'
     })
 
@@ -274,11 +306,23 @@ var renderMap = function(options) {
         source: new ol.source.OSM()
     })
 
-    // Features layer
-    var layerFeatures = new ol.layer.Vector({
+    // Flood zones layer
+    var layerFloodZones = new ol.layer.Vector({
         renderMode: 'image',
-        source: sourceFeatures,
-        // Use custom style function to colour individual features accordingley
+        source: sourceFloodZones,
+        style: styleFeatures
+    })
+
+    // Target areas layer
+    var layerTargetAreas = new ol.layer.Vector({
+        renderMode: 'image',
+        source: sourceTargetAreas,
+        style: styleFeatures
+    })
+
+    // River levels layer
+    var layerRiverLevels = new ol.layer.Vector({
+        source: sourceRiverLevels,
         style: styleFeatures
     })
 
@@ -572,6 +616,28 @@ var renderMap = function(options) {
     }).extend(customControls)
 
     //
+    // Add layers
+    //
+
+    var layers = [tile]
+    if (options.floodZonesJSON != '') {
+        layers.push(layerFloodZones)
+    }
+    if (options.targetAreasJSON != '') {
+        layers.push(layerTargetAreas)
+    }
+    if (options.riverLevelsJSON != '') {
+        layers.push(layerRiverLevels)
+    }
+    if (options.hasDrawing) {
+        layers.push(layerShape)
+    }
+    if (options.hasDrawing || options.hasLocator) {
+        layers.push(layerLocator)
+    }
+    
+
+    //
     // Setup
     //
 
@@ -584,7 +650,7 @@ var renderMap = function(options) {
         target: 'map-container-inner',
         interactions: interactions,
         controls: controls,
-        layers: [tile, layerFeatures, layerShape, layerLocator],
+        layers: layers,
         view: view
     })
     
@@ -698,7 +764,8 @@ var renderMap = function(options) {
         else {
             layerOpacity = 0.5 
         } 
-        layerFeatures.setOpacity(layerOpacity)
+        layerFloodZones.setOpacity(layerOpacity)
+        layerTargetAreas.setOpacity(layerOpacity)
     })
 
 }
