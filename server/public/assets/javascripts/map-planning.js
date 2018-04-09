@@ -391,7 +391,19 @@ var renderMap = function(options) {
     fullScreenElement.className = 'ol-full-screen'
     fullScreenElement.addEventListener('click', function(e) {
         e.preventDefault()
-        elementMapContainerInner.classList.toggle('map-container-inner-fullscreen')
+        // Fullscreen view
+        if (elementMapContainerInner.classList.contains('map-container-inner-fullscreen')) {
+            elementMapContainerInner.classList.remove('map-container-inner-fullscreen')
+            history.back()
+        }
+        // Default view
+        else {
+            elementMapContainerInner.classList.add('map-container-inner-fullscreen')
+            state = {'view':'map'}
+            url = addOrUpdateParameter(location.pathname + location.search, 'view', 'map')
+            title = document.title
+            history.pushState(state, title, url)
+        }
         this.classList.toggle('ol-full-screen-open')
         map.updateSize()
     })
@@ -641,6 +653,11 @@ var renderMap = function(options) {
     // Setup
     //
 
+    // Add fullscreen
+    if (getParameterByName('view') == 'map') {
+        elementMapContainerInner.classList.add('map-container-inner-fullscreen')
+    }
+
     // Start drawing boolean used to address finishDrawing bug
     var drawingStarted = false
     var drawingFinished = false
@@ -701,6 +718,7 @@ var renderMap = function(options) {
         }
     })
 
+    // Set start drawing flag
     draw.on('drawShape', function (e) {
         drawingStarted = true
     })
@@ -768,6 +786,21 @@ var renderMap = function(options) {
         layerTargetAreas.setOpacity(layerOpacity)
     })
 
+    // Toggle fullscreen view on browser history change
+    window.onpopstate = function(e) {    
+        if (e && e.state) {
+            elementMapContainerInner.classList.add('map-container-inner-fullscreen')
+            fullScreenElement.classList.add('ol-full-screen-open')
+            console.log(e.state)
+        }
+        else {
+            elementMapContainerInner.classList.remove('map-container-inner-fullscreen')
+            fullScreenElement.classList.remove('ol-full-screen-open')
+            console.log('default')
+        }
+        map.updateSize()
+    }
+
 }
 
 // Function to get query string parameter
@@ -775,6 +808,18 @@ function getParameterByName(name) {
     var v = window.location.search.match(new RegExp('(?:[\?\&]'+name+'=)([^&]+)'))
     return v ? v[1] : null
 }
+
+// Function to add or update a querystring parameter
+function addOrUpdateParameter(uri, paramKey, paramVal) {
+    var re = new RegExp("([?&])" + paramKey + "=[^&#]*", "i");
+    if (re.test(uri)) {
+      uri = uri.replace(re, '$1' + paramKey + "=" + paramVal);
+    } else {
+      var separator = /\?/.test(uri) ? "&" : "?";
+      uri = uri + separator + paramKey + "=" + paramVal;
+    }
+    return uri;
+  }
 
 // Function applies greyscale to every pixel in canvas
 function greyscale(context) {
