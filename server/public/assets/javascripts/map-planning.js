@@ -598,29 +598,28 @@ var renderMap = function(options) {
     // Add controls
     //
 
-    var customControls = []
-    if (options.hasDrawing && options.hasUndoRedo) {
-        elementMap.classList.add('has-undoredo')
-        customControls.push(
-            placeLocator,
-            drawShape,
-            drawUndo,
-            drawRedo,
-            deleteFeature
-        )
-    }
-    else if (options.hasDrawing) {
-        customControls.push(
-            placeLocator,
-            drawShape,
-            deleteFeature
-        )
-    }
-    customControls.push(fullScreen)
+    var customControls = [fullScreen]
     if (options.hasZoomReset) {
         customControls.push(zoomReset)
     }
     customControls.push(zoom)
+    if (options.hasDrawing && options.hasUndoRedo) {
+        elementMap.classList.add('has-undoredo')
+        customControls.push(
+            deleteFeature,
+            drawRedo,
+            drawUndo,
+            drawShape,
+            placeLocator
+        )
+    }
+    else if (options.hasDrawing) {
+        customControls.push(
+            deleteFeature,
+            drawShape,
+            placeLocator
+        )
+    }
     var controls = ol.control.defaults({
         zoom: false,
         rotate: false,
@@ -653,7 +652,7 @@ var renderMap = function(options) {
     // Setup
     //
 
-    // Add fullscreen
+    // Add fullscreen class
     if (getParameterByName('view') == 'map') {
         elementMapContainerInner.classList.add('map-container-inner-fullscreen')
     }
@@ -686,15 +685,14 @@ var renderMap = function(options) {
     }
 
     //
-    // Configure map events
+    // Setup events
     //
 
     // Close key or place locator if map is clicked
     map.on('click', function(e) {
-        var keyOpen = document.getElementsByClassName('map-key-open')
         // Close key
-        if (keyOpen.length) {
-            keyOpen[0].classList.remove('map-key-open')   
+        if (key.classList.contains('map-key-open')) {
+            key.classList.remove('map-key-open')   
         } 
         // If key is closed
         else {
@@ -742,11 +740,11 @@ var renderMap = function(options) {
         }
     })
 
-    // Finish drawing on escape key
-    document.addEventListener('keyup', function() {
+    // Keyboard controls
+    document.addEventListener('keydown', function(e) {
 
-        // Escape key pressed
-        if (event.keyCode === 27) {
+        // Finish drawing polygon escape key pressed
+        if (e.keyCode === 27) {
 
             // Escape drawing a polygon if it is not already finished
             if (layerShape.getVisible() && !drawingFinished) {
@@ -765,7 +763,46 @@ var renderMap = function(options) {
 
         }
 
+        // Constrain tab key to 'key' when its open
+        else if (e.keyCode === 9) {
+            var context = null
+            if (elementMapContainerInner.classList.contains('map-container-inner-fullscreen')) {
+                context = elementMapContainerInner
+            }
+            if (key.classList.contains('map-key-open')) {
+                context = key
+            }
+            // If dialog context is open
+            if (context) {
+                var focusableElements = context.querySelectorAll('button:not(:disabled), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
+                var firstFocusableElement = focusableElements[0]
+                var lastFocusableElement = focusableElements[focusableElements.length - 1]
+                // Shift tab (backwards)
+                if (e.shiftKey) {
+                    if (document.activeElement === firstFocusableElement) {
+                        e.preventDefault()
+                        lastFocusableElement.focus()
+                    }
+                }
+                // Tab (forwards) 
+                else {
+                    if (document.activeElement === lastFocusableElement) {
+                        e.preventDefault()
+                        firstFocusableElement.focus()
+                    }
+                }
+            }
+        }
+
     })
+
+    // If map is fullscreen set initial focus to first focusable element
+    window.onload = function() {
+        if (getParameterByName('view') == 'map') {
+            focusElement = elementMapContainerInner.querySelectorAll('button:not(:disabled), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')[0]
+            focusElement.focus()
+        }
+    }
 
     // Update layer opacity setting for different map resolutions
     map.on('moveend', function(){
@@ -791,12 +828,10 @@ var renderMap = function(options) {
         if (e && e.state) {
             elementMapContainerInner.classList.add('map-container-inner-fullscreen')
             fullScreenElement.classList.add('ol-full-screen-open')
-            console.log(e.state)
         }
         else {
             elementMapContainerInner.classList.remove('map-container-inner-fullscreen')
             fullScreenElement.classList.remove('ol-full-screen-open')
-            console.log('default')
         }
         map.updateSize()
     }
