@@ -230,8 +230,120 @@
 			<!-- Map view -->
 
 			<figure class="map" id="map">
-				<div class="map-container"></div>
-				<figcaption>Potential affected areas</figcaption>
+				<div class="map-container map-container-planning">
+					<div class="map-container-inner" id="map-container-inner">
+						<div class="map-key">
+							<button title="Find out what the features are" class="map-control map-control-key"><span>Key</span></button>
+							<div class="map-key-container">
+								<div class="map-key-heading">
+									<h2 class="bold-medium">Key</h2>
+								</div>
+								<div class="map-key-features">
+									<ul class="key-section">
+										<li class="key-feature">
+											<div class="multiple-choice-key">
+												<input id="map-view" name="view-type" type="radio" value="map-view" checked>
+												<label for="map-view">
+													Map view
+												</label>
+											</div>
+										</li>
+										<li class="key-feature">
+											<div class="multiple-choice-key">
+												<input id="satellite-view" name="view-type" type="radio" value="satellite-view">
+												<label for="satellite-view">
+													Satellite view
+												</label>
+											</div>
+										</li>
+									</ul>
+									<ul class="key-section">
+										<li class="key-feature">
+											<div class="multiple-choice-key">
+												<input id="flood-zones" name="flood-zones" type="checkbox" value="flood-zones" checked="">
+												<label for="flood-zones">Flood warnings and alerts</label>
+											</div>
+											<ul class="key-feature-group">
+												<li>
+													<span class="key-feature-label">
+														<span class="key-symbol key-symbol-flood-warning">
+															<svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
+																<rect x="0" y="0" width="100%" height="100%" fill="#e3000f"></rect>
+															</svg>
+														</span>
+														Warning or severe warning
+													</span>
+												</li>
+												<li>
+													<span class="key-feature-label">                            
+														<span class="key-symbol key-symbol-flood-alert">
+															<svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
+																<rect x="0" y="0" width="100%" height="100%" fill="#f18700"></rect>
+															</svg>
+														</span>
+														Alert
+													</span>
+												</li>
+												<li>
+													<span class="key-feature-label">
+														<span class="key-symbol key-symbol-flood-warning-removed">
+															<svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
+																<rect x="0" y="0" width="100%" height="100%" fill="#6f777b"></rect>
+															</svg>
+														</span>
+														Warning no longer in force
+													</span>
+												</li>
+											</ul>
+										</li>
+									</ul>
+									<ul class="key-section">
+										<li class="key-feature">
+											<div class="multiple-choice-key">
+												<input id="river-levels" name="river-levels" type="checkbox" value="river-levels" checked="">
+												<label for="river-levels">River levels</label>
+											</div>
+											<ul class="key-feature-group">
+												<li>
+													<span class="key-feature-label">
+														<span class="key-symbol key-symbol-portrait key-symbol-river-level-typical">
+															<svg width="100%" height="100%" viewBox="0 0 21 28" xmlns="http://www.w3.org/2000/svg">
+																<path d="M51.5,25.75 L51.4999489,25.75 C51.5314641,38.7189161 36.9799294,60.467041 25.75,70.2009277 C14.5200195,60.467041 -0.0315152421,38.7189161 1.03808292e-15,25.75 C1.03808292e-15,11.5286677 11.5286677,0 25.75,0 C39.9713323,0 51.5,11.5286677 51.5,25.75 Z M25.75,44.5 C36.1053391,44.5 44.5,36.1053391 44.5,25.75 C44.5,15.3946609 36.1053391,7 25.75,7 C15.3946609,7 7,15.3946609 7,25.75 C7,36.1053391 15.3946609,44.5 25.75,44.5 Z" fill="#006435" stroke="none" transform="scale(0.4)"/>
+															</svg>
+														</span>
+														Within typical range
+													</span>
+												</li>
+												<li>
+													<span class="key-feature-label">
+														<span class="key-symbol key-symbol-portrait key-symbol-river-level-above">
+															<svg width="100%" height="100%" viewBox="0 0 21 28" xmlns="http://www.w3.org/2000/svg">
+																<path d="M51.5,25.75 L51.4999489,25.75 C51.5314641,38.7189161 36.9799294,60.467041 25.75,70.2009277 C14.5200195,60.467041 -0.0315152421,38.7189161 1.03808292e-15,25.75 C1.03808292e-15,11.5286677 11.5286677,0 25.75,0 C39.9713323,0 51.5,11.5286677 51.5,25.75 Z M25.75,44.5 C36.1053391,44.5 44.5,36.1053391 44.5,25.75 C44.5,15.3946609 36.1053391,7 25.75,7 C15.3946609,7 7,15.3946609 7,25.75 C7,36.1053391 15.3946609,44.5 25.75,44.5 Z" fill="#B10E1E" stroke="none" transform="scale(0.4)"/>
+															</svg>
+														</span>
+														Above typical range
+													</span>
+												</li>
+												<li>
+													<span class="key-feature-label">
+														<span class="key-symbol key-symbol-portrait key-symbol-river-level-unavailable">
+															<svg width="100%" height="100%" viewBox="0 0 21 28" xmlns="http://www.w3.org/2000/svg">
+																<path d="M51.5,25.75 L51.4999489,25.75 C51.5314641,38.7189161 36.9799294,60.467041 25.75,70.2009277 C14.5200195,60.467041 -0.0315152421,38.7189161 1.03808292e-15,25.75 C1.03808292e-15,11.5286677 11.5286677,0 25.75,0 C39.9713323,0 51.5,11.5286677 51.5,25.75 Z M25.75,44.5 C36.1053391,44.5 44.5,36.1053391 44.5,25.75 C44.5,15.3946609 36.1053391,7 25.75,7 C15.3946609,7 7,15.3946609 7,25.75 C7,36.1053391 15.3946609,44.5 25.75,44.5 Z" fill="#6F777B" stroke="none" transform="scale(0.4)"/>
+															</svg>
+														</span>
+														Unavailable
+													</span>
+												</li>											
+											</ul>
+										</li>
+									</ul>
+								</div>
+								<div class="map-key-copyright">© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<figcaption class="visuallyhidden">Site boundary</figcaption>
 			</figure>
 
 			<!-- Related links -->
@@ -264,13 +376,21 @@
 
 </main>
 
+{{#section 'bodyScripts' }}
 <!-- This content to go at end of body -->
-<script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
 {{#if model.hasAlertOrWarning }}
+<script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
+<script src="/public/javascripts/map.js"></script>
 <script>
-	var targetAreaStates = {{{ json model.targetAreaStates }}}
-	var levelsJSON = {{{ json model.levelsJSON }}}
-	var lonLat = {{{ json model.lonLat }}}
+	renderMap({
+		lonLat: JSON.parse('[' + {{{ json model.lonLat }}} + ']'),
+		zoom: 13,
+		hasZoomReset: false,
+		targetAreasJSON: '/public/data/target-areas.json',
+		riverLevelsJSON: '/public/data/river-levels.json',
+		targetAreaStates: {{{ json model.targetAreaStates }}},
+		riverLevelStates: {{{ json model.riverLevelStates }}}
+	})
 </script>
 {{/if }}
-<script src="/public/javascripts/map-old.js"></script>
+{{/section }}

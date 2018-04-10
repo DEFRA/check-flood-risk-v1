@@ -285,8 +285,8 @@
             "coordinates": [-1.98976354,53.7227915],  
             "scenario" : [
                 { "id" : "a", "state" : "normal", "gain" : "stable" },
-                { "id" : "b", "state" : "above", "gain" : "stable" },
-                { "id" : "c", "state" : "above", "gain" : "stable" },
+                { "id" : "b", "state" : "normal", "gain" : "stable" },
+                { "id" : "c", "state" : "normal", "gain" : "stable" },
                 { "id" : "d", "state" : "above", "gain" : "rising" }
             ]
         },
@@ -299,7 +299,7 @@
             "scenario" : [
                 { "id" : "a", "state" : "normal", "gain" : "stable" },
                 { "id" : "b", "state" : "normal", "gain" : "stable" },
-                { "id" : "c", "state" : "above", "gain" : "stable" },
+                { "id" : "c", "state" : "normal", "gain" : "stable" },
                 { "id" : "d", "state" : "above", "gain" : "rising" }
             ]
         },
@@ -325,7 +325,7 @@
             "scenario" : [
                 { "id" : "a", "state" : "normal", "gain" : "stable" },
                 { "id" : "b", "state" : "normal", "gain" : "stable" },
-                { "id" : "c", "state" : "above", "gain" : "stable" },
+                { "id" : "c", "state" : "normal", "gain" : "stable" },
                 { "id" : "d", "state" : "above", "gain" : "rising" }
             ]
         },
@@ -364,7 +364,7 @@
             "scenario" : [
                 { "id" : "a", "state" : "normal", "gain" : "stable" },
                 { "id" : "b", "state" : "normal", "gain" : "stable" },
-                { "id" : "c", "state" : "above", "gain" : "stable" },
+                { "id" : "c", "state" : "normal", "gain" : "stable" },
                 { "id" : "d", "state" : "above", "gain" : "rising" }
             ]
         },
@@ -376,7 +376,7 @@
             "coordinates": [-2.15351354,53.73209478], 
             "scenario" : [
                 { "id" : "a", "state" : "normal", "gain" : "stable" },
-                { "id" : "b", "state" : "normal", "gain" : "stable" },
+                { "id" : "b", "state" : "above", "gain" : "stable" },
                 { "id" : "c", "state" : "above", "gain" : "stable" },
                 { "id" : "d", "state" : "above", "gain" : "rising" }
             ]
@@ -389,7 +389,7 @@
             "coordinates": [-2.10186338,53.71055157],
             "scenario" : [
                 { "id" : "a", "state" : "normal", "gain" : "stable" },
-                { "id" : "b", "state" : "normal", "gain" : "stable" },
+                { "id" : "b", "state" : "above", "gain" : "stable" },
                 { "id" : "c", "state" : "above", "gain" : "stable" },
                 { "id" : "d", "state" : "above", "gain" : "rising" }
             ]
@@ -402,7 +402,7 @@
             "coordinates": [-2.10142186,53.69080508],
             "scenario" : [
                 { "id" : "a", "state" : "normal", "gain" : "stable" },
-                { "id" : "b", "state" : "normal", "gain" : "stable" },
+                { "id" : "b", "state" : "above", "gain" : "stable" },
                 { "id" : "c", "state" : "above", "gain" : "stable" },
                 { "id" : "d", "state" : "above", "gain" : "rising" }
             ]

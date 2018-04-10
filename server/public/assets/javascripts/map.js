@@ -11,8 +11,8 @@ var renderMap = function(options) {
         targetAreasJSON: '',
         riverLevelsJSON: '',
         targetAreaStates: [],
+        riverLevelStates: [],
         minIconResolution: 300,
-        hasKey: false,
         hasLocator: false,
         hasDrawing: false,
         hasUndoRedo: false,
@@ -139,11 +139,23 @@ var renderMap = function(options) {
         //
 
         else if (feature.get('type') == 'riverLevel') {
+
+            var riverLevel = options.riverLevelStates.find(x => x.id == feature.getId())
             
+            source = '/public/icon-locator-green-2x.png'
+
+            if (isObject(riverLevel)) {
+
+                if (riverLevel.state == 'above') {
+                    source = '/public/icon-locator-red-2x.png'
+                }
+
+            }
+
             // Define icon
             image = new ol.style.Icon({
-                src: '/public/icon-locator-blue-2x.png',
-                size: [53, 71],
+                src: source,
+                size: [52, 71],
                 anchor: [0.5, 1],
                 scale: 0.5
             })
@@ -362,11 +374,13 @@ var renderMap = function(options) {
 
     // Key toggle button
     var key = document.querySelector('.map-key')
-    var keyToggleButton = document.querySelector('.map-control-key')
-    keyToggleButton.addEventListener('click', function(e) {
-        e.preventDefault()
-        key.classList.toggle('map-key-open')
-    })
+    if (key) {
+        var keyToggleButton = document.querySelector('.map-control-key')
+        keyToggleButton.addEventListener('click', function(e) {
+            e.preventDefault()
+            key.classList.toggle('map-key-open')
+        })
+    }
 
     // Zoom buttons
     var zoomElement = document.createElement('button')
@@ -682,6 +696,8 @@ var renderMap = function(options) {
         label.setPosition(geometryPoint)
         map.addOverlay(label)
         elementMap.classList.add('has-overlay')
+        //var height = elementOverlayContainer.offsetHeight / 16
+        //console.log(document.getElementsByClassName('ol-overlay-container')[0])
     }
 
     //

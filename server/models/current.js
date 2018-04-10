@@ -42,6 +42,7 @@ exports.getSummary = function(path, scenario) {
 		hasIntersectTarget = false,
 
 		targetAreaStates = [],
+		riverLevelStates = [],
 		levelsJSON,
 		lonLat = []
 
@@ -144,7 +145,7 @@ exports.getSummary = function(path, scenario) {
 		}
 	}
 
-	// Add river levels and set general level state (Normal, above or below)
+	// Add river levels for target area and set general level state (Normal, above or below)
 	for (var key in data.level) {
 		var level = data.level[key]
 		for (var key in targetAreaAll) {
@@ -181,6 +182,13 @@ exports.getSummary = function(path, scenario) {
 				}
 			}
 		}
+	}
+
+	// Add all river levels
+	for (var key in data.level) {
+		var level = data.level[key]
+		var state = level.scenario.find(x => x.id == scenario).state
+		riverLevelStates.push({ "id" : level.id, "state" : state })
 	}
 
 	// Add impacts
@@ -288,6 +296,7 @@ exports.getSummary = function(path, scenario) {
 		impacts, // List of nearby impacts
 
 		targetAreaStates, // Openlayers list of states for each target area
+		riverLevelStates, // Opelayers list of states for all river levels
 		levelsJSON, // Openlayers feature collection
 		lonLat, // Openlayers location centroid
 
@@ -308,9 +317,7 @@ exports.getSummary = function(path, scenario) {
 		hasIntersectWarning,
 		hasIntersectAlert,
 		hasIntersectAlertOrWarning,
-		hasIntersectTarget,
-
-		levelsJSON
+		hasIntersectTarget
 
 	}
 
