@@ -202,10 +202,9 @@
     {{> bodyEnd }}
 
     <script>if (typeof window.GOVUK === 'undefined') document.body.className = document.body.className.replace('js-enabled', '');</script>
+    <script src="{{{ assetPath }}}javascripts/application.js"></script>
 
     {{{_sections.bodyScripts}}}
-
-    <script src="{{{ assetPath }}}javascripts/application.js"></script>
 
   </body>
 </html>

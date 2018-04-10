@@ -16,7 +16,7 @@
 			</div>
 			{{/if }}
 				
-			<form action="" autocomplete="off" class="form" method="post">
+			<form action="" autocomplete="off" class="form visualisation" method="post">
 
 				<fieldset>
 
@@ -24,178 +24,175 @@
 						<h1 class="heading-large">Flood zones</h1>
 					</legend>
 				
-					<p>You can place a marker on the map or draw a shape to get a flood zone report.</p>
+					<div class="visualisation-device panel panel-border-narrow" aria-hidden="true">
+						<p>
+							A map is available with JavaScript enabled and a modern browser.
+						</p>
+					</div>
 
-					<details style="margin-bottom:1.5em">
-						<summary>
-							<span class="summary">How to draw a shape</span>
-						</summary>
-						<div class="panel panel-border-narrow">
-							<ol class="list list-number">
-								<li>Select ‘Shape’</li>
-								<li>Select any point on your site’s boundary</li>
-								<li>Select a second point on the boundary. You should see a line drawn between the first 2 points</li>
-								<li>Keep adding points until the boundary is defined</li>
-								<li>Double click or tap when you return to your first point</li>
-							</ol>
-						</div>
-					</details>
-			
-					<div class="form-group{{#if model.isError}} form-group-map-error{{/if }} form-group-map">
-						{{#if model.isError}}
-						<span class="error-message">Shape has not been drawn</span>
-						{{/if }}
-						<figure class="map" id="map">
-							<div class="map-container map-container-planning">
-								<div class="map-container-inner" id="map-container-inner">
-									<div class="map-key">
-										<button title="Find out what the features are" class="map-control map-control-key"><span>Key</span></button>
-										<div class="map-key-container">
-											<div class="map-key-heading">
-												<h2 class="bold-medium">Key</h2>
+					<div class="visualisation-content" style="display:none" hidden>
+
+						<p>You can place a marker on the map or draw a shape to get a flood zone report.</p>
+
+						<details style="margin-bottom:1.5em">
+							<summary>
+								<span class="summary">How to draw a shape</span>
+							</summary>
+							<div class="panel panel-border-narrow">
+								<ol class="list list-number">
+									<li>Select ‘Shape’</li>
+									<li>Select any point on your site’s boundary</li>
+									<li>Select a second point on the boundary. You should see a line drawn between the first 2 points</li>
+									<li>Keep adding points until the boundary is defined</li>
+									<li>Double click or tap when you return to your first point</li>
+								</ol>
+							</div>
+						</details>
+				
+						<div class="form-group{{#if model.isError}} form-group-map-error{{/if }} form-group-map">
+							{{#if model.isError}}
+							<span class="error-message">Shape has not been drawn</span>
+							{{/if }}
+							<figure class="map" id="map">
+								<div class="map-container map-container-planning">
+									<div class="map-container-inner" id="map-container-inner">
+										<div class="map-key">
+											<button title="Find out what the features are" class="map-control map-control-key"><span>Key</span></button>
+											<div class="map-key-container">
+												<div class="map-key-heading">
+													<h2 class="bold-medium">Key</h2>
+												</div>
+												<div class="map-key-features">
+													<ul class="key-section">
+														<li class="key-feature">
+															<div class="multiple-choice-key">
+																<input id="map-view" name="view-type" type="radio" value="map-view" checked>
+																<label for="map-view">
+																	Map view
+																</label>
+															</div>
+														</li>
+														<li class="key-feature">
+															<div class="multiple-choice-key">
+																<input id="satellite-view" name="view-type" type="radio" value="satellite-view">
+																<label for="satellite-view">
+																	Satellite view
+																</label>
+															</div>
+														</li>
+													</ul>
+													<ul class="key-section">
+														<li class="key-feature">
+															<div class="multiple-choice-key">
+																<input id="flood-zones" name="flood-zones" type="checkbox" value="flood-zones" checked="">
+																<label for="flood-zones">Flood risk zones</label>
+															</div>
+															<ul class="key-feature-group">
+																<li>
+																	<span class="key-feature-label">
+																		<span class="key-symbol key-symbol-zone3">
+																			<svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
+																				<rect x="0" y="0" width="100%" height="100%" fill="#464D95"></rect>
+																			</svg>
+																		</span>
+																		Zone 3
+																	</span>
+																</li>
+																<li>
+																	<span class="key-feature-label">                            
+																		<span class="key-symbol key-symbol-zone3-benefitting">
+																			<svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
+																				<defs>
+																					<pattern id="hatch" width="5" height="5" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+																						<line x1="0" y1="0" x2="0" y2="10" style="stroke:#464D95; stroke-width:5"></line>
+																					</pattern>
+																				</defs>
+																				<rect x="1" y="1" width="24" height="17" stroke="#464D95" stroke-width="2" fill="url(#hatch)"></rect>
+																			</svg>
+																		</span>
+																		Zone 3 - Areas benefitting from flood defences
+																	</span>
+																</li>
+																<li>
+																	<span class="key-feature-label">
+																		<span class="key-symbol key-symbol-zone2">
+																			<svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
+																				<rect x="0" y="0" width="100%" height="100%" fill="#ABD6FF"></rect>
+																			</svg>
+																		</span>
+																		Zone 2
+																	</span>
+																</li>
+																<!--
+																<li>
+																	<span class="key-feature-label"><span class="key-symbol key-symbol-zone1"></span>Zone 1</span>
+																</li>
+																-->
+															</ul>
+														</li>
+													</ul>
+													<ul class="key-section">
+														<li class="key-feature">
+															<div class="multiple-choice-key">
+																<input id="flood-defence" name="flood-defence" type="checkbox" value="flood-defence" checked="">
+																<label for="flood-defence">
+																	<span class="key-feature-label">
+																		<span class="key-symbol key-symbol-flood-defence">
+																			<svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
+																				<rect x="0" y="6" width="100%" height="7" fill="#F47738"></rect>
+																			</svg>
+																		</span>
+																		Flood defence
+																	</span>
+																</label>
+															</div>
+														</li>
+														<li class="key-feature">
+															<div class="multiple-choice-key">
+																<input id="main-river" name="main-river" type="checkbox" value="main-river" checked="">
+																<label for="main-river">
+																	<span class="key-feature-label">
+																		<span class="key-symbol key-symbol-main-river">
+																			<svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
+																				<rect x="0" y="6" width="100%" height="7" fill="#2B8CC4"></rect>
+																			</svg>
+																		</span>
+																		Main river
+																	</span>
+																</label>
+															</div>
+														</li>
+														<li class="key-feature">
+															<div class="multiple-choice-key">
+																<input id="flood-storage" name="flood-storage" type="checkbox" value="flood-storage" checked="">
+																<label for="flood-storage">
+																	<span class="key-feature-label">
+																		<span class="key-symbol key-symbol-flood-storage">
+																			<svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
+																				<defs>
+																					<pattern id="dots" x="0" y="0" width="7" height="7" patternUnits="userSpaceOnUse">
+																						<circle cx="2.5" cy="2.5" r="2.5" style="stroke: none; fill: #2B8CC4"></circle>
+																					</pattern>
+																				</defs>
+																				<rect x="0" y="0" width="100%" height="100%" fill="url(#dots)"></rect>
+																			</svg>
+																		</span>
+																		Flood storage area
+																	</span>
+																</label>
+															</div>
+														</li>
+													</ul>
+												</div>
+												<div class="map-key-copyright">© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors</div>
 											</div>
-											<div class="map-key-features">
-												<ul class="key-section">
-													<li class="key-feature">
-														<div class="multiple-choice-key">
-															<input id="map-view" name="view-type" type="radio" value="map-view" checked>
-															<label for="map-view">
-																Map view
-															</label>
-														</div>
-													</li>
-													<li class="key-feature">
-														<div class="multiple-choice-key">
-															<input id="satellite-view" name="view-type" type="radio" value="satellite-view">
-															<label for="satellite-view">
-																Satellite view
-															</label>
-														</div>
-													</li>
-												</ul>
-												<ul class="key-section">
-													<li class="key-feature">
-														<div class="multiple-choice-key">
-															<input id="flood-zones" name="flood-zones" type="checkbox" value="flood-zones" checked="">
-															<label for="flood-zones">Flood risk zones</label>
-														</div>
-														<ul class="key-feature-group">
-															<li>
-																<span class="key-feature-label">
-																	<span class="key-symbol key-symbol-zone3">
-																		<svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
-																			<rect x="0" y="0" width="100%" height="100%" fill="#464D95"></rect>
-																		</svg>
-																	</span>
-																	Zone 3
-																</span>
-															</li>
-															<li>
-																<span class="key-feature-label">                            
-																	<span class="key-symbol key-symbol-zone3-benefitting">
-																		<svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
-																			<defs>
-																				<pattern id="hatch" width="5" height="5" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
-																					<line x1="0" y1="0" x2="0" y2="10" style="stroke:#464D95; stroke-width:5"></line>
-																				</pattern>
-																			</defs>
-																			<rect x="1" y="1" width="24" height="17" stroke="#464D95" stroke-width="2" fill="url(#hatch)"></rect>
-																		</svg>
-																	</span>
-																	Zone 3 - Areas benefitting from flood defences
-																</span>
-															</li>
-															<li>
-																<span class="key-feature-label">
-																	<span class="key-symbol key-symbol-zone2">
-																		<svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
-																			<rect x="0" y="0" width="100%" height="100%" fill="#ABD6FF"></rect>
-																		</svg>
-																	</span>
-																	Zone 2
-																</span>
-															</li>
-															<!--
-															<li>
-																<span class="key-feature-label"><span class="key-symbol key-symbol-zone1"></span>Zone 1</span>
-															</li>
-															-->
-														</ul>
-													</li>
-												</ul>
-												<ul class="key-section">
-													<li class="key-feature">
-														<div class="multiple-choice-key">
-															<input id="flood-defence" name="flood-defence" type="checkbox" value="flood-defence" checked="">
-															<label for="flood-defence">
-																<span class="key-feature-label">
-																	<span class="key-symbol key-symbol-flood-defence">
-																		<svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
-																			<rect x="0" y="6" width="100%" height="7" fill="#F47738"></rect>
-																		</svg>
-																	</span>
-																	Flood defence
-																</span>
-															</label>
-														</div>
-													</li>
-													<li class="key-feature">
-														<div class="multiple-choice-key">
-															<input id="main-river" name="main-river" type="checkbox" value="main-river" checked="">
-															<label for="main-river">
-																<span class="key-feature-label">
-																	<span class="key-symbol key-symbol-main-river">
-																		<svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
-																			<rect x="0" y="6" width="100%" height="7" fill="#2B8CC4"></rect>
-																		</svg>
-																	</span>
-																	Main river
-																</span>
-															</label>
-														</div>
-													</li>
-													<li class="key-feature">
-														<div class="multiple-choice-key">
-															<input id="flood-storage" name="flood-storage" type="checkbox" value="flood-storage" checked="">
-															<label for="flood-storage">
-																<span class="key-feature-label">
-																	<span class="key-symbol key-symbol-flood-storage">
-																		<svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
-																			<defs>
-																				<pattern id="dots" x="0" y="0" width="7" height="7" patternUnits="userSpaceOnUse">
-																					<circle cx="2.5" cy="2.5" r="2.5" style="stroke: none; fill: #2B8CC4"></circle>
-																				</pattern>
-																			</defs>
-																			<rect x="0" y="0" width="100%" height="100%" fill="url(#dots)"></rect>
-																		</svg>
-																	</span>
-																	Flood storage area
-																</span>
-															</label>
-														</div>
-													</li>
-												</ul>
-											</div>
-											<div class="map-key-copyright">© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors</div>
 										</div>
 									</div>
 								</div>
-							</div>
-							<figcaption class="visuallyhidden">Site boundary</figcaption>
-						</figure>
-					</div>
+								<figcaption class="visuallyhidden">Site boundary</figcaption>
+							</figure>
+						</div>
 
-					<!--
-					<div class="form-group">
-						<label class="form-label" for="link">
-							Bookmark or share the boundary
-						</label>
-						<input class="form-control form-control-readonly" name="link" id="link" value="https://flood-risk-planning.service.gov.uk/site=?lonLat=-1.9837,53.7309&amp;zoom=X&amp;boundary=[1,1,1,2,3,4]" readonly></input>
-					</div>
-					-->
-
-					<div class="form-group">
-						<button type="submit" class="button-download" onlclick="return false">Download printable map (PDF)</button>
 					</div>
 					
 					<div class="form-group">
@@ -204,6 +201,22 @@
 						<input id="zoom" name="zoom" type="hidden" value="{{ model.zoom }}"/>
 						<button type="submit" class="button-text" >Get a flood zone report</button>
 					</div>
+
+					<div class="visualisation-content" style="display:none" hidden>
+						<div class="form-group">
+							<button type="submit" class="button-download" onlclick="return false">Download printable map (PDF)</button>
+						</div>
+					</div>
+
+					<p>
+						Other ways to find out which flood zone you are in
+					</p>
+					<p>
+						<strong class="bold-small">Environment Agency (National Customer Care Centre)</strong></br>
+						Telephone: 03708 506 506</br>
+						Mon to Fri, 8am to 6pm</br>
+						<a href="">Learn more about call charges</a>
+					</p>
 
 				</fieldset>
 
@@ -219,7 +232,7 @@
 {{#section 'bodyScripts' }}
 <!-- Add before closing body tag -->
 <script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
-<script src="/public/javascripts/map-planning.js"></script>
+<script src="/public/javascripts/map.js"></script>
 
 <script>
 

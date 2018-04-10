@@ -1,326 +1,263 @@
+var renderMap = function(options) {
 
-// Preset values
+    //
+    // Define options
+    //
 
-var defaultBoundingBox = [[-5.72,49.96],[1.77,55.81]]
-var minIconResolution = 300
+    var defaults = {
+        lonLat: [0,0],
+        zoom: 12,
+        floodZonesJSON: '',
+        targetAreasJSON: '',
+        riverLevelsJSON: '',
+        targetAreaStates: [],
+        minIconResolution: 300,
+        hasKey: false,
+        hasLocator: false,
+        hasDrawing: false,
+        hasUndoRedo: false,
+        hasZoomReset: false
+    }
+    options = Object.assign({}, defaults, options)
 
-// Setup fullscreen container and key elements
+    //
+    // DOM elements
+    //
 
-var mapContainer = document.querySelector('.map-container')
-var mapContainerInner = document.createElement('div')
-mapContainerInner.classList.add('map-container-inner')
-mapContainerInner.id = 'map-container-inner'
+    var elementMap = document.getElementsByClassName('map')[0]
+    var elementMapContainer = document.getElementById('map').firstElementChild
+    var elementMapContainerInner = elementMapContainer.firstElementChild
 
-// Add key
+    //
+    // Define styles
+    //
 
-var key = document.createElement('div')
-key.classList.add('map-key')
-//key.classList.add('map-key-open')
+    // Style function for flood zones
 
-var keyToggle = document.createElement('button')
-keyToggle.innerHTML = '<span>Key</span>'
-keyToggle.setAttribute('title','Find out what the features are')
-keyToggle.classList.add('map-control','map-control-key')
-keyToggle.addEventListener('click', function(e) {
-    e.preventDefault()
-    key.classList.toggle('map-key-open')
-})
+    var styleFeatures = function(feature, resolution) {
 
-var keyContainer = document.createElement('div')
-keyContainer.classList.add('map-key-container')
+        // Defaults
+        var strokeColour = 'transparent'
+        var fillColour = 'transparent'
+        var strokeWidth = 0
+        var zIndex = 1
+        var source = '' // Icon image source
+        var image = null
 
-var keyHeading = document.createElement('div')
-keyHeading.classList.add('map-key-heading')
-keyHeading.innerHTML = '<h2 class="bold-medium">Key</h2>'
+        //
+        // Flood zones
+        //
 
-var keyFeatures = document.createElement('div')
-keyFeatures.classList.add('map-key-features')
-keyFeatures.innerHTML = `
-    <ul>
-        <li class="key-feature key-section">
-            <div class="multiple-choice-key">
-                <input id="flood-zones" name="flood-zones" type="checkbox" value="flood-zones" checked>
-                <label for="flood-zones">Flood risk zones</label>
-            </div>
-            <ul class="key-feature-group">
-                <li>
-                    <span class="key-feature-label">
-                        <span class="key-symbol key-symbol-zone3"></span>
-                        Zone 3
-                    </span>
-                </li>
-                <li>
-                    <span class="key-feature-label">                            
-                        <span class="key-symbol key-symbol-zone3-benefitting">
-                            <svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
-                                <defs>
-                                    <pattern id="hatch" width="5" height="5" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
-                                        <line x1="0" y1="0" x2="0" y2="10" style="stroke:#2E358B; stroke-width:5" />
-                                    </pattern>
-                                </defs>
-                                <rect x="1" y="1" width="24" height="17" stroke="#2E358B" stroke-width="2" fill="url(#hatch)" />
-                            </svg>
-                        </span>
-                        Zone 3 - Areas benefitting from flood defences
-                    </span>
-                </li>
-                <li>
-                    <span class="key-feature-label"><span class="key-symbol key-symbol-zone2"></span>Zone 2</span>
-                </li>
-                <!--
-                <li>
-                    <span class="key-feature-label"><span class="key-symbol key-symbol-zone1"></span>Zone 1</span>
-                </li>
-                -->
-            </ul>
-        </li>
-        <li class="key-feature">
-            <div class="multiple-choice-key">
-                <input id="flood-defence" name="flood-defence" type="checkbox" value="flood-defence" checked>
-                <label for="flood-defence">
-                    <span class="key-feature-label">
-                        <span class="key-symbol key-symbol-flood-defence">
-                            <svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
-                                <rect x="0" y="6" width="100%" height="7" fill="#F47738" />
-                            </svg>
-                        </span>
-                        Flood defence
-                    </span>
-                </label>
-            </div>
-        </li>
-        <li class="key-feature">
-            <div class="multiple-choice-key">
-                <input id="main-river" name="main-river" type="checkbox" value="main-river" checked>
-                <label for="main-river">
-                    <span class="key-feature-label">
-                        <span class="key-symbol key-symbol-main-river">
-                            <svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
-                                <rect x="0" y="6" width="100%" height="7" fill="#2B8CC4" />
-                            </svg>
-                        </span>
-                        Main river
-                    </span>
-                </label>
-            </div>
-        </li>
-        <li class="key-feature">
-            <div class="multiple-choice-key">
-                <input id="flood-storage" name="flood-storage" type="checkbox" value="flood-storage" checked>
-                <label for="flood-storage">
-                    <span class="key-feature-label">
-                        <span class="key-symbol key-symbol-flood-storage">
-                            <svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
-                                <defs>
-                                    <pattern id="dots" x="0" y="0" width="7" height="7" patternUnits="userSpaceOnUse" >
-                                        <circle cx="2.5" cy="2.5" r="2.5" style="stroke: none; fill: #2B8CC4" />
-                                    </pattern>
-                                </defs>
-                                <rect x="0" y="0" width="100%" height="100%" fill="url(#dots)" />
-                            </svg>
-                        </span>
-                        Flood storage area
-                    </span>
-                </label>
-            </div>
-        </li>
-    </ul>
-`
+        if (feature.get('type') == 'floodZone') {
 
-var keyCopyright = document.createElement('div')
-keyCopyright.innerHTML = '\u00A9 <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-keyCopyright.classList.add('map-key-copyright')
+            //Flood zone 1
+            if (feature.get('zone') == 3) {
+                fillColour = '#464D95'
+                zIndex = 3
+            }
 
-keyContainer.appendChild(keyHeading)
-keyContainer.appendChild(keyFeatures)
-keyContainer.appendChild(keyCopyright)
-key.appendChild(keyToggle)
-key.appendChild(keyContainer)
+            // Flood zone 2
+            else if (feature.get('zone') == 2) {
+                fillColour = '#ABD6FF'
+                zIndex = 2
+            }
+            
+        }
 
-mapContainerInner.appendChild(key)
+        //
+        // Target areas
+        //
 
-mapContainer.appendChild(mapContainerInner)
+        else if (feature.get('type') == 'targetArea') {
 
-// Reference require to redraw map
-var map, extent
+            var targetArea = options.targetAreaStates.find(x => x.id == feature.getId())
 
-// Reference requried to redraw extent
-var sourceTargetAreas
+            if (isObject(targetArea)) {
 
-// Set default extent
-extent = ol.extent.boundingExtent(defaultBoundingBox)
-extent = ol.proj.transformExtent(extent, ol.proj.get('EPSG:4326'), ol.proj.get('EPSG:3857'))
+                if (resolution <= options.minIconResolution) {
 
-var init = function() {
+                    // Warning or severe warning colours
+                    if (targetArea.state == 1 || targetArea.state == 2) {
+                        strokeColour = '#e3000f'
+                        strokeWidth = 2
+                        fillColour = '#e3000f'
+                        zIndex = 3
+                    }
 
-    var selectedId = ''
+                    // Alert area colours
+                    else if (targetArea.state == 3) {
+                        strokeColour = '#f18700'
+                        strokeWidth = 2
+                        fillColour = '#f18700'
+                        zIndex = 2
+                    }
 
-    // lon lat center
-    var centre = [-1.464854,52.561928]
+                    // Warning removed colours
+                    else if (targetArea.state == 4) {
+                        strokeColour = '#6f777b'
+                        strokeWidth = 2
+                        fillColour = '#6f777b'
+                        zIndex = 1
+                    }
 
-    // layerOpacity setting for all image layers
-    var layerOpacity = 1, selectedBdrWidth = 10, resolution;
+                } else {
 
-    // Source for target areas
+                    // Warning or severe warning colours
+                    if (targetArea.state == 1 || targetArea.state == 2) {
+                        zIndex = 3
+                        source = '/public/icon-flood-warning-small-2x.png'
+                    }
 
-    // JSON for features
-    var targetAreasJSON = '/public/data/target-areas.json';
+                    // Alert area colours
+                    else if (targetArea.state == 3) {
+                        zIndex = 2
+                        source = '/public/icon-flood-alert-small-2x.png'
+                    }
 
-    // Function used to style individual features
-    var styleFunction = function(feature, resolution) {
+                    // Warning removed colours
+                    else if (targetArea.state == 4) {
+                        zIndex = 1;
+                        source = ''
+                    }
 
-        var target = targetAreaStates.find(x => x.id == feature.getId())
-
-        if (target) {
-
-            if (resolution <= minIconResolution) {
-
-                // No warning or alert colourse
-                var strokeColour = 'transparent';
-                var fillColour = 'transparent';
-                // Stroke width used to improve display when target areas are small
-                var strokeWidth = 2;
-                var zIndex = 1;
-
-                // Warning or severe warning colours
-                if (target.state == 1 || target.state == 2) {
-                    strokeColour = '#e3000f';
-                    fillColour = '#e3000f';
-                    zIndex = 3;
-                    source = '/public/icon-flood-warning-small-2x.png';
-                }
-
-                // Alert area colours
-                else if (target.state == 3) {
-                    strokeColour = '#f18700';
-                    fillColour = '#f18700';
-                    zIndex = 2;
-                    source = '/public/icon-flood-alert-small-2x.png';
-                }
-
-                // Warning removed colours
-                else if (target.state == 4) {
-                    strokeColour = '#6f777b';
-                    fillColour = '#6f777b';
-                    zIndex = 3;
-                    source = '';
-                }
-
-                // Generate style
-                var style = new ol.style.Style({
-                    fill: new ol.style.Fill({ color: fillColour }),			
-                    stroke: new ol.style.Stroke({ color: strokeColour, width: strokeWidth, miterLimit: 2, lineJoin: 'round' }),
-                    zIndex: zIndex 
-                });
-
-            } else {
-
-                // Icon image source
-                var source = '';
-
-                // Warning or severe warning colours
-                if (target.state == 1 || target.state == 2) {
-                    zIndex = 3;
-                    source = '/public/icon-flood-warning-small-2x.png';
-                }
-
-                // Alert area colours
-                else if (target.state == 3) {
-                    zIndex = 2;
-                    source = '/public/icon-flood-alert-small-2x.png';
-                }
-
-                // Warning removed colours
-                else if (target.state == 4) {
-                    zIndex = 3;
-                    source = '';
-                }
-
-                // Generate style
-                var style = new ol.style.Style({
-                    image: new ol.style.Icon({
+                    // Define icon 
+                    image = new ol.style.Icon({
                         src: source,
                         size: [68, 68],
                         anchor: [0.5, 1],
                         scale: 0.5
-                    }),
-                    zIndex: zIndex 
-                });
+                    })
+
+                }
 
             }
 
         }
 
-        console.log(feature.getId())
-        return style;
-    };
+        //
+        // River levels
+        //
 
-    // Style: Selected feature border
-    var styleSelected = new ol.style.Style({
-        stroke: new ol.style.Stroke({ color: '#ffbf47', width: selectedBdrWidth, miterLimit: 2, lineJoin: 'round' })
-        //stroke: new ol.style.Stroke({ color: '#005ea5', width: selectedBdrWidth, miterLimit: 2, lineJoin: 'round' })
-    });
+        else if (feature.get('type') == 'riverLevel') {
+            
+            // Define icon
+            image = new ol.style.Icon({
+                src: '/public/icon-locator-blue-2x.png',
+                size: [53, 71],
+                anchor: [0.5, 1],
+                scale: 0.5
+            })
+            
+        }
 
-    // Add target area features to source
-    sourceTargetAreas = new ol.source.Vector({
-        format: new ol.format.GeoJSON(),
-        url: targetAreasJSON,
-        projection: 'EPSG:3857'
-    });
+        // Generate style
+        var style = new ol.style.Style({
+            fill: new ol.style.Fill({ color: fillColour }),			
+            stroke: new ol.style.Stroke({ color: strokeColour, width: strokeWidth, miterLimit: 2, lineJoin: 'round' }),
+            image: image,
+            zIndex: zIndex 
+        })
+ 
+        return style
 
-    // Source for features intersecting with selected feature
-    var sourceIntersect = new ol.source.Vector({
-        projection: 'EPSG:3857'
-    });
-
-    // Layer: All target areas
-    var targetAreas = new ol.layer.Image({
-        source: new ol.source.ImageVector({
-            source: sourceTargetAreas,
-            // Use custom style function to colour individual features accordingley
-            style: styleFunction
-        }),
-        opacity: layerOpacity
-    });
-
-    // Layer: Only target areas that intersect with selected target area
-    var targetAreasIntersecting = new ol.layer.Image({
-        source: new ol.source.ImageVector({
-            source: sourceIntersect,
-            // Use custom style function to colour individual features accordingley
-            style: styleFunction
-        }),
-        opacity: layerOpacity
-    });
-
-    // Layer: Background map
-    var tile = new ol.layer.Tile({
-        source: new ol.source.OSM()
-    });
-
-    // Layer: A background map clipped to selected feature multi polygon
-    var tileSelected = new ol.layer.Tile();
-
-    //  Selected feature and selected feature extent objects
-    var featureSelected, featureSelectedExtent;
-
-    // The map view object
-    var view = new ol.View({
-        center: ol.proj.fromLonLat(centre),
-        enableRotation: false,
-        zoom: 9
-    });
-
-    // Add river level features if available
-    var sourceLevels = new ol.source.Vector();
-    if (!isEmpty(levelsJSON)) {
-        sourceLevels.addFeatures(new ol.format.GeoJSON({
-            featureProjection:'EPSG:3857'
-        }).readFeatures(levelsJSON))
     }
 
-    // Add river levels layer
-    var levelStyle = new ol.style.Style({
+    // Style function for interactions
+    var styleInteractiveFeatures = function(feature, resolution) {
+        
+        var featureType = feature.getGeometry().getType()
+        
+        // Complete polygon drawing style
+        var styleDrawComplete = new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: 'rgba(255, 255, 255, 0.5)'
+            }),
+            stroke: new ol.style.Stroke({
+                color: '#B10E1E',
+                width: 3
+            }),
+            image: new ol.style.Icon({
+                opacity: 1,
+                size : [32,32],
+                scale: 0.5,
+                src: '/public/map-draw-cursor-2x.png'
+            })
+        })
+        // Complete polygon geometry style
+        var styleDrawCompleteGeometry = new ol.style.Style({
+            image: new ol.style.Icon({
+                opacity: 1,
+                size : [32,32],
+                scale: 0.5,
+                src: '/public/map-draw-cursor-2x.png'
+            }),
+            // Return the coordinates of the first ring of the polygon
+            geometry: function(feature) {
+                if (feature.getGeometry().getType() == 'Polygon'){
+                    var coordinates = feature.getGeometry().getCoordinates()[0]
+                    return new ol.geom.MultiPoint(coordinates)
+                } else {
+                    return null
+                }
+            }
+        })
+        // locator style
+        var styleLocator = new ol.style.Style({
+            image: new ol.style.Icon({
+                src: '/public/icon-locator-blue-2x.png',
+                size: [53, 71],
+                anchor: [0.5, 1],
+                scale: 0.5
+            })
+        })
+
+        // Return appropriate style
+        if (featureType == 'Polygon') {
+            return [styleDrawComplete, styleDrawCompleteGeometry]
+        } else if (featureType == 'Point') {
+            return [styleLocator]
+        }
+
+    }
+
+    // Styles for interacting
+
+    // Start polygon drawing style
+    var styleDraw = new ol.style.Style({
+        fill: new ol.style.Fill({
+            color: 'rgba(255, 255, 255, 0.5)'
+        }),
+        stroke: new ol.style.Stroke({
+            color: '#005EA5',
+            width: 3
+        }),
+        image: new ol.style.Icon({
+            opacity: 1,
+            size: [32,32],
+            scale: 0.5,
+            src: '/public/map-draw-cursor-2x.png'
+        })
+    })
+
+    // Modify polygon drawing style
+    var styleDrawModify = new ol.style.Style({
+        fill: new ol.style.Fill({
+            color: 'rgba(255, 255, 255, 0.5)'
+        }),
+        stroke: new ol.style.Stroke({
+            color: '#FFBF47',
+            width: 3
+        }),
+        image: new ol.style.Icon({
+            opacity: 1,
+            size : [32,32],
+            scale: 0.5,
+            src: '/public/map-draw-cursor-2x.png'
+        })
+    })
+
+    // Modify polygon drawing style
+    var stylePointModify = new ol.style.Style({
         image: new ol.style.Icon({
             src: '/public/icon-locator-blue-2x.png',
             size: [53, 71],
@@ -328,15 +265,110 @@ var init = function() {
             scale: 0.5
         })
     })
-    var levels = new ol.layer.Image({
-        source: new ol.source.ImageVector({
-            source: sourceLevels,
-            style: levelStyle
-        })
+
+    //
+    // Define sources
+    //
+
+    // Flood zones source
+    var sourceFloodZones = new ol.source.Vector({
+        format: new ol.format.GeoJSON(),
+        url: options.floodZonesJSON,
+        projection: 'EPSG:3857'
+    })
+
+    // Target areas source
+    var sourceTargetAreas = new ol.source.Vector({
+        format: new ol.format.GeoJSON(),
+        url: options.targetAreasJSON,
+        projection: 'EPSG:3857'
+    })
+
+    // River levels source
+    var sourceRiverLevels = new ol.source.Vector({
+        format: new ol.format.GeoJSON(),
+        url: options.riverLevelsJSON,
+        projection: 'EPSG:3857'
+    })
+
+    // Locator source
+    var sourceLocator = new ol.source.Vector()
+
+    // Shape source
+    var sourceShape = new ol.source.Vector()
+
+    //
+    // Define layers
+    //
+
+    // Background map layer
+    var tile = new ol.layer.Tile({
+        source: new ol.source.OSM()
+    })
+
+    // Flood zones layer
+    var layerFloodZones = new ol.layer.Vector({
+        renderMode: 'image',
+        source: sourceFloodZones,
+        style: styleFeatures
+    })
+
+    // Target areas layer
+    var layerTargetAreas = new ol.layer.Vector({
+        renderMode: 'hybrid',
+        source: sourceTargetAreas,
+        style: styleFeatures
+    })
+
+    // River levels layer
+    var layerRiverLevels = new ol.layer.Vector({
+        source: sourceRiverLevels,
+        style: styleFeatures
+    })
+
+    // Locator layer
+    var layerLocator = new ol.layer.Vector({
+        source: sourceLocator,
+        style: styleInteractiveFeatures,
+        visible: true
+    })
+
+    // Shape layer
+    var layerShape = new ol.layer.Vector({
+        source: sourceShape,
+        style: styleInteractiveFeatures,
+        visible: false
+    })
+
+    //
+    // Define any intial interactive features
+    //
+
+    var featureLocator = new ol.Feature()
+
+    //
+    // Define the map view object
+    //
+
+    var view = new ol.View({
+        center: ol.proj.fromLonLat(options.lonLat),
+        enableRotation: false,
+        zoom: options.zoom
+    })
+
+    //
+    // Define the map control buttons
+    //
+
+    // Key toggle button
+    var key = document.querySelector('.map-key')
+    var keyToggleButton = document.querySelector('.map-control-key')
+    keyToggleButton.addEventListener('click', function(e) {
+        e.preventDefault()
+        key.classList.toggle('map-key-open')
     })
 
     // Zoom buttons
-
     var zoomElement = document.createElement('button')
     zoomElement.appendChild(document.createTextNode('Zoom'))
     zoomElement.className = 'ol-zoom'
@@ -344,23 +376,7 @@ var init = function() {
         element: zoomElement
     })
 
-    // Fullscreen button
-
-    var fullScreenElement = document.createElement('button')
-    fullScreenElement.appendChild(document.createTextNode('Full screen'))
-    fullScreenElement.className = 'ol-full-screen'
-    fullScreenElement.addEventListener('click', function(e) {
-        e.preventDefault()
-        mapContainer.classList.toggle('map-container-fullscreen')
-        this.classList.toggle('ol-full-screen-open')
-        map.updateSize()
-    })
-    var fullScreen = new ol.control.Control({ // Use fullscreen for HTML Fullscreen API
-        element: fullScreenElement
-    })
-
     // Zoom reset button
-
     var zoomResetElement = document.createElement('button')
     zoomResetElement.appendChild(document.createTextNode('Zoom reset'))
     zoomResetElement.className = 'ol-zoom-reset'
@@ -369,152 +385,502 @@ var init = function() {
         element: zoomResetElement
     })
 
-    // Interactions
+    // Fullscreen button
+    var fullScreenElement = document.createElement('button')
+    fullScreenElement.appendChild(document.createTextNode('Full screen'))
+    fullScreenElement.className = 'ol-full-screen'
+    fullScreenElement.addEventListener('click', function(e) {
+        e.preventDefault()
+        // Fullscreen view
+        if (elementMapContainerInner.classList.contains('map-container-inner-fullscreen')) {
+            elementMapContainerInner.classList.remove('map-container-inner-fullscreen')
+            history.back()
+        }
+        // Default view
+        else {
+            elementMapContainerInner.classList.add('map-container-inner-fullscreen')
+            state = {'view':'map'}
+            url = addOrUpdateParameter(location.pathname + location.search, 'view', 'map')
+            title = document.title
+            history.pushState(state, title, url)
+        }
+        this.classList.toggle('ol-full-screen-open')
+        map.updateSize()
+    })
+    var fullScreen = new ol.control.Control({ // Use fullscreen for HTML Fullscreen API
+        element: fullScreenElement
+    })
+
+    // Draw shape button
+    var drawShapeElement = document.createElement('button')
+    drawShapeElement.innerHTML = '<span>Draw shape</span>'
+    drawShapeElement.className = 'ol-draw-shape'
+    drawShapeElement.setAttribute('title','Start drawing a new shape')
+    drawShapeElement.addEventListener('click', function(e) {
+        e.preventDefault()
+        // Hide locator layer and show shape layer
+        layerLocator.setVisible(false)
+        layerShape.setVisible(true)
+        // Set button disabled properties
+        this.disabled = true
+        deleteFeatureElement.disabled = true
+        placeLocatorElement.disabled = false
+        // Add shape interactions
+        map.addInteraction(snap)
+        map.addInteraction(modifyPolygon)
+        // Hide locator overlay if exists
+        if(layerLocator.getSource().getFeatures().length){
+            document.getElementsByClassName('ol-overlay-container')[0].style.visibility = 'hidden'
+        }
+        elementMap.classList.remove('has-overlay')
+        // Enable delete if shape has already been drawn (feature and geometry exist)
+        if(layerShape.getSource().getFeatures().length){
+            deleteFeatureElement.disabled = false
+        }
+        // Add shape feature and interactions if shape has not yet been drawn
+        else {
+            layerShape.getSource().addFeature(new ol.Feature())
+            map.addInteraction(draw)
+        }
+    })
+    var drawShape = new ol.control.Control({
+        element: drawShapeElement
+    })
+
+    // Place locator button
+    var placeLocatorElement = document.createElement('button')
+    placeLocatorElement.innerHTML = '<span>Place marker</span>'
+    placeLocatorElement.className = 'ol-place-locator'
+    placeLocatorElement.setAttribute('title','Place a marker to identify features')
+    placeLocatorElement.disabled = true
+    placeLocatorElement.addEventListener('click', function(e) {
+        e.preventDefault()
+        // End drawing if started
+        if(drawingStarted){
+            draw.finishDrawing()
+        }
+        // Delete existing polygon feature if it has no geometry
+        if(layerShape.getSource().getFeatures().length) {
+            if(!layerShape.getSource().getFeatures()[0].getGeometry()) {
+                layerShape.getSource().clear()
+            }
+        }
+        // Reset draw properties
+        drawingStarted = false
+        drawingFinished = false
+        // Remove shape interactions
+        map.removeInteraction(draw)
+        map.removeInteraction(snap)
+        map.removeInteraction(modifyPolygon)
+        // Hide shape layer and show locator layer
+        layerShape.setVisible(false)
+        layerLocator.setVisible(true)
+        // Set button disabled properties
+        this.disabled = true
+        drawShapeElement.disabled = false
+        deleteFeatureElement.disabled = true
+        // Show locator overlay if exists
+        if(layerLocator.getSource().getFeatures().length){
+            document.getElementsByClassName('ol-overlay-container')[0].style.visibility = 'visible'
+            elementMap.classList.add('has-overlay')
+        }
+        // Enable delete if feature on this layer exists and show overlay
+        if(layerLocator.getSource().getFeatures().length){
+            deleteFeatureElement.disabled = false
+        }
+    })
+    var placeLocator = new ol.control.Control({
+        element: placeLocatorElement
+    })
+
+    // Draw undo
+    var drawUndoElement = document.createElement('button')
+    drawUndoElement.innerHTML = 'Undo'
+    drawUndoElement.className = 'ol-draw-undo'
+    drawUndoElement.setAttribute('title','Undo the last change')
+    drawUndoElement.disabled = true
+    drawUndoElement.addEventListener('click', function(e) {
+        e.preventDefault()
+    })
+    var drawUndo = new ol.control.Control({
+        element: drawUndoElement
+    })
+
+    // Draw redo
+    var drawRedoElement = document.createElement('button')
+    drawRedoElement.innerHTML = 'Redo'
+    drawRedoElement.className = 'ol-draw-redo'
+    drawRedoElement.setAttribute('title','Redo the last change')
+    drawRedoElement.disabled = true
+    drawRedoElement.addEventListener('click', function(e) {
+        e.preventDefault()
+    })
+    var drawRedo = new ol.control.Control({
+        element: drawRedoElement
+    })
+
+    // Delete button
+    var deleteFeatureElement = document.createElement('button')
+    deleteFeatureElement.innerHTML = '<span>Delete</span>'
+    deleteFeatureElement.className = 'ol-draw-delete'
+    deleteFeatureElement.setAttribute('title','Delete the shape or marker')
+    deleteFeatureElement.addEventListener('click', function(e) {
+        e.preventDefault()
+        this.disabled = true
+        // If shape layer
+        if(layerShape.getVisible()) {
+            layerShape.getSource().clear()
+            // End drawing if started
+            if(drawingStarted){
+                draw.finishDrawing()
+            }
+            drawingStarted = false
+            drawingFinished = false
+            // Add shape feature and interactions
+            layerShape.getSource().addFeature(new ol.Feature())
+            map.addInteraction(draw)
+            map.addInteraction(snap)
+            map.addInteraction(modifyPolygon)
+        }
+        // If locator layer
+        else {
+            layerLocator.getSource().clear()
+            map.removeOverlay(label)
+            elementMap.classList.remove('has-overlay')
+        }
+    })
+    var deleteFeature = new ol.control.Control({
+        element: deleteFeatureElement
+    })
+
+    // Label
+    var labelElement = document.createElement('div')
+    labelElement.classList.add('ol-map-label')
+    labelElement.innerHTML = '<p><strong class="bold-small">Mytholmroyd</strong></p>'
+    labelElement.style.visibility = 'false'
+    label = new ol.Overlay({
+        element: labelElement,
+        positioning: 'bottom-left'
+    })
+
+    //
+    // Configure interactions
+    //
 
     var interactions = ol.interaction.defaults({
         altShiftDragRotate:false, 
-        pinchRotate:false
+        pinchRotate:false,
+        doubleClickZoom :false
+    })
+    var modifyPolygon = new ol.interaction.Modify({
+        source: sourceShape,
+        style: styleDrawModify
+    })
+    var draw = new ol.interaction.Draw({
+        source: sourceShape,
+        type: 'Polygon',
+        style: styleDraw,
+        condition: function(e) {
+            // Hack to tackle finishDrawing with zero coordinates bug
+            if (e.type == 'pointerdown') {
+                drawingStarted = true
+            } else {
+                drawingStarted = false
+            }
+            return true
+        }
+    })
+    var snap = new ol.interaction.Snap({
+        source: sourceShape
     })
 
-    // Add and remove controls
+    //
+    // Add controls
+    //
 
+    var customControls = [fullScreen]
+    if (options.hasZoomReset) {
+        customControls.push(zoomReset)
+    }
+    customControls.push(zoom)
+    if (options.hasDrawing && options.hasUndoRedo) {
+        elementMap.classList.add('has-undoredo')
+        customControls.push(
+            deleteFeature,
+            drawRedo,
+            drawUndo,
+            drawShape,
+            placeLocator
+        )
+    }
+    else if (options.hasDrawing) {
+        customControls.push(
+            deleteFeature,
+            drawShape,
+            placeLocator
+        )
+    }
     var controls = ol.control.defaults({
         zoom: false,
         rotate: false,
         attribution: false
-    }).extend([
-        fullScreen,
-        zoomReset,
-        zoom
-    ])
+    }).extend(customControls)
+
+    //
+    // Add layers
+    //
+
+    var layers = [tile]
+    if (options.floodZonesJSON != '') {
+        layers.push(layerFloodZones)
+    }
+    if (options.targetAreasJSON != '') {
+        layers.push(layerTargetAreas)
+    }
+    if (options.riverLevelsJSON != '') {
+        layers.push(layerRiverLevels)
+    }
+    if (options.hasDrawing) {
+        layers.push(layerShape)
+    }
+    if (options.hasDrawing || options.hasLocator) {
+        layers.push(layerLocator)
+    }
+    
+
+    //
+    // Setup
+    //
+
+    // Add fullscreen class
+    if (getParameterByName('view') == 'map') {
+        elementMapContainerInner.classList.add('map-container-inner-fullscreen')
+    }
+
+    // Start drawing boolean used to address finishDrawing bug
+    var drawingStarted = false
+    var drawingFinished = false
 
     // Render map
     map = new ol.Map({
         target: 'map-container-inner',
         interactions: interactions,
         controls: controls,
-        // Layer order:
-        // 1. Background map
-        // 2. All target areas coloured accordingley
-        // 3. Selected border that straddles the selected feature then
-        //    another copy of the background clipped inside the selected feature
-        // 4. Only target areas that intersect with the slected feature also
-        //    clipped inside the selected feature
-        //layers: [tile, targetAreas, tileSelected, targetAreasIntersecting, levels],
-        layers: [tile, targetAreas],
+        layers: layers,
         view: view
     })
+    
+    //
+    // Add initial locator
+    //
+
+    if (options.hasLocator || options.hasDrawing) {
+        geometryPoint = ol.proj.transform(options.lonLat, 'EPSG:4326', 'EPSG:3857')
+        featureLocator.setGeometry(new ol.geom.Point(geometryPoint))
+        layerLocator.getSource().addFeature(featureLocator)
+        layerLocator.setVisible(true)
+        label.setPosition(geometryPoint)
+        map.addOverlay(label)
+        elementMap.classList.add('has-overlay')
+    }
 
     //
     // Map events
     //
 
-    // Draw the outer glow (border) then
-    // add a background map that is clipped to the selected feature
-    tileSelected.on('precompose', function(e){
-        if (featureSelected) {
-            // Save initial clipping state of canvas
-            e.context.save()
-            // Draw the selected border
-            e.vectorContext.drawFeature(featureSelected, styleSelected)
-            if (resolution > 19) {
-                e.vectorContext.drawFeature(featureSelected, styleFunction(featureSelected,resolution))
+    // Close key or place locator if map is clicked
+    map.on('click', function(e) {
+        // Close key
+        if (key.classList.contains('map-key-open')) {
+            key.classList.remove('map-key-open')   
+        } 
+        // If key is closed
+        else {
+            // Place locator
+            if(options.hasLocator || options.hasDrawing) {
+                if (layerLocator.getVisible()) {
+                    // locator object
+                    geometryPoint = new ol.geom.Point(e.coordinate)
+                    featureLocator.setGeometry(geometryPoint)
+                    labelElement.innerHTML = '<p><strong class="bold-small">Flood zone 1</strong><br/>(<abbr title="Easting and northing">EN</abbr> 123456/123456)</p>'
+                    layerLocator.getSource().clear()
+                    layerLocator.getSource().addFeature(featureLocator)
+                    layerLocator.setVisible(true)
+                    label.setPosition(e.coordinate)
+                    map.addOverlay(label)
+                    elementMap.classList.add('has-overlay')
+                }
+                // Enable delete
+                deleteFeatureElement.disabled = false
             }
-            // Set this polygon as a clipping mask for this layers background map
-            e.context.clip()
-        }	
-    });
-
-    // Restore the canvas so no subsequent content is clipped/masked
-    tileSelected.on('postcompose', function(e) {
-        e.context.restore()
-    })
-
-    // Clip intersect features to the shape of the selected feature
-    targetAreasIntersecting.on('precompose', function(e){
-        if (featureSelected) {
-            // Save initial clipping state of canvas
-            e.context.save()
-            // Draw the selected feature with no/transparent border
-            e.vectorContext.drawFeature(featureSelected, new ol.style.Style({
-                stroke: new ol.style.Stroke({ color: 'transparent', width: 0, miterLimit: 2, lineJoin: 'round' })
-            }))
-            // Set this polygon as a clipping mask for this layers features
-            e.context.clip()
         }
     })
-    
-    // Restore the canvas so no subsequent content is clipped/masked
-    targetAreasIntersecting.on('postcompose', function(e){
-        e.context.restore()
+
+    // Set start drawing flag
+    draw.on('drawShape', function (e) {
+        drawingStarted = true
     })
+
+    // Deactivate draw interaction after first polygon is finished
+    draw.on('drawend', function (e) {
+        drawingStarted = false
+        coordinates = e.feature.getGeometry().getCoordinates()[0]
+        // Polygon is too small reset buttons and interaction feature type
+        if (coordinates.length < 4) {
+            drawShapeElement.disabled = false
+            e.feature.setGeometry(null)
+        } 
+        // Polygon is ok
+        else {
+            deleteFeatureElement.disabled = false
+            drawShapeElement.disabled = true
+            drawingFinished = true
+            feature = e.feature
+            map.removeInteraction(this)
+        }
+    })
+
+    // Keyboard controls
+    document.addEventListener('keydown', function(e) {
+
+        // Finish drawing polygon escape key pressed
+        if (e.keyCode === 27) {
+
+            // Escape drawing a polygon if it is not already finished
+            if (layerShape.getVisible() && !drawingFinished) {
+                // Clear an reenable draw button 
+                if (!drawingStarted) {
+                    map.removeInteraction(draw)
+                    map.removeInteraction(snap)
+                    map.removeInteraction(modifyPolygon)
+                    drawShapeElement.disabled = false
+                } 
+                // finishDrawing can now be called safely
+                else {
+                    draw.finishDrawing()
+                }
+            }
+
+        }
+
+        // Constrain tab key to 'key' when its open
+        else if (e.keyCode === 9) {
+            var context = null
+            if (elementMapContainerInner.classList.contains('map-container-inner-fullscreen')) {
+                context = elementMapContainerInner
+            }
+            if (key.classList.contains('map-key-open')) {
+                context = key
+            }
+            // If dialog context is open
+            if (context) {
+                var focusableElements = context.querySelectorAll('button:not(:disabled), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
+                var firstFocusableElement = focusableElements[0]
+                var lastFocusableElement = focusableElements[focusableElements.length - 1]
+                // Shift tab (backwards)
+                if (e.shiftKey) {
+                    if (document.activeElement === firstFocusableElement) {
+                        e.preventDefault()
+                        lastFocusableElement.focus()
+                    }
+                }
+                // Tab (forwards) 
+                else {
+                    if (document.activeElement === lastFocusableElement) {
+                        e.preventDefault()
+                        firstFocusableElement.focus()
+                    }
+                }
+            }
+        }
+
+    })
+
+    // If map is fullscreen set initial focus to first focusable element
+    window.onload = function() {
+        if (getParameterByName('view') == 'map') {
+            focusElement = elementMapContainerInner.querySelectorAll('button:not(:disabled), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')[0]
+            focusElement.focus()
+        }
+    }
 
     // Update layer opacity setting for different map resolutions
     map.on('moveend', function(){
-
         resolution = map.getView().getResolution()
-
-        layerOpacity = 1
-        targetAreas.setZIndex(0)
-
-        if (resolution > minIconResolution) { targetAreas.setZIndex(99) }
-        else if (resolution > 19) { layerOpacity = 0.85 } 
-        else if (resolution > 9) { layerOpacity = 0.7 }
-        
-        targetAreas.setOpacity(layerOpacity)
-        targetAreasIntersecting.setOpacity(layerOpacity)
-    });
-
-
-    // Change pointer type and highlight style
-    map.on('pointermove', function (e) {
-        var pixel = map.getEventPixel(e.originalEvent)
-        var hit = map.hasFeatureAtPixel(pixel)
-        map.getViewport().style.cursor = hit ? 'pointer' : ''
-    });
-
-    // When main source has loaded if there is a selected feature
-    // generate intersecting features source and
-    // add OSM background map to tileSelected source
-    // set extent to features
-    sourceTargetAreas.on('change', function(e){
-
-        // Set center or extent
-        if (lonLat.length) {
-            map.getView().setCenter(ol.proj.fromLonLat(lonLat))
-        } else {
-            map.getView().fit(extent, map.getSize())
+        if (resolution > 20) { 
+            layerOpacity = 1 
         }
-
-        // Set selected target area
-        if (selectedId) {
-            if(e.target.getState() === 'ready'){
-                featureSelected = source.getFeatureById(selectedId);
-                featureSelectedExtent = featureSelected.getGeometry().getExtent();
-                tileSelected.setSource(new ol.source.OSM());
-                sourceTargetAreas.forEachFeatureIntersectingExtent(featureSelectedExtent, function(feature) {
-                    featureType = feature.getGeometry().getType();
-                    if (featureType == 'MultiPolygon') {
-                        sourceIntersect.addFeature(feature);
-                    }
-                });
-                //map.getView().fit(featureSelectedExtent);
-            }
-        } else {
-            //map.getView().fit(sourceTargetAreas.getExtent());
+        else if (resolution > 10) { 
+            layerOpacity = 0.8 
         }
-
+        else if (resolution > 5) { 
+            layerOpacity = 0.65 
+        }
+        else {
+            layerOpacity = 0.5 
+        } 
+        layerFloodZones.setOpacity(layerOpacity)
+        layerTargetAreas.setOpacity(layerOpacity)
     })
 
-}
-
-function isEmpty(obj) {
-    for(var key in obj) {
-        if(obj.hasOwnProperty(key)) {
-            return false;
+    // Toggle fullscreen view on browser history change
+    window.onpopstate = function(e) {    
+        if (e && e.state) {
+            elementMapContainerInner.classList.add('map-container-inner-fullscreen')
+            fullScreenElement.classList.add('ol-full-screen-open')
         }
+        else {
+            elementMapContainerInner.classList.remove('map-container-inner-fullscreen')
+            fullScreenElement.classList.remove('ol-full-screen-open')
+        }
+        map.updateSize()
     }
-    return true;
+
 }
 
-init()
+// Function to get query string parameter
+function getParameterByName(name) {
+    var v = window.location.search.match(new RegExp('(?:[\?\&]'+name+'=)([^&]+)'))
+    return v ? v[1] : null
+}
+
+// Function to add or update a querystring parameter
+function addOrUpdateParameter(uri, paramKey, paramVal) {
+    var re = new RegExp("([?&])" + paramKey + "=[^&#]*", "i");
+    if (re.test(uri)) {
+      uri = uri.replace(re, '$1' + paramKey + "=" + paramVal);
+    } else {
+      var separator = /\?/.test(uri) ? "&" : "?";
+      uri = uri + separator + paramKey + "=" + paramVal;
+    }
+    return uri;
+  }
+
+// Function applies greyscale to every pixel in canvas
+function greyscale(context) {
+    var canvas = context.canvas
+    var width = canvas.width
+    var height = canvas.height
+    var imageData = context.getImageData(0, 0, width, height)
+    var data = imageData.data
+    for (i=0; i<data.length; i += 4) {
+        var r = data[i]
+        var g = data[i + 1]
+        var b = data[i + 2]
+        // CIE luminance for the RGB
+        var v = 0.2126 * r + 0.7152 * g + 0.0722 * b
+        // Show white color instead of black color while loading new tiles:
+        if(v === 0.0)
+        v = 255.0
+        data[i+0] = v// Red
+        data[i+1] = v // Green
+        data[i+2] = v // Blue
+        data[i+3] = 255 // Alpha
+    }
+    context.putImageData(imageData,0,0)
+}
+
+// Test for object
+function isObject(obj) {
+    return obj === Object(obj);
+}
