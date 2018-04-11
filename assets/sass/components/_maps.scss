@@ -472,7 +472,7 @@ $path: "/public/";
   width:200px;
   margin-left:-100px;
   margin-bottom:45px;
-  height:auto;
+  //height:auto;
   // Apply mobile media query for screen only
   @media screen and (max-width: $tablet-breakpoint - 1px){
     bottom:0 !important;

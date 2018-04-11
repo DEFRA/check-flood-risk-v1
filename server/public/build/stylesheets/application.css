@@ -4430,7 +4430,6 @@ table.select-areas th {
   width: 200px;
   margin-left: -100px;
   margin-bottom: 45px;
-  height: auto;
 }
 
 @media screen and (max-width: 640px) {

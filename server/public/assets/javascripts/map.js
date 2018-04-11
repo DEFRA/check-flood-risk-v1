@@ -356,7 +356,7 @@ var renderMap = function(options) {
     // Define any intial interactive features
     //
 
-    var featureLocator = new ol.Feature()
+    //var featureLocator = new ol.Feature()
 
     //
     // Define the map view object
@@ -570,7 +570,6 @@ var renderMap = function(options) {
     // Label
     var labelElement = document.createElement('div')
     labelElement.classList.add('ol-map-label')
-    labelElement.innerHTML = '<p><strong class="bold-small">Mytholmroyd</strong></p>'
     labelElement.style.visibility = 'false'
     label = new ol.Overlay({
         element: labelElement,
@@ -689,15 +688,17 @@ var renderMap = function(options) {
     //
 
     if (options.hasLocator || options.hasDrawing) {
-        geometryPoint = ol.proj.transform(options.lonLat, 'EPSG:4326', 'EPSG:3857')
-        featureLocator.setGeometry(new ol.geom.Point(geometryPoint))
+        var coordinate = ol.proj.transform(options.lonLat, 'EPSG:4326', 'EPSG:3857')
+        var featureLocator = new ol.Feature()
+        featureLocator.setGeometry(new ol.geom.Point(coordinate))
         layerLocator.getSource().addFeature(featureLocator)
         layerLocator.setVisible(true)
-        label.setPosition(geometryPoint)
+        labelElement.innerHTML = '<p><strong class="bold-small">Mytholmroyd</strong></p>'
+        label.setPosition(coordinate)
         map.addOverlay(label)
         elementMap.classList.add('has-overlay')
-        //var height = elementOverlayContainer.offsetHeight / 16
-        //console.log(document.getElementsByClassName('ol-overlay-container')[0])
+        height = document.getElementsByClassName('ol-map-label')[0].offsetHeight
+        console.log(window.getComputedStyle(document.getElementsByClassName('ol-overlay-container')[0]).display)
     }
 
     //
@@ -716,8 +717,8 @@ var renderMap = function(options) {
             if(options.hasLocator || options.hasDrawing) {
                 if (layerLocator.getVisible()) {
                     // locator object
-                    geometryPoint = new ol.geom.Point(e.coordinate)
-                    featureLocator.setGeometry(geometryPoint)
+                    var featureLocator = new ol.Feature()
+                    featureLocator.setGeometry(new ol.geom.Point(e.coordinate))
                     labelElement.innerHTML = '<p><strong class="bold-small">Flood zone 1</strong><br/>(<abbr title="Easting and northing">EN</abbr> 123456/123456)</p>'
                     layerLocator.getSource().clear()
                     layerLocator.getSource().addFeature(featureLocator)
