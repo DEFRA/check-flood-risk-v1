@@ -22,7 +22,7 @@ var Map = (function() {
     var elementMap
     var elementMapContainer
     var elementMapContainerInner
-    var key
+    var elementKey
 
     //
     // Private methods
@@ -67,7 +67,7 @@ var Map = (function() {
 
             var targetArea = options.targetAreaStates.find(x => x.id == feature.getId())
 
-            if (isObject(targetArea)) {
+            if (targetArea) {
 
                 if (resolution <= options.minIconResolution) {
 
@@ -139,7 +139,7 @@ var Map = (function() {
             
             source = '/public/icon-locator-green-2x.png'
 
-            if (isObject(riverLevel)) {
+            if (riverLevel) {
 
                 if (riverLevel.state == 'above') {
                     source = '/public/icon-locator-red-2x.png'
@@ -228,13 +228,15 @@ var Map = (function() {
     }
     
     // Add feature locator
-    var addFeatureLocator = function (point, copy) {
+    var addFeatureLocator = function (coordinate, copy) {
         var featureLocator = new ol.Feature()
+        var point = new ol.geom.Point(coordinate)
         featureLocator.setGeometry(point)
+        layerLocator.getSource().clear()
         layerLocator.getSource().addFeature(featureLocator)
         layerLocator.setVisible(true)
         elementLabel.innerHTML = copy
-        label.setPosition(point)
+        label.setPosition(coordinate)
         map.addOverlay(label)
         elementMap.classList.add('has-overlay')
         /*
@@ -262,7 +264,7 @@ var Map = (function() {
     }
 
     // Function applies greyscale to every pixel in canvas
-    var greyscale = function (context) {
+    var applyGreyscale = function (context) {
         var canvas = context.canvas
         var width = canvas.width
         var height = canvas.height
@@ -285,11 +287,6 @@ var Map = (function() {
         context.putImageData(imageData,0,0)
     }
 
-    // Test for object
-    var isObject = function (obj) {
-        return obj === Object(obj);
-    }
-
     //
     // Public methods
     //
@@ -309,18 +306,18 @@ var Map = (function() {
             hasLocator: false,
             hasDrawing: false,
             hasUndoRedo: false,
-            hasZoomReset: false
+            hasZoomReset: false,
+            hasKey: false
         }
         options = Object.assign({}, defaults, options)
 
         //
-        // Map dom elements
+        // Map to DOM elements
         //
 
-        elementMap = document.getElementsByClassName('map')[0]
-        elementMapContainer = document.getElementById('map').firstElementChild
+        elementMap = document.querySelector('.map')
+        elementMapContainer = document.querySelector('#map').firstElementChild
         elementMapContainerInner = elementMapContainer.firstElementChild
-        key = document.querySelector('.map-key')
 
         //
         // Styles
@@ -449,36 +446,36 @@ var Map = (function() {
         //
 
         // Key toggle button
-        if (key) {
-            var keyToggleButton = document.querySelector('.map-control-key')
-            keyToggleButton.addEventListener('click', function(e) {
+        if (options.hasKey) {
+            elementKey = document.querySelector('.map-key')
+            document.querySelector('.map-control-key').addEventListener('click', function(e) {
                 e.preventDefault()
-                key.classList.toggle('map-key-open')
+                elementKey.classList.toggle('map-key-open')
             })
         }
 
         // Zoom buttons
-        var zoomElement = document.createElement('button')
-        zoomElement.appendChild(document.createTextNode('Zoom'))
-        zoomElement.className = 'ol-zoom'
+        var elementZoom = document.createElement('button')
+        elementZoom.appendChild(document.createTextNode('Zoom'))
+        elementZoom.className = 'ol-zoom'
         var zoom = new ol.control.Zoom({
-            element: zoomElement
+            element: elementZoom
         })
 
         // Zoom reset button
-        var zoomResetElement = document.createElement('button')
-        zoomResetElement.appendChild(document.createTextNode('Zoom reset'))
-        zoomResetElement.className = 'ol-zoom-reset'
-        zoomResetElement.setAttribute('title','Reset location')
+        var elementZoomReset = document.createElement('button')
+        elementZoomReset.appendChild(document.createTextNode('Zoom reset'))
+        elementZoomReset.className = 'ol-zoom-reset'
+        elementZoomReset.setAttribute('title','Reset location')
         var zoomReset = new ol.control.Control({
-            element: zoomResetElement
+            element: elementZoomReset
         })
 
         // Fullscreen button
-        var fullScreenElement = document.createElement('button')
-        fullScreenElement.appendChild(document.createTextNode('Full screen'))
-        fullScreenElement.className = 'ol-full-screen'
-        fullScreenElement.addEventListener('click', function(e) {
+        var elementFullScreen = document.createElement('button')
+        elementFullScreen.appendChild(document.createTextNode('Full screen'))
+        elementFullScreen.className = 'ol-full-screen'
+        elementFullScreen.addEventListener('click', function(e) {
             e.preventDefault()
             // Fullscreen view
             if (elementMapContainerInner.classList.contains('map-container-inner-fullscreen')) {
@@ -497,23 +494,23 @@ var Map = (function() {
             map.updateSize()
         })
         var fullScreen = new ol.control.Control({ // Use fullscreen for HTML Fullscreen API
-            element: fullScreenElement
+            element: elementFullScreen
         })
 
         // Draw shape button
-        var drawShapeElement = document.createElement('button')
-        drawShapeElement.innerHTML = '<span>Draw shape</span>'
-        drawShapeElement.className = 'ol-draw-shape'
-        drawShapeElement.setAttribute('title','Start drawing a new shape')
-        drawShapeElement.addEventListener('click', function(e) {
+        var elementDrawShape = document.createElement('button')
+        elementDrawShape.innerHTML = '<span>Draw shape</span>'
+        elementDrawShape.className = 'ol-draw-shape'
+        elementDrawShape.setAttribute('title','Start drawing a new shape')
+        elementDrawShape.addEventListener('click', function(e) {
             e.preventDefault()
             // Hide locator layer and show shape layer
             layerLocator.setVisible(false)
             layerShape.setVisible(true)
             // Set button disabled properties
             this.disabled = true
-            deleteFeatureElement.disabled = true
-            placeLocatorElement.disabled = false
+            elementDeleteFeature.disabled = true
+            elementPlaceLocator.disabled = false
             // Add shape interactions
             map.addInteraction(snap)
             map.addInteraction(modifyPolygon)
@@ -524,7 +521,7 @@ var Map = (function() {
             elementMap.classList.remove('has-overlay')
             // Enable delete if shape has already been drawn (feature and geometry exist)
             if(layerShape.getSource().getFeatures().length){
-                deleteFeatureElement.disabled = false
+                elementDeleteFeature.disabled = false
             }
             // Add shape feature and interactions if shape has not yet been drawn
             else {
@@ -533,16 +530,16 @@ var Map = (function() {
             }
         })
         var drawShape = new ol.control.Control({
-            element: drawShapeElement
+            element: elementDrawShape
         })
 
         // Place locator button
-        var placeLocatorElement = document.createElement('button')
-        placeLocatorElement.innerHTML = '<span>Place marker</span>'
-        placeLocatorElement.className = 'ol-place-locator'
-        placeLocatorElement.setAttribute('title','Place a marker to identify features')
-        placeLocatorElement.disabled = true
-        placeLocatorElement.addEventListener('click', function(e) {
+        var elementPlaceLocator = document.createElement('button')
+        elementPlaceLocator.innerHTML = '<span>Place marker</span>'
+        elementPlaceLocator.className = 'ol-place-locator'
+        elementPlaceLocator.setAttribute('title','Place a marker to identify features')
+        elementPlaceLocator.disabled = true
+        elementPlaceLocator.addEventListener('click', function(e) {
             e.preventDefault()
             // End drawing if started
             if(drawingStarted){
@@ -566,8 +563,8 @@ var Map = (function() {
             layerLocator.setVisible(true)
             // Set button disabled properties
             this.disabled = true
-            drawShapeElement.disabled = false
-            deleteFeatureElement.disabled = true
+            elementDrawShape.disabled = false
+            elementDeleteFeature.disabled = true
             // Show locator overlay if exists
             if(layerLocator.getSource().getFeatures().length){
                 document.getElementsByClassName('ol-overlay-container')[0].style.visibility = 'visible'
@@ -575,45 +572,45 @@ var Map = (function() {
             }
             // Enable delete if feature on this layer exists and show overlay
             if(layerLocator.getSource().getFeatures().length){
-                deleteFeatureElement.disabled = false
+                elementDeleteFeature.disabled = false
             }
         })
         var placeLocator = new ol.control.Control({
-            element: placeLocatorElement
+            element: elementPlaceLocator
         })
 
         // Draw undo
-        var drawUndoElement = document.createElement('button')
-        drawUndoElement.innerHTML = 'Undo'
-        drawUndoElement.className = 'ol-draw-undo'
-        drawUndoElement.setAttribute('title','Undo the last change')
-        drawUndoElement.disabled = true
-        drawUndoElement.addEventListener('click', function(e) {
+        var elementDrawUndo = document.createElement('button')
+        elementDrawUndo.innerHTML = 'Undo'
+        elementDrawUndo.className = 'ol-draw-undo'
+        elementDrawUndo.setAttribute('title','Undo the last change')
+        elementDrawUndo.disabled = true
+        elementDrawUndo.addEventListener('click', function(e) {
             e.preventDefault()
         })
         var drawUndo = new ol.control.Control({
-            element: drawUndoElement
+            element: elementDrawUndo
         })
 
         // Draw redo
-        var drawRedoElement = document.createElement('button')
-        drawRedoElement.innerHTML = 'Redo'
-        drawRedoElement.className = 'ol-draw-redo'
-        drawRedoElement.setAttribute('title','Redo the last change')
-        drawRedoElement.disabled = true
-        drawRedoElement.addEventListener('click', function(e) {
+        var elementDrawRedo = document.createElement('button')
+        elementDrawRedo.innerHTML = 'Redo'
+        elementDrawRedo.className = 'ol-draw-redo'
+        elementDrawRedo.setAttribute('title','Redo the last change')
+        elementDrawRedo.disabled = true
+        elementDrawRedo.addEventListener('click', function(e) {
             e.preventDefault()
         })
         var drawRedo = new ol.control.Control({
-            element: drawRedoElement
+            element: elementDrawRedo
         })
 
         // Delete button
-        var deleteFeatureElement = document.createElement('button')
-        deleteFeatureElement.innerHTML = '<span>Delete</span>'
-        deleteFeatureElement.className = 'ol-draw-delete'
-        deleteFeatureElement.setAttribute('title','Delete the shape or marker')
-        deleteFeatureElement.addEventListener('click', function(e) {
+        var elementDeleteFeature = document.createElement('button')
+        elementDeleteFeature.innerHTML = '<span>Delete</span>'
+        elementDeleteFeature.className = 'ol-draw-delete'
+        elementDeleteFeature.setAttribute('title','Delete the shape or marker')
+        elementDeleteFeature.addEventListener('click', function(e) {
             e.preventDefault()
             this.disabled = true
             // If shape layer
@@ -639,7 +636,7 @@ var Map = (function() {
             }
         })
         var deleteFeature = new ol.control.Control({
-            element: deleteFeatureElement
+            element: elementDeleteFeature
         })
 
         // Label
@@ -757,8 +754,7 @@ var Map = (function() {
         // Add initial locator
         if (options.hasLocator || options.hasDrawing) {
             var coordinate = ol.proj.transform(options.lonLat, 'EPSG:4326', 'EPSG:3857')
-            var point = new ol.geom.Point(coordinate)
-            addFeatureLocator(point, '<p><strong class="bold-small">Mytholmroyd</strong></p>')
+            addFeatureLocator(coordinate, '<p><strong class="bold-small">Mytholmroyd</strong></p>')
         }
 
         //
@@ -768,8 +764,8 @@ var Map = (function() {
         // Close key or place locator if map is clicked
         map.on('click', function(e) {
             // Close key
-            if (key.classList.contains('map-key-open')) {
-                key.classList.remove('map-key-open')   
+            if (elementKey.classList.contains('map-key-open')) {
+                elementKey.classList.remove('map-key-open')   
             } 
             // If key is closed
             else {
@@ -777,11 +773,10 @@ var Map = (function() {
                 if(options.hasLocator || options.hasDrawing) {
                     if (layerLocator.getVisible()) {
                         // locator object
-                        var point = new ol.geom.Point(e.coordinate)
-                        addFeatureLocator(point, '<p><strong class="bold-small">Flood zone 1</strong><br/>(<abbr title="Easting and northing">EN</abbr> 123456/123456)</p>')
+                        addFeatureLocator(e.coordinate, '<p><strong class="bold-small">Flood zone 1</strong><br/>(<abbr title="Easting and northing">EN</abbr> 123456/123456)</p>')
                     }
                     // Enable delete
-                    deleteFeatureElement.disabled = false
+                    elementDeleteFeature.disabled = false
                 }
             }
         })
@@ -797,13 +792,13 @@ var Map = (function() {
             coordinates = e.feature.getGeometry().getCoordinates()[0]
             // Polygon is too small reset buttons and interaction feature type
             if (coordinates.length < 4) {
-                drawShapeElement.disabled = false
+                elementDrawShape.disabled = false
                 e.feature.setGeometry(null)
             } 
             // Polygon is ok
             else {
-                deleteFeatureElement.disabled = false
-                drawShapeElement.disabled = true
+                elementDeleteFeature.disabled = false
+                elementDrawShape.disabled = true
                 drawingFinished = true
                 feature = e.feature
                 map.removeInteraction(this)
@@ -823,7 +818,7 @@ var Map = (function() {
                         map.removeInteraction(draw)
                         map.removeInteraction(snap)
                         map.removeInteraction(modifyPolygon)
-                        drawShapeElement.disabled = false
+                        elementDrawShape.disabled = false
                     } 
                     // finishDrawing can now be called safely
                     else {
@@ -835,13 +830,21 @@ var Map = (function() {
 
             // Constrain tab key to 'key' when its open
             else if (e.keyCode === 9) {
-                var context = null
-                if (elementMapContainerInner.classList.contains('map-container-inner-fullscreen')) {
+
+                var context
+                // Context is map key
+                if (elementKey.classList.contains('map-key-open')) {
+                    context = elementKey
+                }
+                // Context is map fullscreen view
+                else if (elementMapContainerInner.classList.contains('map-container-inner-fullscreen')) {
                     context = elementMapContainerInner
                 }
-                if (key.classList.contains('map-key-open')) {
-                    context = key
+                // Context is default
+                else {
+                    context = null
                 }
+
                 // If dialog context is open
                 if (context) {
                     var focusableElements = context.querySelectorAll('button:not(:disabled), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
@@ -897,11 +900,11 @@ var Map = (function() {
         window.onpopstate = function(e) {    
             if (e && e.state) {
                 elementMapContainerInner.classList.add('map-container-inner-fullscreen')
-                fullScreenElement.classList.add('ol-full-screen-open')
+                elementFullScreen.classList.add('ol-full-screen-open')
             }
             else {
                 elementMapContainerInner.classList.remove('map-container-inner-fullscreen')
-                fullScreenElement.classList.remove('ol-full-screen-open')
+                elementFullScreen.classList.remove('ol-full-screen-open')
             }
             map.updateSize()
         }
