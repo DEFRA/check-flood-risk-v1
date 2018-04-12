@@ -5,26 +5,12 @@ var Map = (function() {
     // Private properties
     //
 
-    var _sourceFloodZones
-    var _sourceTargetAreas
-    var _sourceRiverLevels
-    var _sourceLocator
-    var _sourceShape
-    
-    var _layerTile
-    var _layerFloodZones
-    var _layerTargetAreas
-    var _layerRiverLevels
-    var _layerLocator
-    var _layerShape
-
-    var _elementLabel
-    var _elementMap
-    var _elementMapContainer
-    var _elementMapContainerInner
-    var _elementKey
-
+    var _sourceFloodZones, _sourceTargetAreas, _sourceRiverLevels, _sourceLocator, _sourceShape
+    var _layerTile, _layerFloodZones, _layerTargetAreas, _layerRiverLevels, _layerLocator, _layerShape
+    var _elementMap, _elementMapContainer, _elementMapContainerInner, _elementKey
     var _options
+    var _drawingStarted = false, _drawingFinished = false
+    var map, overlay
 
     //
     // Private methods
@@ -231,20 +217,37 @@ var Map = (function() {
     
     // Add feature locator
     var addFeatureLocator = function (coordinate, copy) {
+       
+        // Add overlay
+        var elementOverlay = document.createElement('div')
+        elementOverlay.classList.add('map-overlay')
+        elementOverlay.innerHTML = copy
+        _elementMapContainerInner.appendChild(elementOverlay)
+        var heightInEms = (elementOverlay.offsetHeight/16).toFixed(2) + 'em'
+        overlay = new ol.Overlay({
+            element: elementOverlay,
+            positioning: 'bottom-left'
+        })
+        overlay.setPosition(coordinate)
+        map.addOverlay(overlay)
+
+        // Adjust button margins for mobile view
+        var elementsToOffset = document.querySelectorAll('.ol-margin-offset'), i
+        for (i = 0; i < elementsToOffset.length; ++i) {
+            elementsToOffset[i].style.marginBottom = heightInEms
+        }
+
+        //height = document.getElementsByClassName('ol-map-label')[0].offsetHeight
+        //console.log(document.querySelector('.ol-map-label').offsetHeight)
+        //console.log(window.getComputedStyle(document.querySelector('.ol-map-label')).height)
+
+        // Add marker
         var featureLocator = new ol.Feature()
         var point = new ol.geom.Point(coordinate)
         featureLocator.setGeometry(point)
-        _layerLocator.getSource().clear()
         _layerLocator.getSource().addFeature(featureLocator)
         _layerLocator.setVisible(true)
-        _elementLabel.innerHTML = copy
-        label.setPosition(coordinate)
-        map.addOverlay(label)
-        _elementMap.classList.add('has-overlay')
-        /*
-        height = document.getElementsByClassName('ol-map-label')[0].offsetHeight
-        console.log(window.getComputedStyle(document.getElementsByClassName('ol-overlay-container')[0]).display)
-        */
+
     }
 
     // Function to get query string parameter
@@ -447,7 +450,7 @@ var Map = (function() {
         })
 
         //
-        // Define map control buttons
+        // Define buttons
         //
 
         // Key toggle button
@@ -470,7 +473,7 @@ var Map = (function() {
         // Zoom reset button
         var elementZoomReset = document.createElement('button')
         elementZoomReset.appendChild(document.createTextNode('Zoom reset'))
-        elementZoomReset.className = 'ol-zoom-reset'
+        elementZoomReset.className = 'ol-zoom-reset ol-margin-offset'
         elementZoomReset.setAttribute('title','Reset location')
         var zoomReset = new ol.control.Control({
             element: elementZoomReset
@@ -505,7 +508,7 @@ var Map = (function() {
         // Draw shape button
         var elementDrawShape = document.createElement('button')
         elementDrawShape.innerHTML = '<span>Draw shape</span>'
-        elementDrawShape.className = 'ol-draw-shape'
+        elementDrawShape.className = 'ol-draw-shape ol-margin-offset'
         elementDrawShape.setAttribute('title','Start drawing a new shape')
         elementDrawShape.addEventListener('click', function(e) {
             e.preventDefault()
@@ -521,9 +524,8 @@ var Map = (function() {
             map.addInteraction(modifyPolygon)
             // Hide locator overlay if exists
             if(_layerLocator.getSource().getFeatures().length){
-                document.getElementsByClassName('ol-overlay-container')[0].style.visibility = 'hidden'
+                document.querySelector('.ol-overlay-container').style.visibility = 'hidden'
             }
-            _elementMap.classList.remove('has-overlay')
             // Enable delete if shape has already been drawn (feature and geometry exist)
             if(_layerShape.getSource().getFeatures().length){
                 elementDeleteFeature.disabled = false
@@ -541,13 +543,13 @@ var Map = (function() {
         // Place locator button
         var elementPlaceLocator = document.createElement('button')
         elementPlaceLocator.innerHTML = '<span>Place marker</span>'
-        elementPlaceLocator.className = 'ol-place-locator'
+        elementPlaceLocator.className = 'ol-place-locator ol-margin-offset'
         elementPlaceLocator.setAttribute('title','Place a marker to identify features')
         elementPlaceLocator.disabled = true
         elementPlaceLocator.addEventListener('click', function(e) {
             e.preventDefault()
             // End drawing if started
-            if(drawingStarted){
+            if(_drawingStarted){
                 draw.finishDrawing()
             }
             // Delete existing polygon feature if it has no geometry
@@ -557,8 +559,8 @@ var Map = (function() {
                 }
             }
             // Reset draw properties
-            drawingStarted = false
-            drawingFinished = false
+            _drawingStarted = false
+            _drawingFinished = false
             // Remove shape interactions
             map.removeInteraction(draw)
             map.removeInteraction(snap)
@@ -572,8 +574,7 @@ var Map = (function() {
             elementDeleteFeature.disabled = true
             // Show locator overlay if exists
             if(_layerLocator.getSource().getFeatures().length){
-                document.getElementsByClassName('ol-overlay-container')[0].style.visibility = 'visible'
-                _elementMap.classList.add('has-overlay')
+                document.querySelector('.ol-overlay-container').style.visibility = 'visible'
             }
             // Enable delete if feature on this layer exists and show overlay
             if(_layerLocator.getSource().getFeatures().length){
@@ -587,7 +588,7 @@ var Map = (function() {
         // Draw undo
         var elementDrawUndo = document.createElement('button')
         elementDrawUndo.innerHTML = 'Undo'
-        elementDrawUndo.className = 'ol-draw-undo'
+        elementDrawUndo.className = 'ol-draw-undo ol-margin-offset'
         elementDrawUndo.setAttribute('title','Undo the last change')
         elementDrawUndo.disabled = true
         elementDrawUndo.addEventListener('click', function(e) {
@@ -600,7 +601,7 @@ var Map = (function() {
         // Draw redo
         var elementDrawRedo = document.createElement('button')
         elementDrawRedo.innerHTML = 'Redo'
-        elementDrawRedo.className = 'ol-draw-redo'
+        elementDrawRedo.className = 'ol-draw-redo ol-margin-offset'
         elementDrawRedo.setAttribute('title','Redo the last change')
         elementDrawRedo.disabled = true
         elementDrawRedo.addEventListener('click', function(e) {
@@ -613,7 +614,7 @@ var Map = (function() {
         // Delete button
         var elementDeleteFeature = document.createElement('button')
         elementDeleteFeature.innerHTML = '<span>Delete</span>'
-        elementDeleteFeature.className = 'ol-draw-delete'
+        elementDeleteFeature.className = 'ol-draw-delete ol-margin-offset'
         elementDeleteFeature.setAttribute('title','Delete the shape or marker')
         elementDeleteFeature.addEventListener('click', function(e) {
             e.preventDefault()
@@ -622,11 +623,11 @@ var Map = (function() {
             if(_layerShape.getVisible()) {
                 _layerShape.getSource().clear()
                 // End drawing if started
-                if(drawingStarted){
+                if(_drawingStarted){
                     draw.finishDrawing()
                 }
-                drawingStarted = false
-                drawingFinished = false
+                _drawingStarted = false
+                _drawingFinished = false
                 // Add shape feature and interactions
                 _layerShape.getSource().addFeature(new ol.Feature())
                 map.addInteraction(draw)
@@ -635,22 +636,18 @@ var Map = (function() {
             }
             // If locator layer
             else {
+                // Remove marker and overlay
                 _layerLocator.getSource().clear()
-                map.removeOverlay(label)
-                _elementMap.classList.remove('has-overlay')
+                map.removeOverlay(overlay)
+                // Correct button margins for mobile view
+                var elementsToOffset = document.querySelectorAll('.ol-margin-offset'), i
+                for (i = 0; i < elementsToOffset.length; ++i) {
+                    elementsToOffset[i].style.marginBottom = 0
+                }
             }
         })
         var deleteFeature = new ol.control.Control({
             element: elementDeleteFeature
-        })
-
-        // Label
-        _elementLabel = document.createElement('div')
-        _elementLabel.classList.add('ol-map-label')
-        _elementLabel.style.visibility = 'false'
-        label = new ol.Overlay({
-            element: _elementLabel,
-            positioning: 'bottom-left'
         })
 
         //
@@ -673,9 +670,9 @@ var Map = (function() {
             condition: function(e) {
                 // Hack to tackle finishDrawing with zero coordinates bug
                 if (e.type == 'pointerdown') {
-                    drawingStarted = true
+                    _drawingStarted = true
                 } else {
-                    drawingStarted = false
+                    _drawingStarted = false
                 }
                 return true
             }
@@ -743,10 +740,6 @@ var Map = (function() {
             _elementMapContainerInner.classList.add('map-container-inner-fullscreen')
         }
 
-        // Start drawing boolean used to address finishDrawing bug
-        var drawingStarted = false
-        var drawingFinished = false
-
         // Render map
         map = new ol.Map({
             target: 'map-container-inner',
@@ -756,7 +749,7 @@ var Map = (function() {
             view: view
         })
         
-        // Add initial locator
+        // Add initial locator and overlay
         if (_options.hasLocator || _options.hasDrawing) {
             var coordinate = ol.proj.transform(_options.lonLat, 'EPSG:4326', 'EPSG:3857')
             addFeatureLocator(coordinate, '<p><strong class="bold-small">Mytholmroyd</strong></p>')
@@ -779,6 +772,8 @@ var Map = (function() {
             if(_options.hasLocator || _options.hasDrawing) {
                 if (_layerLocator.getVisible()) {
                     // locator object
+                    _layerLocator.getSource().clear()
+                    map.removeOverlay(overlay)
                     addFeatureLocator(e.coordinate, '<p><strong class="bold-small">Flood zone 1</strong><br/>(<abbr title="Easting and northing">EN</abbr> 123456/123456)</p>')
                 }
                 // Enable delete
@@ -788,12 +783,12 @@ var Map = (function() {
 
         // Set start drawing flag
         draw.on('drawShape', function (e) {
-            drawingStarted = true
+            _drawingStarted = true
         })
 
         // Deactivate draw interaction after first polygon is finished
         draw.on('drawend', function (e) {
-            drawingStarted = false
+            _drawingStarted = false
             coordinates = e.feature.getGeometry().getCoordinates()[0]
             // Polygon is too small reset buttons and interaction feature type
             if (coordinates.length < 4) {
@@ -804,7 +799,7 @@ var Map = (function() {
             else {
                 elementDeleteFeature.disabled = false
                 elementDrawShape.disabled = true
-                drawingFinished = true
+                _drawingFinished = true
                 feature = e.feature
                 map.removeInteraction(this)
             }
@@ -817,9 +812,9 @@ var Map = (function() {
             if (e.keyCode === 27) {
 
                 // Escape drawing a polygon if it is not already finished
-                if (_layerShape.getVisible() && !drawingFinished) {
+                if (_layerShape.getVisible() && !_drawingFinished) {
                     // Clear an reenable draw button 
-                    if (!drawingStarted) {
+                    if (!_drawingStarted) {
                         map.removeInteraction(draw)
                         map.removeInteraction(snap)
                         map.removeInteraction(modifyPolygon)
@@ -874,7 +869,7 @@ var Map = (function() {
 
         })
 
-        // If map is fullscreen set initial focus to first focusable element
+        // Set initial focus to first focusable element if map is fullscreen
         window.onload = function() {
             if (getParameterByName('view') == 'map') {
                 focusElement = _elementMapContainerInner.querySelectorAll('button:not(:disabled), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')[0]

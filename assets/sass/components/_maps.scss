@@ -291,21 +291,19 @@ $path: "/public/";
 }
 
 // Bottom controls with overlay
-
-.has-overlay {
-  .ol-place-locator,
-  .ol-draw-shape,
-  .ol-draw-undo,
-  .ol-draw-redo,
-  .ol-draw-delete,
-  .ol-zoom-reset {
-    @include media(mobile) {
-      //bottom:4.125em;
-      bottom:0;
-      margin-bottom:10px;
-    }
+.ol-margin-offset {
+  /*
+  @include media(mobile) {
+    //bottom:4.125em;
+    bottom:0;
+    margin-bottom:10px;
+  }
+  */
+  @include media(tablet) {
+    margin-bottom:0 !important;
   }
 }
+
 
 // Map control fullscreen
 
@@ -484,7 +482,7 @@ $path: "/public/";
     //height:3.5em;
   }
 }
-.ol-map-label {
+.map-overlay {
   padding:10px;
   @include core-16;
   p {

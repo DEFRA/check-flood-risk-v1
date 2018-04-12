@@ -4206,15 +4206,19 @@ table.select-areas th {
   z-index: 2;
 }
 
-@media (max-width: 640px) {
-  .has-overlay .ol-place-locator,
-  .has-overlay .ol-draw-shape,
-  .has-overlay .ol-draw-undo,
-  .has-overlay .ol-draw-redo,
-  .has-overlay .ol-draw-delete,
-  .has-overlay .ol-zoom-reset {
-    bottom: 0;
-    margin-bottom: 10px;
+.ol-margin-offset {
+  /*
+  @include media(mobile) {
+    //bottom:4.125em;
+    bottom:0;
+    margin-bottom:10px;
+  }
+  */
+}
+
+@media (min-width: 641px) {
+  .ol-margin-offset {
+    margin-bottom: 0 !important;
   }
 }
 
@@ -4443,7 +4447,7 @@ table.select-areas th {
   }
 }
 
-.ol-map-label {
+.map-overlay {
   padding: 10px;
   font-family: "nta", Arial, sans-serif;
   font-weight: 400;
@@ -4453,13 +4457,13 @@ table.select-areas th {
 }
 
 @media (min-width: 641px) {
-  .ol-map-label {
+  .map-overlay {
     font-size: 16px;
     line-height: 1.25;
   }
 }
 
-.ol-map-label p {
+.map-overlay p {
   margin: 0;
 }
 
