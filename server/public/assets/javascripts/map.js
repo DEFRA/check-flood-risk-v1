@@ -5,24 +5,26 @@ var Map = (function() {
     // Private properties
     //
 
-    var sourceFloodZones
-    var sourceTargetAreas
-    var sourceRiverLevels
-    var sourceLocator
-    var sourceShape
+    var _sourceFloodZones
+    var _sourceTargetAreas
+    var _sourceRiverLevels
+    var _sourceLocator
+    var _sourceShape
     
-    var layerTile
-    var layerFloodZones
-    var layerTargetAreas
-    var layerRiverLevels
-    var layerLocator
-    var layerShape
+    var _layerTile
+    var _layerFloodZones
+    var _layerTargetAreas
+    var _layerRiverLevels
+    var _layerLocator
+    var _layerShape
 
-    var elementLabel
-    var elementMap
-    var elementMapContainer
-    var elementMapContainerInner
-    var elementKey
+    var _elementLabel
+    var _elementMap
+    var _elementMapContainer
+    var _elementMapContainerInner
+    var _elementKey
+
+    var _options
 
     //
     // Private methods
@@ -65,11 +67,11 @@ var Map = (function() {
 
         else if (feature.get('type') == 'targetArea') {
 
-            var targetArea = options.targetAreaStates.find(x => x.id == feature.getId())
+            var targetArea = _options.targetAreaStates.find(x => x.id == feature.getId())
 
             if (targetArea) {
 
-                if (resolution <= options.minIconResolution) {
+                if (resolution <= _options.minIconResolution) {
 
                     // Warning or severe warning colours
                     if (targetArea.state == 1 || targetArea.state == 2) {
@@ -135,7 +137,7 @@ var Map = (function() {
 
         else if (feature.get('type') == 'riverLevel') {
 
-            var riverLevel = options.riverLevelStates.find(x => x.id == feature.getId())
+            var riverLevel = _options.riverLevelStates.find(x => x.id == feature.getId())
             
             source = '/public/icon-locator-green-2x.png'
 
@@ -232,13 +234,13 @@ var Map = (function() {
         var featureLocator = new ol.Feature()
         var point = new ol.geom.Point(coordinate)
         featureLocator.setGeometry(point)
-        layerLocator.getSource().clear()
-        layerLocator.getSource().addFeature(featureLocator)
-        layerLocator.setVisible(true)
-        elementLabel.innerHTML = copy
+        _layerLocator.getSource().clear()
+        _layerLocator.getSource().addFeature(featureLocator)
+        _layerLocator.setVisible(true)
+        _elementLabel.innerHTML = copy
         label.setPosition(coordinate)
         map.addOverlay(label)
-        elementMap.classList.add('has-overlay')
+        _elementMap.classList.add('has-overlay')
         /*
         height = document.getElementsByClassName('ol-map-label')[0].offsetHeight
         console.log(window.getComputedStyle(document.getElementsByClassName('ol-overlay-container')[0]).display)
@@ -293,7 +295,10 @@ var Map = (function() {
     
     var init = function (options) {
 
-        // Define options
+        //
+        // Map to DOM elements
+        //
+
         var defaults = {
             lonLat: [0,0],
             zoom: 12,
@@ -309,15 +314,15 @@ var Map = (function() {
             hasZoomReset: false,
             hasKey: false
         }
-        options = Object.assign({}, defaults, options)
+        _options = Object.assign({}, defaults, options)
 
         //
         // Map to DOM elements
         //
 
-        elementMap = document.querySelector('.map')
-        elementMapContainer = document.querySelector('#map').firstElementChild
-        elementMapContainerInner = elementMapContainer.firstElementChild
+        _elementMap = document.querySelector('.map')
+        _elementMapContainer = document.querySelector('#map').firstElementChild
+        _elementMapContainerInner = _elementMapContainer.firstElementChild
 
         //
         // Styles
@@ -372,71 +377,71 @@ var Map = (function() {
         //
 
         // Flood zones source
-        sourceFloodZones = new ol.source.Vector({
+        _sourceFloodZones = new ol.source.Vector({
             format: new ol.format.GeoJSON(),
-            url: options.floodZonesJSON,
+            url: _options.floodZonesJSON,
             projection: 'EPSG:3857'
         })
 
         // Target areas source
-        sourceTargetAreas = new ol.source.Vector({
+        _sourceTargetAreas = new ol.source.Vector({
             format: new ol.format.GeoJSON(),
-            url: options.targetAreasJSON,
+            url: _options.targetAreasJSON,
             projection: 'EPSG:3857'
         })
 
         // River levels source
-        sourceRiverLevels = new ol.source.Vector({
+        _sourceRiverLevels = new ol.source.Vector({
             format: new ol.format.GeoJSON(),
-            url: options.riverLevelsJSON,
+            url: _options.riverLevelsJSON,
             projection: 'EPSG:3857'
         })
 
         // Locator source
-        sourceLocator = new ol.source.Vector()
+        _sourceLocator = new ol.source.Vector()
 
         // Shape source
-        sourceShape = new ol.source.Vector()
+        _sourceShape = new ol.source.Vector()
 
         //
         // Define layers
         //
 
         // Background map layer
-        layerTile = new ol.layer.Tile({
+        _layerTile = new ol.layer.Tile({
             source: new ol.source.OSM()
         })
 
         // Flood zones layer
-        layerFloodZones = new ol.layer.Vector({
+        _layerFloodZones = new ol.layer.Vector({
             renderMode: 'image',
-            source: sourceFloodZones,
+            source: _sourceFloodZones,
             style: styleFeatures
         })
 
         // Target areas layer
-        layerTargetAreas = new ol.layer.Vector({
+        _layerTargetAreas = new ol.layer.Vector({
             renderMode: 'hybrid',
-            source: sourceTargetAreas,
+            source: _sourceTargetAreas,
             style: styleFeatures
         })
 
         // River levels layer
-        layerRiverLevels = new ol.layer.Vector({
-            source: sourceRiverLevels,
+        _layerRiverLevels = new ol.layer.Vector({
+            source: _sourceRiverLevels,
             style: styleFeatures
         })
 
         // Locator layer
-        layerLocator = new ol.layer.Vector({
-            source: sourceLocator,
+        _layerLocator = new ol.layer.Vector({
+            source: _sourceLocator,
             style: styleInteractiveFeatures,
             visible: true
         })
 
         // Shape layer
-        layerShape = new ol.layer.Vector({
-            source: sourceShape,
+        _layerShape = new ol.layer.Vector({
+            source: _sourceShape,
             style: styleInteractiveFeatures,
             visible: false
         })
@@ -446,11 +451,11 @@ var Map = (function() {
         //
 
         // Key toggle button
-        if (options.hasKey) {
-            elementKey = document.querySelector('.map-key')
+        if (_options.hasKey) {
+            _elementKey = document.querySelector('.map-key')
             document.querySelector('.map-control-key').addEventListener('click', function(e) {
                 e.preventDefault()
-                elementKey.classList.toggle('map-key-open')
+                _elementKey.classList.toggle('map-key-open')
             })
         }
 
@@ -478,13 +483,13 @@ var Map = (function() {
         elementFullScreen.addEventListener('click', function(e) {
             e.preventDefault()
             // Fullscreen view
-            if (elementMapContainerInner.classList.contains('map-container-inner-fullscreen')) {
-                elementMapContainerInner.classList.remove('map-container-inner-fullscreen')
+            if (_elementMapContainerInner.classList.contains('map-container-inner-fullscreen')) {
+                _elementMapContainerInner.classList.remove('map-container-inner-fullscreen')
                 history.back()
             }
             // Default view
             else {
-                elementMapContainerInner.classList.add('map-container-inner-fullscreen')
+                _elementMapContainerInner.classList.add('map-container-inner-fullscreen')
                 state = {'view':'map'}
                 url = addOrUpdateParameter(location.pathname + location.search, 'view', 'map')
                 title = document.title
@@ -505,8 +510,8 @@ var Map = (function() {
         elementDrawShape.addEventListener('click', function(e) {
             e.preventDefault()
             // Hide locator layer and show shape layer
-            layerLocator.setVisible(false)
-            layerShape.setVisible(true)
+            _layerLocator.setVisible(false)
+            _layerShape.setVisible(true)
             // Set button disabled properties
             this.disabled = true
             elementDeleteFeature.disabled = true
@@ -515,17 +520,17 @@ var Map = (function() {
             map.addInteraction(snap)
             map.addInteraction(modifyPolygon)
             // Hide locator overlay if exists
-            if(layerLocator.getSource().getFeatures().length){
+            if(_layerLocator.getSource().getFeatures().length){
                 document.getElementsByClassName('ol-overlay-container')[0].style.visibility = 'hidden'
             }
-            elementMap.classList.remove('has-overlay')
+            _elementMap.classList.remove('has-overlay')
             // Enable delete if shape has already been drawn (feature and geometry exist)
-            if(layerShape.getSource().getFeatures().length){
+            if(_layerShape.getSource().getFeatures().length){
                 elementDeleteFeature.disabled = false
             }
             // Add shape feature and interactions if shape has not yet been drawn
             else {
-                layerShape.getSource().addFeature(new ol.Feature())
+                _layerShape.getSource().addFeature(new ol.Feature())
                 map.addInteraction(draw)
             }
         })
@@ -546,9 +551,9 @@ var Map = (function() {
                 draw.finishDrawing()
             }
             // Delete existing polygon feature if it has no geometry
-            if(layerShape.getSource().getFeatures().length) {
-                if(!layerShape.getSource().getFeatures()[0].getGeometry()) {
-                    layerShape.getSource().clear()
+            if(_layerShape.getSource().getFeatures().length) {
+                if(!_layerShape.getSource().getFeatures()[0].getGeometry()) {
+                    _layerShape.getSource().clear()
                 }
             }
             // Reset draw properties
@@ -559,19 +564,19 @@ var Map = (function() {
             map.removeInteraction(snap)
             map.removeInteraction(modifyPolygon)
             // Hide shape layer and show locator layer
-            layerShape.setVisible(false)
-            layerLocator.setVisible(true)
+            _layerShape.setVisible(false)
+            _layerLocator.setVisible(true)
             // Set button disabled properties
             this.disabled = true
             elementDrawShape.disabled = false
             elementDeleteFeature.disabled = true
             // Show locator overlay if exists
-            if(layerLocator.getSource().getFeatures().length){
+            if(_layerLocator.getSource().getFeatures().length){
                 document.getElementsByClassName('ol-overlay-container')[0].style.visibility = 'visible'
-                elementMap.classList.add('has-overlay')
+                _elementMap.classList.add('has-overlay')
             }
             // Enable delete if feature on this layer exists and show overlay
-            if(layerLocator.getSource().getFeatures().length){
+            if(_layerLocator.getSource().getFeatures().length){
                 elementDeleteFeature.disabled = false
             }
         })
@@ -614,8 +619,8 @@ var Map = (function() {
             e.preventDefault()
             this.disabled = true
             // If shape layer
-            if(layerShape.getVisible()) {
-                layerShape.getSource().clear()
+            if(_layerShape.getVisible()) {
+                _layerShape.getSource().clear()
                 // End drawing if started
                 if(drawingStarted){
                     draw.finishDrawing()
@@ -623,16 +628,16 @@ var Map = (function() {
                 drawingStarted = false
                 drawingFinished = false
                 // Add shape feature and interactions
-                layerShape.getSource().addFeature(new ol.Feature())
+                _layerShape.getSource().addFeature(new ol.Feature())
                 map.addInteraction(draw)
                 map.addInteraction(snap)
                 map.addInteraction(modifyPolygon)
             }
             // If locator layer
             else {
-                layerLocator.getSource().clear()
+                _layerLocator.getSource().clear()
                 map.removeOverlay(label)
-                elementMap.classList.remove('has-overlay')
+                _elementMap.classList.remove('has-overlay')
             }
         })
         var deleteFeature = new ol.control.Control({
@@ -640,11 +645,11 @@ var Map = (function() {
         })
 
         // Label
-        elementLabel = document.createElement('div')
-        elementLabel.classList.add('ol-map-label')
-        elementLabel.style.visibility = 'false'
+        _elementLabel = document.createElement('div')
+        _elementLabel.classList.add('ol-map-label')
+        _elementLabel.style.visibility = 'false'
         label = new ol.Overlay({
-            element: elementLabel,
+            element: _elementLabel,
             positioning: 'bottom-left'
         })
 
@@ -658,11 +663,11 @@ var Map = (function() {
             doubleClickZoom :false
         })
         var modifyPolygon = new ol.interaction.Modify({
-            source: sourceShape,
+            source: _sourceShape,
             style: styleDrawModify
         })
         var draw = new ol.interaction.Draw({
-            source: sourceShape,
+            source: _sourceShape,
             type: 'Polygon',
             style: styleDraw,
             condition: function(e) {
@@ -676,24 +681,24 @@ var Map = (function() {
             }
         })
         var snap = new ol.interaction.Snap({
-            source: sourceShape
+            source: _sourceShape
         })
 
         // Define the map view object
         var view = new ol.View({
-            center: ol.proj.fromLonLat(options.lonLat),
+            center: ol.proj.fromLonLat(_options.lonLat),
             enableRotation: false,
-            zoom: options.zoom
+            zoom: _options.zoom
         })
 
         // Add controls
         var customControls = [fullScreen]
-        if (options.hasZoomReset) {
+        if (_options.hasZoomReset) {
             customControls.push(zoomReset)
         }
         customControls.push(zoom)
-        if (options.hasDrawing && options.hasUndoRedo) {
-            elementMap.classList.add('has-undoredo')
+        if (_options.hasDrawing && _options.hasUndoRedo) {
+            _elementMap.classList.add('has-undoredo')
             customControls.push(
                 deleteFeature,
                 drawRedo,
@@ -702,7 +707,7 @@ var Map = (function() {
                 placeLocator
             )
         }
-        else if (options.hasDrawing) {
+        else if (_options.hasDrawing) {
             customControls.push(
                 deleteFeature,
                 drawShape,
@@ -716,26 +721,26 @@ var Map = (function() {
         }).extend(customControls)
 
         // Add layers
-        var layers = [layerTile]
-        if (options.floodZonesJSON != '') {
-            layers.push(layerFloodZones)
+        var layers = [_layerTile]
+        if (_options.floodZonesJSON != '') {
+            layers.push(_layerFloodZones)
         }
-        if (options.targetAreasJSON != '') {
-            layers.push(layerTargetAreas)
+        if (_options.targetAreasJSON != '') {
+            layers.push(_layerTargetAreas)
         }
-        if (options.riverLevelsJSON != '') {
-            layers.push(layerRiverLevels)
+        if (_options.riverLevelsJSON != '') {
+            layers.push(_layerRiverLevels)
         }
-        if (options.hasDrawing) {
-            layers.push(layerShape)
+        if (_options.hasDrawing) {
+            layers.push(_layerShape)
         }
-        if (options.hasDrawing || options.hasLocator) {
-            layers.push(layerLocator)
+        if (_options.hasDrawing || _options.hasLocator) {
+            layers.push(_layerLocator)
         }
         
         // Add fullscreen class
         if (getParameterByName('view') == 'map') {
-            elementMapContainerInner.classList.add('map-container-inner-fullscreen')
+            _elementMapContainerInner.classList.add('map-container-inner-fullscreen')
         }
 
         // Start drawing boolean used to address finishDrawing bug
@@ -752,8 +757,8 @@ var Map = (function() {
         })
         
         // Add initial locator
-        if (options.hasLocator || options.hasDrawing) {
-            var coordinate = ol.proj.transform(options.lonLat, 'EPSG:4326', 'EPSG:3857')
+        if (_options.hasLocator || _options.hasDrawing) {
+            var coordinate = ol.proj.transform(_options.lonLat, 'EPSG:4326', 'EPSG:3857')
             addFeatureLocator(coordinate, '<p><strong class="bold-small">Mytholmroyd</strong></p>')
         }
 
@@ -764,20 +769,20 @@ var Map = (function() {
         // Close key or place locator if map is clicked
         map.on('click', function(e) {
             // Close key
-            if (elementKey.classList.contains('map-key-open')) {
-                elementKey.classList.remove('map-key-open')   
-            } 
-            // If key is closed
-            else {
-                // Place locator
-                if(options.hasLocator || options.hasDrawing) {
-                    if (layerLocator.getVisible()) {
-                        // locator object
-                        addFeatureLocator(e.coordinate, '<p><strong class="bold-small">Flood zone 1</strong><br/>(<abbr title="Easting and northing">EN</abbr> 123456/123456)</p>')
-                    }
-                    // Enable delete
-                    elementDeleteFeature.disabled = false
+            if (_options.hasKey) {
+                if (_elementKey.classList.contains('map-key-open')) {
+                    _elementKey.classList.remove('map-key-open') 
+                    return  
+                } 
+            }
+            // If doesnt have key or key is closed place locator
+            if(_options.hasLocator || _options.hasDrawing) {
+                if (_layerLocator.getVisible()) {
+                    // locator object
+                    addFeatureLocator(e.coordinate, '<p><strong class="bold-small">Flood zone 1</strong><br/>(<abbr title="Easting and northing">EN</abbr> 123456/123456)</p>')
                 }
+                // Enable delete
+                elementDeleteFeature.disabled = false
             }
         })
 
@@ -812,7 +817,7 @@ var Map = (function() {
             if (e.keyCode === 27) {
 
                 // Escape drawing a polygon if it is not already finished
-                if (layerShape.getVisible() && !drawingFinished) {
+                if (_layerShape.getVisible() && !drawingFinished) {
                     // Clear an reenable draw button 
                     if (!drawingStarted) {
                         map.removeInteraction(draw)
@@ -833,12 +838,12 @@ var Map = (function() {
 
                 var context
                 // Context is map key
-                if (elementKey.classList.contains('map-key-open')) {
-                    context = elementKey
+                if (_elementKey.classList.contains('map-key-open')) {
+                    context = _elementKey
                 }
                 // Context is map fullscreen view
-                else if (elementMapContainerInner.classList.contains('map-container-inner-fullscreen')) {
-                    context = elementMapContainerInner
+                else if (_elementMapContainerInner.classList.contains('map-container-inner-fullscreen')) {
+                    context = _elementMapContainerInner
                 }
                 // Context is default
                 else {
@@ -872,7 +877,7 @@ var Map = (function() {
         // If map is fullscreen set initial focus to first focusable element
         window.onload = function() {
             if (getParameterByName('view') == 'map') {
-                focusElement = elementMapContainerInner.querySelectorAll('button:not(:disabled), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')[0]
+                focusElement = _elementMapContainerInner.querySelectorAll('button:not(:disabled), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')[0]
                 focusElement.focus()
             }
         }
@@ -892,18 +897,18 @@ var Map = (function() {
             else {
                 layerOpacity = 0.5 
             } 
-            layerFloodZones.setOpacity(layerOpacity)
-            layerTargetAreas.setOpacity(layerOpacity)
+            _layerFloodZones.setOpacity(layerOpacity)
+            _layerTargetAreas.setOpacity(layerOpacity)
         })
 
         // Toggle fullscreen view on browser history change
         window.onpopstate = function(e) {    
             if (e && e.state) {
-                elementMapContainerInner.classList.add('map-container-inner-fullscreen')
+                _elementMapContainerInner.classList.add('map-container-inner-fullscreen')
                 elementFullScreen.classList.add('ol-full-screen-open')
             }
             else {
-                elementMapContainerInner.classList.remove('map-container-inner-fullscreen')
+                _elementMapContainerInner.classList.remove('map-container-inner-fullscreen')
                 elementFullScreen.classList.remove('ol-full-screen-open')
             }
             map.updateSize()
