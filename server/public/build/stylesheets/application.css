@@ -3937,6 +3937,32 @@ table.select-areas th {
   }
 }
 
+.ol-full-screen {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 1;
+  border: 0;
+  height: 40px;
+  width: 40px;
+  text-indent: -5000px;
+  background: #005ea5 url("/public/map-controls-2x.png") no-repeat 50% 77.5%;
+  background-size: 30px 150px;
+  border-radius: 0;
+  outline: 0;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+@media (min-width: 641px) {
+  .ol-full-screen {
+    background-size: 100%;
+    background-position: 0 75%;
+    height: 30px;
+    width: 30px;
+  }
+}
+
 .ol-zoom {
   position: absolute;
   right: 10px;
@@ -3958,6 +3984,7 @@ table.select-areas th {
   height: 40px;
   width: 40px;
   border-radius: 0;
+  overflow: hidden;
 }
 
 .ol-zoom-in,
@@ -4033,6 +4060,7 @@ table.select-areas th {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 50%;
+  overflow: hidden;
 }
 
 .ol-draw-delete span,
@@ -4178,30 +4206,6 @@ table.select-areas th {
 .ol-draw-undo:focus,
 .ol-draw-redo:focus {
   z-index: 2;
-}
-
-.ol-full-screen {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  z-index: 1;
-  border: 0;
-  height: 40px;
-  width: 40px;
-  text-indent: -5000px;
-  background: #005ea5 url("/public/map-controls-2x.png") no-repeat 50% 77.5%;
-  background-size: 30px 150px;
-  border-radius: 0;
-  cursor: pointer;
-}
-
-@media (min-width: 641px) {
-  .ol-full-screen {
-    background-size: 100%;
-    background-position: 0 75%;
-    height: 30px;
-    width: 30px;
-  }
 }
 
 .map-control-key {
