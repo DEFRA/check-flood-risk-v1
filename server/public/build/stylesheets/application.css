@@ -4014,170 +4014,144 @@ table.select-areas th {
   z-index: 2;
 }
 
-.ol-place-locator {
+.ol-draw-delete,
+.ol-draw-shape,
+.ol-place-locator,
+.ol-draw-undo,
+.ol-draw-redo {
+  border: 0;
   position: absolute;
+  top: -50px;
+  height: 40px;
   font-size: 16px;
   color: white;
   background-color: #005ea5;
   line-height: 1em;
-  left: 10px;
-  bottom: 10px;
-  z-index: 1;
-  border: 0;
-  height: 40px;
-  width: 70px;
   padding: 0;
   border-radius: 0;
   cursor: pointer;
   background-repeat: no-repeat;
-  background-size: 50%;
   background-position: center center;
+  background-size: 50%;
+}
+
+.ol-draw-delete span,
+.ol-draw-shape span,
+.ol-place-locator span,
+.ol-draw-undo span,
+.ol-draw-redo span {
+  display: none;
+}
+
+@media (min-width: 641px) {
+  .ol-draw-delete,
+  .ol-draw-shape,
+  .ol-place-locator,
+  .ol-draw-undo,
+  .ol-draw-redo {
+    top: auto;
+    bottom: 10px;
+    height: 30px;
+  }
+  .ol-draw-delete span,
+  .ol-draw-shape span,
+  .ol-place-locator span,
+  .ol-draw-undo span,
+  .ol-draw-redo span {
+    display: inline;
+  }
+}
+
+.ol-place-locator {
+  left: 10px;
+  width: 70px;
 }
 
 .ol-place-locator:before {
   content: 'Marker';
 }
 
-.ol-place-locator span {
-  display: none;
-}
-
 @media (min-width: 641px) {
   .ol-place-locator {
-    height: 30px;
     width: 104px;
   }
   .ol-place-locator:before {
     content: '';
   }
-  .ol-place-locator span {
-    display: inline;
-  }
 }
 
 .ol-draw-shape {
-  position: absolute;
-  font-size: 16px;
-  color: white;
-  background-color: #005ea5;
-  line-height: 1em;
   left: 80px;
-  bottom: 10px;
-  z-index: 1;
-  border: 0;
-  height: 40px;
   width: 70px;
-  padding: 0;
-  border-radius: 0;
-  cursor: pointer;
-  background-repeat: no-repeat;
-  background-size: 50%;
-  background-position: center center;
 }
 
 .ol-draw-shape:before {
   content: 'Shape';
 }
 
-.ol-draw-shape span {
-  display: none;
-}
-
 @media (min-width: 641px) {
   .ol-draw-shape {
     left: 114px;
-    height: 30px;
     width: 96px;
   }
   .ol-draw-shape:before {
     content: '';
   }
-  .ol-draw-shape span {
-    display: inline;
-  }
-}
-
-.ol-draw-delete {
-  bottom: 10px;
-  left: 155px;
-  width: 40px;
-  height: 40px;
-  position: absolute;
-  text-indent: -5000px;
-  font-size: 16px;
-  color: white;
-  background-color: #005ea5;
-  line-height: 1em;
-  border-radius: 0;
-  border: 0;
-  padding: 0;
-  background-image: url("/public/map-delete-2x.png");
-  background-repeat: no-repeat;
-  background-size: 50%;
-  background-position: center center;
-  cursor: pointer;
-}
-
-@media (min-width: 641px) {
-  .ol-draw-delete {
-    left: 215px;
-    height: 30px;
-    width: 30px;
-    background-size: 60%;
-  }
-}
-
-@media (min-width: 641px) {
-  .has-undoredo .ol-draw-delete {
-    left: 280px;
-  }
-}
-
-.ol-draw-undo,
-.ol-draw-redo {
-  position: absolute;
-  display: none;
-  font-size: 16px;
-  color: white;
-  background-color: #005ea5;
-  line-height: 1em;
-  left: 155px;
-  bottom: 10px;
-  z-index: 1;
-  border: 0;
-  height: 40px;
-  width: 40px;
-  padding: 0;
-  border-radius: 0;
-  cursor: pointer;
-  background-repeat: no-repeat;
-  background-size: 50%;
-  background-position: center center;
-  text-indent: -5000px;
-}
-
-@media (min-width: 641px) {
-  .ol-draw-undo,
-  .ol-draw-redo {
-    display: block;
-    left: 215px;
-    height: 30px;
-    width: 30px;
-    background-size: 60%;
-  }
 }
 
 .ol-draw-undo {
+  left: 155px;
+  width: 40px;
+  text-indent: -5000px;
   background-image: url("/public/map-undo-2x.png");
 }
 
+@media (min-width: 641px) {
+  .ol-draw-undo {
+    left: 215px;
+    width: 30px;
+    background-size: 60%;
+  }
+}
+
 .ol-draw-redo {
+  left: 195px;
+  width: 40px;
+  text-indent: -5000px;
   background-image: url("/public/map-redo-2x.png");
 }
 
 @media (min-width: 641px) {
   .ol-draw-redo {
     left: 245px;
+    width: 30px;
+    background-size: 60%;
+  }
+}
+
+.ol-draw-delete {
+  left: 155px;
+  width: 40px;
+  text-indent: -5000px;
+  background-image: url("/public/map-delete-2x.png");
+  cursor: pointer;
+}
+
+@media (min-width: 641px) {
+  .ol-draw-delete {
+    left: 215px;
+    width: 30px;
+    background-size: 60%;
+  }
+}
+
+.ol-draw-redo + .ol-draw-delete {
+  left: 240px;
+}
+
+@media (min-width: 641px) {
+  .ol-draw-redo + .ol-draw-delete {
+    left: 280px;
   }
 }
 
@@ -4204,22 +4178,6 @@ table.select-areas th {
 .ol-draw-undo:focus,
 .ol-draw-redo:focus {
   z-index: 2;
-}
-
-.ol-margin-offset {
-  /*
-  @include media(mobile) {
-    //bottom:4.125em;
-    bottom:0;
-    margin-bottom:10px;
-  }
-  */
-}
-
-@media (min-width: 641px) {
-  .ol-margin-offset {
-    margin-bottom: 0 !important;
-  }
 }
 
 .ol-full-screen {
@@ -4427,27 +4385,39 @@ table.select-areas th {
   display: block;
 }
 
-.ol-overlay-container {
-  z-index: 2;
-  background-color: white;
-  border: 1px solid #bfc1c3;
-  width: 200px;
-  margin-left: -100px;
-  margin-bottom: 45px;
+.ol-control-group {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 
-@media screen and (max-width: 640px) {
-  .ol-overlay-container {
-    bottom: 0 !important;
-    left: 0 !important;
-    border: 0;
-    margin-left: 0;
-    margin-bottom: 0;
-    width: 100%;
+@media (min-width: 641px) {
+  .ol-control-group {
+    position: static;
+    bottom: auto;
+    width: auto;
   }
 }
 
-.map-overlay {
+.ol-overlay {
+  position: static !important;
+  float: left;
+  clear: both;
+  background-color: white;
+  width: 100%;
+}
+
+@media (min-width: 641px) {
+  .ol-overlay {
+    position: absolute !important;
+    border: 1px solid #bfc1c3;
+    width: 200px;
+    margin-left: -100px;
+    margin-bottom: 45px;
+  }
+}
+
+.ol-overlay-inner {
   padding: 10px;
   font-family: "nta", Arial, sans-serif;
   font-weight: 400;
@@ -4457,13 +4427,13 @@ table.select-areas th {
 }
 
 @media (min-width: 641px) {
-  .map-overlay {
+  .ol-overlay-inner {
     font-size: 16px;
     line-height: 1.25;
   }
 }
 
-.map-overlay p {
+.ol-overlay-inner p {
   margin: 0;
 }
 

@@ -218,33 +218,16 @@ var Map = (function() {
     // Add feature locator
     var addFeatureLocator = function (coordinate, copy) {
        
-        // Add overlay
-        var elementOverlay = document.createElement('div')
-        elementOverlay.classList.add('map-overlay')
-        elementOverlay.innerHTML = copy
-        _elementMapContainerInner.appendChild(elementOverlay)
-        var heightInEms = (elementOverlay.offsetHeight/16).toFixed(2) + 'em'
-        overlay = new ol.Overlay({
-            element: elementOverlay,
-            positioning: 'bottom-left'
-        })
+        // Update and show overlay
+        overlay.getElement().innerHTML = copy
         overlay.setPosition(coordinate)
-        map.addOverlay(overlay)
-
-        // Adjust button margins for mobile view
-        var elementsToOffset = document.querySelectorAll('.ol-margin-offset'), i
-        for (i = 0; i < elementsToOffset.length; ++i) {
-            elementsToOffset[i].style.marginBottom = heightInEms
-        }
-
-        //height = document.getElementsByClassName('ol-map-label')[0].offsetHeight
-        //console.log(document.querySelector('.ol-map-label').offsetHeight)
-        //console.log(window.getComputedStyle(document.querySelector('.ol-map-label')).height)
+        document.querySelector('.ol-overlay').style.display = 'block'
 
         // Add marker
         var featureLocator = new ol.Feature()
         var point = new ol.geom.Point(coordinate)
         featureLocator.setGeometry(point)
+        _layerLocator.getSource().clear()
         _layerLocator.getSource().addFeature(featureLocator)
         _layerLocator.setVisible(true)
 
@@ -473,7 +456,7 @@ var Map = (function() {
         // Zoom reset button
         var elementZoomReset = document.createElement('button')
         elementZoomReset.appendChild(document.createTextNode('Zoom reset'))
-        elementZoomReset.className = 'ol-zoom-reset ol-margin-offset'
+        elementZoomReset.className = 'ol-zoom-reset'
         elementZoomReset.setAttribute('title','Reset location')
         var zoomReset = new ol.control.Control({
             element: elementZoomReset
@@ -508,7 +491,7 @@ var Map = (function() {
         // Draw shape button
         var elementDrawShape = document.createElement('button')
         elementDrawShape.innerHTML = '<span>Draw shape</span>'
-        elementDrawShape.className = 'ol-draw-shape ol-margin-offset'
+        elementDrawShape.className = 'ol-draw-shape ol-control-group'
         elementDrawShape.setAttribute('title','Start drawing a new shape')
         elementDrawShape.addEventListener('click', function(e) {
             e.preventDefault()
@@ -524,7 +507,7 @@ var Map = (function() {
             map.addInteraction(modifyPolygon)
             // Hide locator overlay if exists
             if(_layerLocator.getSource().getFeatures().length){
-                document.querySelector('.ol-overlay-container').style.visibility = 'hidden'
+                document.querySelector('.ol-overlay').style.display = 'none'
             }
             // Enable delete if shape has already been drawn (feature and geometry exist)
             if(_layerShape.getSource().getFeatures().length){
@@ -543,7 +526,7 @@ var Map = (function() {
         // Place locator button
         var elementPlaceLocator = document.createElement('button')
         elementPlaceLocator.innerHTML = '<span>Place marker</span>'
-        elementPlaceLocator.className = 'ol-place-locator ol-margin-offset'
+        elementPlaceLocator.className = 'ol-place-locator ol-control-group'
         elementPlaceLocator.setAttribute('title','Place a marker to identify features')
         elementPlaceLocator.disabled = true
         elementPlaceLocator.addEventListener('click', function(e) {
@@ -574,7 +557,7 @@ var Map = (function() {
             elementDeleteFeature.disabled = true
             // Show locator overlay if exists
             if(_layerLocator.getSource().getFeatures().length){
-                document.querySelector('.ol-overlay-container').style.visibility = 'visible'
+                document.querySelector('.ol-overlay').style.display = 'block'
             }
             // Enable delete if feature on this layer exists and show overlay
             if(_layerLocator.getSource().getFeatures().length){
@@ -588,7 +571,7 @@ var Map = (function() {
         // Draw undo
         var elementDrawUndo = document.createElement('button')
         elementDrawUndo.innerHTML = 'Undo'
-        elementDrawUndo.className = 'ol-draw-undo ol-margin-offset'
+        elementDrawUndo.className = 'ol-draw-undo ol-control-group'
         elementDrawUndo.setAttribute('title','Undo the last change')
         elementDrawUndo.disabled = true
         elementDrawUndo.addEventListener('click', function(e) {
@@ -601,7 +584,7 @@ var Map = (function() {
         // Draw redo
         var elementDrawRedo = document.createElement('button')
         elementDrawRedo.innerHTML = 'Redo'
-        elementDrawRedo.className = 'ol-draw-redo ol-margin-offset'
+        elementDrawRedo.className = 'ol-draw-redo ol-control-group'
         elementDrawRedo.setAttribute('title','Redo the last change')
         elementDrawRedo.disabled = true
         elementDrawRedo.addEventListener('click', function(e) {
@@ -614,7 +597,7 @@ var Map = (function() {
         // Delete button
         var elementDeleteFeature = document.createElement('button')
         elementDeleteFeature.innerHTML = '<span>Delete</span>'
-        elementDeleteFeature.className = 'ol-draw-delete ol-margin-offset'
+        elementDeleteFeature.className = 'ol-draw-delete ol-control-group'
         elementDeleteFeature.setAttribute('title','Delete the shape or marker')
         elementDeleteFeature.addEventListener('click', function(e) {
             e.preventDefault()
@@ -638,16 +621,25 @@ var Map = (function() {
             else {
                 // Remove marker and overlay
                 _layerLocator.getSource().clear()
-                map.removeOverlay(overlay)
-                // Correct button margins for mobile view
-                var elementsToOffset = document.querySelectorAll('.ol-margin-offset'), i
-                for (i = 0; i < elementsToOffset.length; ++i) {
-                    elementsToOffset[i].style.marginBottom = 0
-                }
+                overlay.getElement().innerHTML = ''
+                document.querySelector('.ol-overlay').style.display = 'none'
             }
         })
         var deleteFeature = new ol.control.Control({
             element: elementDeleteFeature
+        })
+
+        //
+        // Create overlay object
+        //
+
+        var elementOverlay = document.createElement('div')
+        elementOverlay.classList.add('ol-overlay-inner')
+        overlay = new ol.Overlay({
+            element: elementOverlay,
+            positioning: 'bottom-left',
+            insertFirst: false,
+            className: 'ol-overlay ol-control-group'
         })
 
         //
@@ -681,14 +673,14 @@ var Map = (function() {
             source: _sourceShape
         })
 
-        // Define the map view object
+        // Define view object
         var view = new ol.View({
             center: ol.proj.fromLonLat(_options.lonLat),
             enableRotation: false,
             zoom: _options.zoom
         })
 
-        // Add controls
+        // Add controls to map
         var customControls = [fullScreen]
         if (_options.hasZoomReset) {
             customControls.push(zoomReset)
@@ -717,7 +709,7 @@ var Map = (function() {
             attribution: false
         }).extend(customControls)
 
-        // Add layers
+        // Add layers to map
         var layers = [_layerTile]
         if (_options.floodZonesJSON != '') {
             layers.push(_layerFloodZones)
@@ -735,7 +727,7 @@ var Map = (function() {
             layers.push(_layerLocator)
         }
         
-        // Add fullscreen class
+        // Add fullscreen class before map is rendered
         if (getParameterByName('view') == 'map') {
             _elementMapContainerInner.classList.add('map-container-inner-fullscreen')
         }
@@ -749,6 +741,23 @@ var Map = (function() {
             view: view
         })
         
+        // Add overlay element
+        map.addOverlay(overlay)
+
+        // Wrap bottom controls in container so position can be controlled with CSS
+        var elements = document.querySelectorAll('.ol-control-group')
+        if (elements.length) {
+            var parent = elements[0].parentNode
+            var wrapper = document.createElement('div')
+            wrapper.className = 'ol-control-group'
+            for (i=0; i<elements.length; i++) {
+                elements[i].classList.remove('ol-control-group')
+                wrapper.appendChild(elements[i])
+            }
+            //parent.(wrapper, parent.lastChild)
+            parent.appendChild(wrapper)
+        }
+
         // Add initial locator and overlay
         if (_options.hasLocator || _options.hasDrawing) {
             var coordinate = ol.proj.transform(_options.lonLat, 'EPSG:4326', 'EPSG:3857')
@@ -772,8 +781,6 @@ var Map = (function() {
             if(_options.hasLocator || _options.hasDrawing) {
                 if (_layerLocator.getVisible()) {
                     // locator object
-                    _layerLocator.getSource().clear()
-                    map.removeOverlay(overlay)
                     addFeatureLocator(e.coordinate, '<p><strong class="bold-small">Flood zone 1</strong><br/>(<abbr title="Easting and northing">EN</abbr> 123456/123456)</p>')
                 }
                 // Enable delete

@@ -116,152 +116,104 @@ $path: "/public/";
   z-index:2;
 }
 
-// Map control start / reset drawing
+// Map control buttons
 
-.ol-place-locator {
-  position:absolute;
-  font-size: 16px;
+.ol-draw-delete,
+.ol-draw-shape,
+.ol-place-locator,
+.ol-draw-undo,
+.ol-draw-redo {
+  border:0;
+  position: absolute;
+  top:-50px;
+  height:40px;
+  font-size:16px;
   color:white;
   background-color:$link-colour;
   line-height:1em;
-  left:10px;
-  bottom:10px;
-  z-index:1;
-  border:0;
-  height:40px;
-  width:70px;
   padding:0;
   border-radius: 0;
   cursor:pointer;
   background-repeat: no-repeat;
-  background-size:50%;
   background-position:center center;
-  &:before {
-    content:'Marker'
-  }
+  background-size:50%;
   span {
     display:none;
   }
   @include media(tablet) {
-    height: 30px;
+    top:auto;
+    bottom:10px;
+    height:30px;
+    span {
+      display:inline;
+    }
+  }
+}
+.ol-place-locator {
+  left:10px;
+  width:70px;
+  &:before {
+    content:'Marker'
+  }
+  @include media(tablet) {
     width:104px;
     &:before {
       content:''
     }
-    span {
-      display:inline;
-    }
   }
 }
 .ol-draw-shape {
-  position:absolute;
-  font-size: 16px;
-  color:white;
-  background-color:$link-colour;
-  line-height:1em;
   left:80px;
-  bottom:10px;
-  z-index:1;
-  border:0;
-  height:40px;
   width:70px;
-  padding:0;
-  border-radius: 0;
-  cursor:pointer;
-  background-repeat: no-repeat;
-  background-size:50%;
-  background-position:center center;
   &:before {
     content:'Shape'
   }
-  span {
-    display:none;
-  }
   @include media(tablet) {
     left:114px;
-    height:30px;
     width:96px;
     &:before {
       content:''
     }
-    span {
-      display:inline;
-    }
-  }
-}
-
-// Reset / delete button
-
-.ol-draw-delete {
-  bottom:10px;
-  left:155px;
-  width:40px;
-  height:40px;
-  position: absolute;
-  text-indent:-5000px;
-  font-size: 16px;
-  color:white;
-  background-color:$link-colour;
-  line-height:1em;
-  border-radius:0;
-  border:0;
-  padding:0;
-  background-image: url('#{$path}map-delete-2x.png');
-  background-repeat: no-repeat;
-  background-size:50%;
-  background-position:center center;
-  cursor:pointer;
-  @include media(tablet) {
-    left:215px;
-    height:30px;
-    width:30px;
-    background-size:60%;
-  }
-}
-.has-undoredo .ol-draw-delete {
-  @include media(tablet) {
-    left:280px;
-  }
-}
-
-// Map control undo/redo
-
-.ol-draw-undo,
-.ol-draw-redo {
-  position:absolute;
-  display:none;
-  font-size: 16px;
-  color:white;
-  background-color:$link-colour;
-  line-height:1em;
-  left:155px;
-  bottom:10px;
-  z-index:1;
-  border:0;
-  height:40px;
-  width:40px;
-  padding:0;
-  border-radius: 0;
-  cursor:pointer;
-  background-repeat: no-repeat;
-  background-size:50%;
-  background-position:center center;
-  text-indent:-5000px;
-  @include media(tablet) {
-    display:block;
-    left:215px;
-    height:30px;
-    width:30px;
-    background-size:60%;
   }
 }
 .ol-draw-undo {
+  left:155px;
+  width:40px;
+  text-indent:-5000px;
   background-image: url('#{$path}map-undo-2x.png');
+  @include media(tablet) {
+    left:215px;
+    width:30px;
+    background-size:60%;
+  }
 }
 .ol-draw-redo {
+  left:195px;
+  width:40px;
+  text-indent:-5000px;
   background-image: url('#{$path}map-redo-2x.png');
   @include media(tablet) {
     left:245px;
+    width:30px;
+    background-size:60%;
+  }
+}
+.ol-draw-delete {
+  left: 155px;
+  width:40px;
+  text-indent:-5000px;
+  background-image: url('#{$path}map-delete-2x.png');
+  cursor:pointer;
+  @include media(tablet) {
+    left:215px;
+    width:30px;
+    background-size:60%;
+  }
+}
+.ol-draw-redo + .ol-draw-delete {
+  left: 240px;
+  @include media(tablet) {
+    left:280px;
   }
 }
 
@@ -289,21 +241,6 @@ $path: "/public/";
 .ol-draw-redo:focus {
   z-index:2;
 }
-
-// Bottom controls with overlay
-.ol-margin-offset {
-  /*
-  @include media(mobile) {
-    //bottom:4.125em;
-    bottom:0;
-    margin-bottom:10px;
-  }
-  */
-  @include media(tablet) {
-    margin-bottom:0 !important;
-  }
-}
-
 
 // Map control fullscreen
 
@@ -460,29 +397,35 @@ $path: "/public/";
   display:block;
 }
 
-// Map caption/overlay
-
-.ol-overlay-container {
-  z-index:2;
-  background-color:white;
-  // Not mobile first
-  border: 1px solid $border-colour;
-  width:200px;
-  margin-left:-100px;
-  margin-bottom:45px;
-  //height:auto;
-  // Apply mobile media query for screen only
-  @media screen and (max-width: $tablet-breakpoint - 1px){
-    bottom:0 !important;
-    left:0 !important;
-    border:0;
-    margin-left:0;
-    margin-bottom:0;
-    width:100%;
-    //height:3.5em;
+// Control group bottom
+.ol-control-group {
+  position:absolute;
+  bottom:0;
+  width:100%;
+  @include media(tablet){
+    position:static;
+    bottom:auto;
+    width:auto;
   }
 }
-.map-overlay {
+
+// Map caption/overlay
+.ol-overlay {
+  position:static !important;
+  float:left;
+  clear:both;
+  background-color:white;
+  width:100%;
+  // Apply mobile media query for screen only
+  @include media(tablet){
+    position:absolute !important;
+    border: 1px solid $border-colour;
+    width:200px;
+    margin-left:-100px;
+    margin-bottom:45px;
+  }
+}
+.ol-overlay-inner {
   padding:10px;
   @include core-16;
   p {
