@@ -62,15 +62,13 @@ $path: "/public/";
   height: 40px;
   width: 40px;
   text-indent: -5000px;
-  background:$link-colour url('#{$path}map-controls-2x.png') no-repeat  50% 77.5%;
-  background-size:30px 150px;
+  background:$link-colour url('#{$path}icons-map-controls-2x.png') no-repeat  0% 75%;
+  background-size:200%;
   border-radius: 0;
   outline:0;
   cursor:pointer;
   overflow: hidden;
   @include media(tablet) {
-    background-size:100%;
-    background-position: 0 75%;
     height: 30px;
     width: 30px;
   }
@@ -84,6 +82,7 @@ $path: "/public/";
   bottom:10px;
   height:60px;
   z-index:1;
+  background-color:$link-colour;
 }
 .ol-zoom-in,
 .ol-zoom-out,
@@ -92,8 +91,8 @@ $path: "/public/";
   text-indent: -5000px;
   white-space: nowrap;
   -webkit-appearance:none;
-  background:$link-colour url('#{$path}map-controls-2x.png') no-repeat;
-  background-size:100%;
+  background:$link-colour url('#{$path}icons-map-controls-2x.png') no-repeat;
+  background-size:200%;
   cursor:pointer;
   height: 40px;
   width: 40px;
@@ -207,34 +206,35 @@ $path: "/public/";
   left:155px;
   width:40px;
   text-indent:-5000px;
-  background-image: url('#{$path}map-undo-2x.png');
+  background:$link-colour url('#{$path}icons-map-controls-2x.png') no-repeat  100% 50%;
+  background-size:200%;
   @include media(tablet) {
     left:215px;
     width:30px;
-    background-size:60%;
   }
 }
 .ol-draw-redo {
   left:195px;
   width:40px;
   text-indent:-5000px;
-  background-image: url('#{$path}map-redo-2x.png');
+  background:$link-colour url('#{$path}icons-map-controls-2x.png') no-repeat  100% 25%;
+  background-size:200%;
   @include media(tablet) {
     left:245px;
     width:30px;
-    background-size:60%;
   }
 }
 .ol-draw-delete {
   left: 155px;
   width:40px;
   text-indent:-5000px;
-  background-image: url('#{$path}map-delete-2x.png');
+  background:$link-colour url('#{$path}icons-map-controls-2x.png') no-repeat  100% 0%;
+  background-size:200%;
+  background-size:200%;
   cursor:pointer;
   @include media(tablet) {
     left:215px;
     width:30px;
-    background-size:60%;
   }
 }
 .ol-draw-redo + .ol-draw-delete {
