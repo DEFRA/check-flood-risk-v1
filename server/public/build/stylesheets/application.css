@@ -2819,26 +2819,38 @@ table.select-areas th {
 .icon-upvote {
   display: inline-block;
   position: relative;
-  width: 1.1em;
-  height: 1.1em;
-  top: -1px;
+  width: 18px;
+  height: 18px;
+  top: -2px;
   background-image: url("/public/icons-voting-2x.png");
   background-size: 100%;
   background-repeat: no-repeat;
   vertical-align: top;
 }
 
+@media (min-width: 641px) {
+  .icon-upvote {
+    top: -1px;
+  }
+}
+
 .icon-downvote {
   display: inline-block;
-  width: 1.1em;
-  height: 1.1em;
+  width: 18px;
+  height: 18px;
   position: relative;
-  top: 1px;
+  top: 2px;
   background-image: url("/public/icons-voting-2x.png");
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: left bottom;
   vertical-align: bottom;
+}
+
+@media (min-width: 641px) {
+  .icon-downvote {
+    top: 1px;
+  }
 }
 
 .button-text-small:hover .icon-upvote,
