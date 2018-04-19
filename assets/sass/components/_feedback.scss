@@ -21,3 +21,11 @@
         margin-top:0;
     }
 }
+.feedback-inline .button-text-small {
+    margin-left:0.4em;
+    @include media(tablet) {
+        margin-top:0.2em;
+        margin-left:0;
+        margin-right:0.4em;
+    }
+}
