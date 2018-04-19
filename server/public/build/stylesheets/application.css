@@ -2647,6 +2647,201 @@ a.subsection-header:focus .font-small {
   }
 }
 
+table th, table td {
+  font-family: "ntatabularnumbers", "nta", Arial, sans-serif;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 14px;
+  line-height: 1.14286;
+  vertical-align: top;
+  padding: .75em .5em .75em 0;
+}
+
+@media (min-width: 641px) {
+  table th, table td {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+table.select-areas .icon-tick {
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  background-image: url("/public/icon-tick.png");
+  background-position: center center;
+  background-size: 100%;
+}
+
+table.select-areas th {
+  font-weight: bold;
+}
+
+.form-location-planning .panel {
+  padding-bottom: 1em;
+}
+
+.form-location-planning .form-control {
+  width: 100%;
+}
+
+@media (min-width: 641px) {
+  .form-location-planning .form-control {
+    width: 66%;
+  }
+}
+
+.form-group-easting {
+  width: 50%;
+  float: left;
+  margin-bottom: 0;
+}
+
+@media (min-width: 641px) {
+  .form-group-easting {
+    width: 33%;
+  }
+}
+
+.form-group-easting .form-group-container {
+  padding-right: 0.3947em;
+}
+
+.form-group-easting .form-control {
+  width: 100%;
+}
+
+.form-group-northing {
+  width: 50%;
+  float: left;
+  margin-bottom: 0;
+}
+
+@media (min-width: 641px) {
+  .form-group-northing {
+    width: 33%;
+  }
+}
+
+.form-group-northing .form-group-container {
+  padding-left: 0.3947em;
+}
+
+.form-group-northing .form-control {
+  width: 100%;
+}
+
+.error-message-group {
+  margin-bottom: 15px;
+}
+
+@media (min-width: 641px) {
+  .error-message-group .form-group {
+    margin-bottom: 30px;
+  }
+}
+
+.form-control-readonly {
+  width: 100%;
+  border-color: #bfc1c3;
+  color: #6f777b;
+}
+
+.form-group-map-error {
+  margin-right: 0;
+}
+
+.button-download {
+  background-image: url("/public/icon-file-download-2x.png");
+  background-repeat: no-repeat;
+  background-size: 16px;
+  background-position: 0.7em center;
+  padding-left: 2em;
+}
+
+@media (min-width: 641px) {
+  .button-download {
+    padding-left: 1.85em;
+  }
+}
+
+.button-link {
+  font-family: "nta", Arial, sans-serif;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 16px;
+  line-height: 1.25;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: #005ea5;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@media (min-width: 641px) {
+  .button-link {
+    font-size: 19px;
+    line-height: 1.31579;
+  }
+}
+
+.button-link:hover {
+  color: #2b8cc4;
+}
+
+.button-text-small {
+  font-family: "nta", Arial, sans-serif;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 14px;
+  line-height: 1.14286;
+  line-height: 1.25em;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: #005ea5;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+@media (min-width: 641px) {
+  .button-text-small {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+.button-text-small:hover {
+  color: #2b8cc4;
+}
+
+.icon-upvote {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background-image: url("/public/icons-voting-2x.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  vertical-align: top;
+}
+
+.icon-downvote {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background-image: url("/public/icons-voting-2x.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  vertical-align: bottom;
+}
+
+.button-text-small:hover .icon-upvote,
+.button-text-small:hover .icon-downvote {
+  opacity: 0.7;
+}
+
 .govuk-related-items {
   border-top: 2px solid #005ea5;
   padding-top: 5px;
@@ -3758,108 +3953,31 @@ a.subsection-header:focus .font-small {
   border-top: 1px solid #bfc1c3;
 }
 
-table th, table td {
-  font-family: "ntatabularnumbers", "nta", Arial, sans-serif;
-  font-weight: 400;
-  text-transform: none;
-  font-size: 14px;
-  line-height: 1.14286;
-  vertical-align: top;
-  padding: .75em .5em .75em 0;
+.feedback-inline {
+  position: relative;
 }
 
 @media (min-width: 641px) {
-  table th, table td {
-    font-size: 16px;
-    line-height: 1.25;
+  .feedback-inline-form {
+    position: absolute;
+    width: 50%;
+    top: 0;
+    left: 100%;
+    margin-left: 30px;
+    padding: 0;
   }
-}
-
-table.select-areas .icon-tick {
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  background-image: url("/public/icon-tick.png");
-  background-position: center center;
-  background-size: 100%;
-}
-
-table.select-areas th {
-  font-weight: bold;
-}
-
-.form-location-planning .panel {
-  padding-bottom: 1em;
-}
-
-.form-location-planning .form-control {
-  width: 100%;
 }
 
 @media (min-width: 641px) {
-  .form-location-planning .form-control {
-    width: 66%;
+  .feedback-inline .feedback-inline-copy {
+    display: block;
   }
-}
-
-.form-group-easting {
-  width: 50%;
-  float: left;
-  margin-bottom: 0;
 }
 
 @media (min-width: 641px) {
-  .form-group-easting {
-    width: 33%;
+  .feedback-inline p {
+    margin-top: 0;
   }
-}
-
-.form-group-easting .form-group-container {
-  padding-right: 0.3947em;
-}
-
-.form-group-easting .form-control {
-  width: 100%;
-}
-
-.form-group-northing {
-  width: 50%;
-  float: left;
-  margin-bottom: 0;
-}
-
-@media (min-width: 641px) {
-  .form-group-northing {
-    width: 33%;
-  }
-}
-
-.form-group-northing .form-group-container {
-  padding-left: 0.3947em;
-}
-
-.form-group-northing .form-control {
-  width: 100%;
-}
-
-.error-message-group {
-  margin-bottom: 15px;
-}
-
-@media (min-width: 641px) {
-  .error-message-group .form-group {
-    margin-bottom: 30px;
-  }
-}
-
-.form-control-readonly {
-  width: 100%;
-  border-color: #bfc1c3;
-  color: #6f777b;
-}
-
-.form-group-map-error {
-  margin-right: 0;
 }
 
 .column-two-thirds-map {
@@ -4633,45 +4751,6 @@ li .key-feature-group {
   .multiple-choice-key:last-child, .multiple-choice-key:last-of-type {
     margin-bottom: 10px;
   }
-}
-
-.button-download {
-  background-image: url("/public/icon-file-download-2x.png");
-  background-repeat: no-repeat;
-  background-size: 16px;
-  background-position: 0.7em center;
-  padding-left: 2em;
-}
-
-@media (min-width: 641px) {
-  .button-download {
-    padding-left: 1.85em;
-  }
-}
-
-.button-text {
-  font-family: "nta", Arial, sans-serif;
-  font-weight: 400;
-  text-transform: none;
-  font-size: 16px;
-  line-height: 1.25;
-  background: none;
-  border: 0;
-  padding: 0;
-  color: #005ea5;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-@media (min-width: 641px) {
-  .button-text {
-    font-size: 19px;
-    line-height: 1.31579;
-  }
-}
-
-.button-text:hover {
-  color: #2b8cc4;
 }
 
 .flood-zone-location-edit {

@@ -1,0 +1,61 @@
+$path: "/public/";
+
+.button-download {
+    @extend .button;
+    background-image: url('#{$path}icon-file-download-2x.png');
+    background-repeat:no-repeat;
+    background-size:16px;
+    background-position: 0.7em center;
+    padding-left:2em;
+    @include media(tablet) {
+        padding-left:1.85em;
+    }
+}
+.button-link {
+    @include core-19;
+    background:none;
+    border:0; 
+    padding:0;
+    color:$link-colour;
+    text-decoration:underline;
+    cursor:pointer;
+}
+.button-link:hover {
+    color:$link-hover-colour;
+}
+.button-text-small {
+    @include core-16;
+    line-height:1.25em;
+    background:none;
+    border:0; 
+    padding:0;
+    color:$link-colour;
+    text-decoration:none;
+    cursor:pointer;
+}
+.button-text-small:hover {
+    color:$link-hover-colour;
+}
+.icon-upvote {
+    display:inline-block;
+    width:1em;
+    height:1em;
+    background-image: url('#{$path}icons-voting-2x.png');
+    background-size:100%;
+    background-repeat:no-repeat;
+    vertical-align: top;
+}
+.icon-downvote {
+    display:inline-block;
+    width:1em;
+    height:1em;
+    background-image: url('#{$path}icons-voting-2x.png');
+    background-size:100%;
+    background-repeat:no-repeat;
+    background-position: left bottom;
+    vertical-align: bottom;
+}
+.button-text-small:hover .icon-upvote,
+.button-text-small:hover .icon-downvote {
+    opacity:0.7;
+}

@@ -12,6 +12,9 @@ $path: "/public/";
 @import 'accordion';
 @import 'notices';
 
+@import 'objects/tables';
+@import 'objects/forms';
+@import 'objects/buttons';
 @import 'objects/visualisations';
 
 @import 'components/govuk/related-items';
@@ -22,9 +25,7 @@ $path: "/public/";
 @import 'components/govuk/govspeak/contact';
 @import 'components/govuk/govspeak/typography';
 
-@import 'components/tables';
-@import 'components/forms';
-@import 'components/maps';
-@import 'components/buttons';
+@import 'components/feedback';
+@import 'components/map';
 
 @import 'utilities/margins-borders';
