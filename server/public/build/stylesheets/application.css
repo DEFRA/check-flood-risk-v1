@@ -2818,8 +2818,10 @@ table.select-areas th {
 
 .icon-upvote {
   display: inline-block;
-  width: 1em;
-  height: 1em;
+  position: relative;
+  width: 1.1em;
+  height: 1.1em;
+  top: -1px;
   background-image: url("/public/icons-voting-2x.png");
   background-size: 100%;
   background-repeat: no-repeat;
@@ -2828,8 +2830,10 @@ table.select-areas th {
 
 .icon-downvote {
   display: inline-block;
-  width: 1em;
-  height: 1em;
+  width: 1.1em;
+  height: 1.1em;
+  position: relative;
+  top: 1px;
   background-image: url("/public/icons-voting-2x.png");
   background-size: 100%;
   background-repeat: no-repeat;
