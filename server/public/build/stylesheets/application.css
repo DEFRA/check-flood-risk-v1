@@ -3974,6 +3974,16 @@ table.select-areas th {
   position: relative;
 }
 
+.feedback-inline:last-child {
+  margin-bottom: 1.5em;
+}
+
+@media (min-width: 641px) {
+  .feedback-inline:last-child {
+    margin-bottom: 0;
+  }
+}
+
 @media (min-width: 641px) {
   .feedback-inline-form {
     position: absolute;

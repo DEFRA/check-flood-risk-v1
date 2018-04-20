@@ -1,6 +1,12 @@
 .feedback-inline {
     position:relative;
 }
+.feedback-inline:last-child {
+    margin-bottom:1.5em;
+    @include media(tablet) {
+        margin-bottom:0;
+    }
+}
 .feedback-inline-form {
     @include media(tablet) {
         position:absolute;
