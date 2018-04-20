@@ -4103,8 +4103,9 @@ table.select-areas th {
   height: 40px;
   width: 40px;
   text-indent: -5000px;
-  background: #005ea5 url("/public/icons-map-controls-2x.png") no-repeat 0% 75%;
-  background-size: 200%;
+  background: #005ea5 url("/public/icons-map-controls-2x.png") no-repeat;
+  background-position: 5px -85px;
+  background-size: 150%;
   border-radius: 0;
   outline: 0;
   cursor: pointer;
@@ -4113,6 +4114,8 @@ table.select-areas th {
 
 @media (min-width: 641px) {
   .ol-full-screen {
+    background-size: 200%;
+    background-position: 0px -90px;
     height: 30px;
     width: 30px;
   }
@@ -4159,18 +4162,18 @@ table.select-areas th {
 }
 
 .ol-zoom-in {
-  background-position: 0% 25%;
+  background-position: 0 -30px;
 }
 
 .ol-zoom-out {
-  background-position: 0% 50%;
+  background-position: 0 -60px;
 }
 
 .ol-zoom-reset {
   position: absolute;
   right: 10px;
   bottom: 10px;
-  background-position: 0% 0%;
+  background-position: 0 0;
   font-size: 16px;
 }
 
@@ -4287,12 +4290,15 @@ table.select-areas th {
   left: 155px;
   width: 40px;
   text-indent: -5000px;
-  background: #005ea5 url("/public/icons-map-controls-2x.png") no-repeat 100% 50%;
-  background-size: 200%;
+  background: #005ea5 url("/public/icons-map-controls-2x.png") no-repeat;
+  background-position: -25px -55px;
+  background-size: 150%;
 }
 
 @media (min-width: 641px) {
   .ol-draw-undo {
+    background-position: -30px -60px;
+    background-size: 200%;
     left: 215px;
     width: 30px;
   }
@@ -4302,12 +4308,15 @@ table.select-areas th {
   left: 195px;
   width: 40px;
   text-indent: -5000px;
-  background: #005ea5 url("/public/icons-map-controls-2x.png") no-repeat 100% 25%;
-  background-size: 200%;
+  background: #005ea5 url("/public/icons-map-controls-2x.png") no-repeat;
+  background-position: -25px -25px;
+  background-size: 150%;
 }
 
 @media (min-width: 641px) {
   .ol-draw-redo {
+    background-position: -30px -30px;
+    background-size: 200%;
     left: 245px;
     width: 30px;
   }
@@ -4317,14 +4326,16 @@ table.select-areas th {
   left: 155px;
   width: 40px;
   text-indent: -5000px;
-  background: #005ea5 url("/public/icons-map-controls-2x.png") no-repeat 100% 0%;
-  background-size: 200%;
-  background-size: 200%;
+  background: #005ea5 url("/public/icons-map-controls-2x.png") no-repeat;
+  background-position: -25px 5px;
+  background-size: 150%;
   cursor: pointer;
 }
 
 @media (min-width: 641px) {
   .ol-draw-delete {
+    background-position: -30px 0;
+    background-size: 200%;
     left: 215px;
     width: 30px;
   }
