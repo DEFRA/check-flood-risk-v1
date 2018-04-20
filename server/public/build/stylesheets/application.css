@@ -3970,22 +3970,22 @@ table.select-areas th {
   border-top: 1px solid #bfc1c3;
 }
 
-.feedback-inline {
+.feedback-inline-container {
   position: relative;
 }
 
-.feedback-inline:last-child {
+.feedback-inline-container:last-child {
   margin-bottom: 1.5em;
 }
 
 @media (min-width: 641px) {
-  .feedback-inline:last-child {
+  .feedback-inline-container:last-child {
     margin-bottom: 0;
   }
 }
 
 @media (min-width: 641px) {
-  .feedback-inline-form {
+  .feedback-inline-container .feedback-inline {
     position: absolute;
     width: 50%;
     top: 0;
