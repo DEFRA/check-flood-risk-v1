@@ -1,7 +1,5 @@
 .banner {
     background-color:$panel-colour;
-    //padding: em(15, 19);
-    //margin-bottom: em(15, 19);
 }
 .banner-wrapper {
     max-width: 990px;
@@ -15,12 +13,4 @@
 .banner-content {
     padding-left:15px;
     padding-right:15px;
-}
-.banner-warning {
-    //color:white;
-    //background-color:rgba($red,.2);
-    //margin-top: em(15, 19);
-}
-.banner-warning strong {
-    display: block;
 }

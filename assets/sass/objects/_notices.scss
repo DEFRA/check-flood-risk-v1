@@ -1,0 +1,39 @@
+.notice-flood-warning {
+    //padding: em(15, 19);
+    position:relative;
+    padding-left:59px;
+    @include media(tablet) {
+        padding-left:64px;
+    }
+    .icon {
+        position:absolute;
+        top:11px;
+        left:0;
+        width:54px;
+        height:54px;
+        @include media(tablet) {
+            top:8px;
+            width:60px;
+            height:60px;
+        }
+        background-image:url('#{$path}icon-flood-warning-2x.gif');
+        background-position:center center;
+        background-size:100%;
+    }
+    margin-bottom:0;
+}
+/*
+.banner .icon-flood-warning
+ {
+    width:32px;
+    height:32px;
+    background-image:url('#{$path}icon-flood-warning-2x.gif');
+    background-position:center center;
+    background-size:80%;
+    margin-top:-16px !important;
+    margin-left:-2px;
+    @include media(tablet) {
+        background-size:100%;
+    }
+}
+*/
