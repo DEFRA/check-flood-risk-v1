@@ -1,3 +1,14 @@
+{{#section 'banner' }}
+<div class="banner banner-warning">
+	<div class="banner-wrapper">
+		<div class="banner-content">
+			<strong class="bold-small">Flood warning inforce now</strong>
+			Flooding expected - immediate action required
+		</div>
+	</div>
+</div>
+{{/section }}
+
 {{#if trace }}
 <p class="font-xsmall">{{ json model }}<p>
 {{/if }}
@@ -6,15 +17,10 @@
 
 	<div class="grid-row">
 
-		<div class="column-two-thirds">
+		<div class="column-full">
 
 			<h1 class="heading-xlarge">
-				<span class="heading-secondary-notice">
-					<i class="icon icon-flood-warning-large">
-						<span class="visually-hidden">Flood warning</span>
-					</i>Flood warning <span class="visuallyhidden">for:</span>
-				</span>
-				<span class="heading-primary-notice">Central Mytholmroyd (River Calder)</span>
+				Central Mytholmroyd (River Calder)
 			</h1>
 		
 		</div>
@@ -25,9 +31,8 @@
 
 		<div class="column-two-thirds">
 
-			<div class="panel panel-border-narrow panel-warning-message">
+			<div class="panel panel-border-narrow">
 
-				<p><strong class="bold-small">Flooding expected - immediate action required</strong></p>
 				<p>This message has been issued because of the rainfall overnight and during this morning affecting this area. This means that river levels are expected to continue to rise over the next new hours.</p></p>
 				<p>The forecast is for showers throughout the day which will keep rivers fluctuating. We are expecting river levels to remain responsive to further rainfall.</p>
 				<p>We will continue to closely monitor levels and update this message as necessary.</p>

@@ -2859,6 +2859,32 @@ table.select-areas th {
   opacity: 0.7;
 }
 
+.banner {
+  background-color: #dee0e2;
+}
+
+.banner-wrapper {
+  max-width: 990px;
+  margin: 0 auto;
+  padding: 30px 0;
+}
+
+@media (min-width: 641px) {
+  .banner-wrapper {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+.banner-content {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.banner-warning strong {
+  display: block;
+}
+
 .govuk-related-items {
   border-top: 2px solid #005ea5;
   padding-top: 5px;
