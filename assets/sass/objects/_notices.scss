@@ -1,5 +1,4 @@
 .notice-flood-warning {
-    //padding: em(15, 19);
     position:relative;
     padding-left:59px;
     @include media(tablet) {
@@ -22,18 +21,3 @@
     }
     margin-bottom:0;
 }
-/*
-.banner .icon-flood-warning
- {
-    width:32px;
-    height:32px;
-    background-image:url('#{$path}icon-flood-warning-2x.gif');
-    background-position:center center;
-    background-size:80%;
-    margin-top:-16px !important;
-    margin-left:-2px;
-    @include media(tablet) {
-        background-size:100%;
-    }
-}
-*/

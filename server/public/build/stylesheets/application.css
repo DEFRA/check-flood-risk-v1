@@ -2905,21 +2905,6 @@ table.select-areas th {
   }
 }
 
-/*
-.banner .icon-flood-warning
- {
-    width:32px;
-    height:32px;
-    background-image:url('/public/icon-flood-warning-2x.gif');
-    background-position:center center;
-    background-size:80%;
-    margin-top:-16px !important;
-    margin-left:-2px;
-    @include media(tablet) {
-        background-size:100%;
-    }
-}
-*/
 .govuk-related-items {
   border-top: 2px solid #005ea5;
   padding-top: 5px;
@@ -4897,4 +4882,14 @@ li .key-feature-group {
 
 .guide .no-top-margin {
   margin-top: 0;
+}
+
+.warning .heading-xlarge {
+  margin-bottom: 0.78947em;
+}
+
+@media (min-width: 641px) {
+  .warning .heading-xlarge {
+    margin-bottom: 0.625em;
+  }
 }

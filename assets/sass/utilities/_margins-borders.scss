@@ -13,7 +13,7 @@
 .panel-warning-message {
     @include media(tablet) {
         margin-bottom:1.5em;
-      }
+    }
 }
 
 // Guide
@@ -28,4 +28,12 @@
 }
 .guide .no-top-margin {
     margin-top:0;
+}
+
+// Warning detail
+.warning .heading-xlarge {
+    margin-bottom: em(15, 19);
+    @include media(tablet) {
+        margin-bottom: em(15, 24);
+    }
 }

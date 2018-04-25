@@ -32,6 +32,7 @@ module.exports = [
 				return reply.view('warnings/detail', {
 					'model' : model,
 					'trace' : trace,
+					'bodyClasses' : 'warning',
 					'pageTitle' : 'Central Mytholmroyd (River Calder) - Flood warning - GOV.UK'
 				})
 			}
