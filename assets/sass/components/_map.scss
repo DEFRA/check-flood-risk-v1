@@ -18,7 +18,7 @@ $path: "/public/";
   height:275px;
   border:1px solid $border-colour;
 }
-.flood-zone .map-container {
+.map-container-large {
   border:1px solid $border-colour;
   @include media(tablet) {
     height:576px;
@@ -79,6 +79,7 @@ $path: "/public/";
 
 // Openlayers controls: zoom
 
+/*
 .ol-zoom {
   position:absolute;
   right:10px;
@@ -118,34 +119,14 @@ $path: "/public/";
 .ol-zoom-out {
   background-position:0 -60px;
 }
-.ol-zoom-reset {
-  position: absolute;
-  right:10px;
-  bottom:10px;
-  background-position:0 0;
-  font-size:16px;
-  @include media(tablet) {
-    height: 30px;
-    width: 30px;
-    top:auto;
-    bottom:70px;
-  }
-}
-.ol-zoom-in:hover,
-.ol-zoom-out:hover,
-.ol-zoom-reset:hover,
-.ol-full-screen:hover {
-  background-color:$focus-colour;
-}
-.ol-zoom-in:focus,
-.ol-zoom-out:focus,
-.ol-zoom-reset:focus,
-.ol-full-screen:focus {
-  z-index:2;
-}
+
+*/
 
 // Map control buttons
 
+.ol-zoom-reset,
+.ol-zoom-in,
+.ol-zoom-out,
 .ol-draw-delete,
 .ol-draw-shape,
 .ol-place-locator,
@@ -158,13 +139,14 @@ $path: "/public/";
   font-size:16px;
   color:white;
   background-color:$link-colour;
+  background-size:150%;
   line-height:1em;
   padding:0;
   border-radius: 0;
   cursor:pointer;
   background-repeat: no-repeat;
   background-position:center center;
-  background-size:50%;
+  background-size:150%;
   overflow: hidden;
   span {
     display:none;
@@ -173,9 +155,43 @@ $path: "/public/";
     top:auto;
     bottom:10px;
     height:30px;
+    background-size:200%;
     span {
       display:inline;
     }
+  }
+}
+.ol-zoom-reset {
+  text-indent:-5000px;
+  right:10px;
+  bottom:10px;
+  width:40px;
+  background-position:0 0;
+  font-size:16px;
+  @include media(tablet) {
+    height: 30px;
+    width: 30px;
+    bottom:70px;
+  }
+}
+.ol-zoom-in {
+  display: none;
+  @include media(tablet) {
+    display:block;
+    right:10px;
+    bottom:40px;
+    width:30px;
+    background-position:0 -30px;
+  }
+}
+.ol-zoom-out {
+  display: none;
+  @include media(tablet) {
+    display:block;
+    right:10px;
+    bottom:10px;
+    width:30px;
+    background-position:0 -60px;
   }
 }
 .ol-place-locator {
@@ -211,10 +227,8 @@ $path: "/public/";
   text-indent:-5000px;
   background:$link-colour url('#{$path}icons-map-controls-2x.png') no-repeat;
   background-position: -25px -55px;
-  background-size:150%;
   @include media(tablet) {
     background-position: -30px -60px;
-    background-size:200%;
     left:215px;
     width:30px;
   }
@@ -225,10 +239,8 @@ $path: "/public/";
   text-indent:-5000px;
   background:$link-colour url('#{$path}icons-map-controls-2x.png') no-repeat;
   background-position: -25px -25px;
-  background-size:150%;
   @include media(tablet) {
     background-position: -30px -30px;
-    background-size:200%;
     left:245px;
     width:30px;
   }
@@ -239,11 +251,9 @@ $path: "/public/";
   text-indent:-5000px;
   background:$link-colour url('#{$path}icons-map-controls-2x.png') no-repeat;
   background-position: -25px 5px;
-  background-size:150%;
   cursor:pointer;
   @include media(tablet) {
     background-position: -30px 0;
-    background-size:200%;
     left:215px;
     width:30px;
   }
@@ -255,6 +265,10 @@ $path: "/public/";
   }
 }
 
+.ol-zoom-in:hover,
+.ol-zoom-out:hover,
+.ol-zoom-reset:hover,
+.ol-full-screen:hover,
 .ol-draw-delete:hover,
 .ol-draw-shape:hover,
 .ol-place-locator:hover,
@@ -263,6 +277,10 @@ $path: "/public/";
   background-color:$focus-colour;
 }
 
+.ol-zoom-in:disabled,
+.ol-zoom-out:disabled,
+.ol-zoom-reset:disabled,
+.ol-full-screen:disabled,
 .ol-draw-delete:disabled,
 .ol-draw-shape:disabled,
 .ol-place-locator:disabled,
@@ -272,6 +290,9 @@ $path: "/public/";
   cursor:default;
 }
 
+.ol-zoom-in:focus,
+.ol-zoom-out:focus,
+.ol-zoom-reset:focus,
 .ol-draw-delete:focus,
 .ol-place-locator:focus,
 .ol-draw-shape:focus,

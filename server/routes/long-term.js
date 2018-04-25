@@ -146,5 +146,26 @@ module.exports = [
 				}
 			}
 		}
+	},
+	{
+		method: 'GET',
+		path: '/long-term/map',
+		config: {
+			handler: function (request, reply) {
+
+				var model = { 
+					'scenario' : request.query.s ? request.query.s : 'a',
+					'lonLat' : request.query.lonLat,
+					'zoom' : request.query.zoom, 
+				}
+
+				return reply.view('long-term/map', {
+					'pageTitle' : 'Map - Long term flood risk - GOV.UK',
+					'pageClass' : 'long-term-map',
+					'model' : model
+				})
+
+			}
+		}
 	}
 ]

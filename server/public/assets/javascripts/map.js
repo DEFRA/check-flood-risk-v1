@@ -448,7 +448,7 @@ var Map = (function() {
         // Zoom buttons
         var elementZoom = document.createElement('button')
         elementZoom.appendChild(document.createTextNode('Zoom'))
-        elementZoom.className = 'ol-zoom'
+        elementZoom.className = 'ol-zoom ol-control-group'
         var zoom = new ol.control.Zoom({
             element: elementZoom
         })
@@ -456,7 +456,7 @@ var Map = (function() {
         // Zoom reset button
         var elementZoomReset = document.createElement('button')
         elementZoomReset.appendChild(document.createTextNode('Zoom reset'))
-        elementZoomReset.className = 'ol-zoom-reset'
+        elementZoomReset.className = 'ol-zoom-reset ol-control-group'
         elementZoomReset.setAttribute('title','Reset location')
         var zoomReset = new ol.control.Control({
             element: elementZoomReset

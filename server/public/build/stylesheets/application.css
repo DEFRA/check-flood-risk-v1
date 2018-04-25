@@ -4090,12 +4090,12 @@ table.select-areas th {
   border: 1px solid #bfc1c3;
 }
 
-.flood-zone .map-container {
+.map-container-large {
   border: 1px solid #bfc1c3;
 }
 
 @media (min-width: 641px) {
-  .flood-zone .map-container {
+  .map-container-large {
     height: 576px;
   }
 }
@@ -4167,85 +4167,51 @@ table.select-areas th {
   }
 }
 
+/*
 .ol-zoom {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-  height: 60px;
-  z-index: 1;
-  background-color: #005ea5;
+  position:absolute;
+  right:10px;
+  bottom:10px;
+  height:60px;
+  z-index:1;
+  background-color:$link-colour;
 }
-
 .ol-zoom-in,
 .ol-zoom-out,
 .ol-zoom-reset {
-  border: 0;
+  border:0;
   text-indent: -5000px;
   white-space: nowrap;
-  -webkit-appearance: none;
-  background: #005ea5 url("/public/icons-map-controls-2x.png") no-repeat;
-  background-size: 200%;
-  cursor: pointer;
+  -webkit-appearance:none;
+  background:$link-colour url('/public/icons-map-controls-2x.png') no-repeat;
+  background-size:200%;
+  cursor:pointer;
   height: 40px;
   width: 40px;
   border-radius: 0;
   overflow: hidden;
 }
-
 .ol-zoom-in,
 .ol-zoom-out {
   position: relative;
   display: none;
-}
-
-@media (min-width: 641px) {
-  .ol-zoom-in,
-  .ol-zoom-out {
-    display: block;
+  @include media(tablet) {
+    display:block;
     height: 30px;
     width: 30px;
   }
 }
-
 .ol-zoom-in {
-  background-position: 0 -30px;
+  background-position:0 -30px;
 }
-
 .ol-zoom-out {
-  background-position: 0 -60px;
+  background-position:0 -60px;
 }
 
-.ol-zoom-reset {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-  background-position: 0 0;
-  font-size: 16px;
-}
-
-@media (min-width: 641px) {
-  .ol-zoom-reset {
-    height: 30px;
-    width: 30px;
-    top: auto;
-    bottom: 70px;
-  }
-}
-
-.ol-zoom-in:hover,
-.ol-zoom-out:hover,
-.ol-zoom-reset:hover,
-.ol-full-screen:hover {
-  background-color: #ffbf47;
-}
-
-.ol-zoom-in:focus,
-.ol-zoom-out:focus,
-.ol-zoom-reset:focus,
-.ol-full-screen:focus {
-  z-index: 2;
-}
-
+*/
+.ol-zoom-reset,
+.ol-zoom-in,
+.ol-zoom-out,
 .ol-draw-delete,
 .ol-draw-shape,
 .ol-place-locator,
@@ -4258,16 +4224,20 @@ table.select-areas th {
   font-size: 16px;
   color: white;
   background-color: #005ea5;
+  background-size: 150%;
   line-height: 1em;
   padding: 0;
   border-radius: 0;
   cursor: pointer;
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: 50%;
+  background-size: 150%;
   overflow: hidden;
 }
 
+.ol-zoom-reset span,
+.ol-zoom-in span,
+.ol-zoom-out span,
 .ol-draw-delete span,
 .ol-draw-shape span,
 .ol-place-locator span,
@@ -4277,6 +4247,9 @@ table.select-areas th {
 }
 
 @media (min-width: 641px) {
+  .ol-zoom-reset,
+  .ol-zoom-in,
+  .ol-zoom-out,
   .ol-draw-delete,
   .ol-draw-shape,
   .ol-place-locator,
@@ -4285,13 +4258,62 @@ table.select-areas th {
     top: auto;
     bottom: 10px;
     height: 30px;
+    background-size: 200%;
   }
+  .ol-zoom-reset span,
+  .ol-zoom-in span,
+  .ol-zoom-out span,
   .ol-draw-delete span,
   .ol-draw-shape span,
   .ol-place-locator span,
   .ol-draw-undo span,
   .ol-draw-redo span {
     display: inline;
+  }
+}
+
+.ol-zoom-reset {
+  text-indent: -5000px;
+  right: 10px;
+  bottom: 10px;
+  width: 40px;
+  background-position: 0 0;
+  font-size: 16px;
+}
+
+@media (min-width: 641px) {
+  .ol-zoom-reset {
+    height: 30px;
+    width: 30px;
+    bottom: 70px;
+  }
+}
+
+.ol-zoom-in {
+  display: none;
+}
+
+@media (min-width: 641px) {
+  .ol-zoom-in {
+    display: block;
+    right: 10px;
+    bottom: 40px;
+    width: 30px;
+    background-position: 0 -30px;
+  }
+}
+
+.ol-zoom-out {
+  display: none;
+}
+
+@media (min-width: 641px) {
+  .ol-zoom-out {
+    display: block;
+    right: 10px;
+    bottom: 10px;
+    width: 30px;
+    background-position: 0 -60px;
   }
 }
 
@@ -4338,13 +4360,11 @@ table.select-areas th {
   text-indent: -5000px;
   background: #005ea5 url("/public/icons-map-controls-2x.png") no-repeat;
   background-position: -25px -55px;
-  background-size: 150%;
 }
 
 @media (min-width: 641px) {
   .ol-draw-undo {
     background-position: -30px -60px;
-    background-size: 200%;
     left: 215px;
     width: 30px;
   }
@@ -4356,13 +4376,11 @@ table.select-areas th {
   text-indent: -5000px;
   background: #005ea5 url("/public/icons-map-controls-2x.png") no-repeat;
   background-position: -25px -25px;
-  background-size: 150%;
 }
 
 @media (min-width: 641px) {
   .ol-draw-redo {
     background-position: -30px -30px;
-    background-size: 200%;
     left: 245px;
     width: 30px;
   }
@@ -4374,14 +4392,12 @@ table.select-areas th {
   text-indent: -5000px;
   background: #005ea5 url("/public/icons-map-controls-2x.png") no-repeat;
   background-position: -25px 5px;
-  background-size: 150%;
   cursor: pointer;
 }
 
 @media (min-width: 641px) {
   .ol-draw-delete {
     background-position: -30px 0;
-    background-size: 200%;
     left: 215px;
     width: 30px;
   }
@@ -4397,6 +4413,10 @@ table.select-areas th {
   }
 }
 
+.ol-zoom-in:hover,
+.ol-zoom-out:hover,
+.ol-zoom-reset:hover,
+.ol-full-screen:hover,
 .ol-draw-delete:hover,
 .ol-draw-shape:hover,
 .ol-place-locator:hover,
@@ -4405,6 +4425,10 @@ table.select-areas th {
   background-color: #ffbf47;
 }
 
+.ol-zoom-in:disabled,
+.ol-zoom-out:disabled,
+.ol-zoom-reset:disabled,
+.ol-full-screen:disabled,
 .ol-draw-delete:disabled,
 .ol-draw-shape:disabled,
 .ol-place-locator:disabled,
@@ -4414,6 +4438,9 @@ table.select-areas th {
   cursor: default;
 }
 
+.ol-zoom-in:focus,
+.ol-zoom-out:focus,
+.ol-zoom-reset:focus,
 .ol-draw-delete:focus,
 .ol-place-locator:focus,
 .ol-draw-shape:focus,
