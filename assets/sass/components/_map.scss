@@ -45,7 +45,7 @@ $path: "/public/";
   background-color:white;
 }
 
-.map figcaption {
+.map figcaption { // map-caption
   @include core-16;
   margin-top:0.5em;
   margin-bottom:2em;
