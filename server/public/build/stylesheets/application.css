@@ -4080,7 +4080,6 @@ table.select-areas th {
 @media (min-width: 641px) {
   .map {
     margin-top: 0;
-    padding-bottom: 5px;
   }
 }
 
@@ -4092,6 +4091,7 @@ table.select-areas th {
 
 .map-container-large {
   border: 1px solid #bfc1c3;
+  width: 100%;
 }
 
 @media (min-width: 641px) {
@@ -4167,48 +4167,10 @@ table.select-areas th {
   }
 }
 
-/*
 .ol-zoom {
-  position:absolute;
-  right:10px;
-  bottom:10px;
-  height:60px;
-  z-index:1;
-  background-color:$link-colour;
-}
-.ol-zoom-in,
-.ol-zoom-out,
-.ol-zoom-reset {
-  border:0;
-  text-indent: -5000px;
-  white-space: nowrap;
-  -webkit-appearance:none;
-  background:$link-colour url('/public/icons-map-controls-2x.png') no-repeat;
-  background-size:200%;
-  cursor:pointer;
-  height: 40px;
-  width: 40px;
-  border-radius: 0;
-  overflow: hidden;
-}
-.ol-zoom-in,
-.ol-zoom-out {
-  position: relative;
-  display: none;
-  @include media(tablet) {
-    display:block;
-    height: 30px;
-    width: 30px;
-  }
-}
-.ol-zoom-in {
-  background-position:0 -30px;
-}
-.ol-zoom-out {
-  background-position:0 -60px;
+  position: static;
 }
 
-*/
 .ol-zoom-reset,
 .ol-zoom-in,
 .ol-zoom-out,
@@ -4223,15 +4185,15 @@ table.select-areas th {
   height: 40px;
   font-size: 16px;
   color: white;
-  background-color: #005ea5;
-  background-size: 150%;
   line-height: 1em;
   padding: 0;
   border-radius: 0;
   cursor: pointer;
+  background-image: url("/public/icons-map-controls-2x.png");
+  background-color: #005ea5;
+  background-size: 150%;
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: 150%;
   overflow: hidden;
 }
 
@@ -4257,7 +4219,7 @@ table.select-areas th {
   .ol-draw-redo {
     top: auto;
     bottom: 10px;
-    height: 30px;
+    height: 30.25px;
     background-size: 200%;
   }
   .ol-zoom-reset span,
@@ -4277,7 +4239,7 @@ table.select-areas th {
   right: 10px;
   bottom: 10px;
   width: 40px;
-  background-position: 0 0;
+  background-position: 5px 5px;
   font-size: 16px;
 }
 
@@ -4286,6 +4248,7 @@ table.select-areas th {
     height: 30px;
     width: 30px;
     bottom: 70px;
+    background-position: 0 0;
   }
 }
 
@@ -4295,6 +4258,7 @@ table.select-areas th {
 
 @media (min-width: 641px) {
   .ol-zoom-in {
+    text-indent: -5000px;
     display: block;
     right: 10px;
     bottom: 40px;
@@ -4309,6 +4273,7 @@ table.select-areas th {
 
 @media (min-width: 641px) {
   .ol-zoom-out {
+    text-indent: -5000px;
     display: block;
     right: 10px;
     bottom: 10px;
@@ -4320,6 +4285,7 @@ table.select-areas th {
 .ol-place-locator {
   left: 10px;
   width: 70px;
+  background-image: none;
 }
 
 .ol-place-locator:before {
@@ -4338,6 +4304,7 @@ table.select-areas th {
 .ol-draw-shape {
   left: 80px;
   width: 70px;
+  background-image: none;
 }
 
 .ol-draw-shape:before {
@@ -4358,7 +4325,6 @@ table.select-areas th {
   left: 155px;
   width: 40px;
   text-indent: -5000px;
-  background: #005ea5 url("/public/icons-map-controls-2x.png") no-repeat;
   background-position: -25px -55px;
 }
 
@@ -4374,7 +4340,6 @@ table.select-areas th {
   left: 195px;
   width: 40px;
   text-indent: -5000px;
-  background: #005ea5 url("/public/icons-map-controls-2x.png") no-repeat;
   background-position: -25px -25px;
 }
 
@@ -4390,7 +4355,6 @@ table.select-areas th {
   left: 155px;
   width: 40px;
   text-indent: -5000px;
-  background: #005ea5 url("/public/icons-map-controls-2x.png") no-repeat;
   background-position: -25px 5px;
   cursor: pointer;
 }

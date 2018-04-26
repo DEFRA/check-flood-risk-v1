@@ -10,7 +10,6 @@ $path: "/public/";
   margin-top:-1px;
   @include media(tablet) {
     margin-top:0;
-    padding-bottom:5px;
   }
 }
 .map-container {
@@ -20,6 +19,7 @@ $path: "/public/";
 }
 .map-container-large {
   border:1px solid $border-colour;
+  width:100%;
   @include media(tablet) {
     height:576px;
   }
@@ -77,52 +77,11 @@ $path: "/public/";
   }
 }
 
-// Openlayers controls: zoom
-
-/*
-.ol-zoom {
-  position:absolute;
-  right:10px;
-  bottom:10px;
-  height:60px;
-  z-index:1;
-  background-color:$link-colour;
-}
-.ol-zoom-in,
-.ol-zoom-out,
-.ol-zoom-reset {
-  border:0;
-  text-indent: -5000px;
-  white-space: nowrap;
-  -webkit-appearance:none;
-  background:$link-colour url('#{$path}icons-map-controls-2x.png') no-repeat;
-  background-size:200%;
-  cursor:pointer;
-  height: 40px;
-  width: 40px;
-  border-radius: 0;
-  overflow: hidden;
-}
-.ol-zoom-in,
-.ol-zoom-out {
-  position: relative;
-  display: none;
-  @include media(tablet) {
-    display:block;
-    height: 30px;
-    width: 30px;
-  }
-}
-.ol-zoom-in {
-  background-position:0 -30px;
-}
-.ol-zoom-out {
-  background-position:0 -60px;
-}
-
-*/
-
 // Map control buttons
+
+.ol-zoom {
+  position:static;
+}
 
 .ol-zoom-reset,
 .ol-zoom-in,
@@ -138,15 +97,15 @@ $path: "/public/";
   height:40px;
   font-size:16px;
   color:white;
-  background-color:$link-colour;
-  background-size:150%;
   line-height:1em;
   padding:0;
   border-radius: 0;
   cursor:pointer;
+  background-image: url('#{$path}icons-map-controls-2x.png');
+  background-color:$link-colour;
+  background-size:150%;
   background-repeat: no-repeat;
   background-position:center center;
-  background-size:150%;
   overflow: hidden;
   span {
     display:none;
@@ -154,7 +113,7 @@ $path: "/public/";
   @include media(tablet) {
     top:auto;
     bottom:10px;
-    height:30px;
+    height:30.25px;
     background-size:200%;
     span {
       display:inline;
@@ -166,17 +125,19 @@ $path: "/public/";
   right:10px;
   bottom:10px;
   width:40px;
-  background-position:0 0;
+  background-position:5px 5px;
   font-size:16px;
   @include media(tablet) {
     height: 30px;
     width: 30px;
     bottom:70px;
+    background-position:0 0;
   }
 }
 .ol-zoom-in {
   display: none;
   @include media(tablet) {
+    text-indent:-5000px;
     display:block;
     right:10px;
     bottom:40px;
@@ -187,6 +148,7 @@ $path: "/public/";
 .ol-zoom-out {
   display: none;
   @include media(tablet) {
+    text-indent:-5000px;
     display:block;
     right:10px;
     bottom:10px;
@@ -197,6 +159,7 @@ $path: "/public/";
 .ol-place-locator {
   left:10px;
   width:70px;
+  background-image:none;
   &:before {
     content:'Marker'
   }
@@ -210,6 +173,7 @@ $path: "/public/";
 .ol-draw-shape {
   left:80px;
   width:70px;
+  background-image:none;
   &:before {
     content:'Shape'
   }
@@ -225,7 +189,6 @@ $path: "/public/";
   left:155px;
   width:40px;
   text-indent:-5000px;
-  background:$link-colour url('#{$path}icons-map-controls-2x.png') no-repeat;
   background-position: -25px -55px;
   @include media(tablet) {
     background-position: -30px -60px;
@@ -237,7 +200,6 @@ $path: "/public/";
   left:195px;
   width:40px;
   text-indent:-5000px;
-  background:$link-colour url('#{$path}icons-map-controls-2x.png') no-repeat;
   background-position: -25px -25px;
   @include media(tablet) {
     background-position: -30px -30px;
@@ -249,7 +211,6 @@ $path: "/public/";
   left: 155px;
   width:40px;
   text-indent:-5000px;
-  background:$link-colour url('#{$path}icons-map-controls-2x.png') no-repeat;
   background-position: -25px 5px;
   cursor:pointer;
   @include media(tablet) {

@@ -448,7 +448,7 @@ var Map = (function() {
         // Zoom buttons
         var elementZoom = document.createElement('button')
         elementZoom.appendChild(document.createTextNode('Zoom'))
-        elementZoom.className = 'ol-zoom ol-control-group'
+        elementZoom.className = 'ol-zoom'
         var zoom = new ol.control.Zoom({
             element: elementZoom
         })
@@ -458,6 +458,9 @@ var Map = (function() {
         elementZoomReset.appendChild(document.createTextNode('Zoom reset'))
         elementZoomReset.className = 'ol-zoom-reset ol-control-group'
         elementZoomReset.setAttribute('title','Reset location')
+        elementZoomReset.addEventListener('click', function(e) {
+            e.preventDefault()
+        })
         var zoomReset = new ol.control.Control({
             element: elementZoomReset
         })
@@ -686,22 +689,15 @@ var Map = (function() {
             customControls.push(zoomReset)
         }
         customControls.push(zoom)
-        if (_options.hasDrawing && _options.hasUndoRedo) {
-            _elementMap.classList.add('has-undoredo')
-            customControls.push(
-                deleteFeature,
-                drawRedo,
-                drawUndo,
-                drawShape,
-                placeLocator
-            )
+        if (_options.hasDrawing) {
+            customControls.push(deleteFeature)
         }
-        else if (_options.hasDrawing) {
-            customControls.push(
-                deleteFeature,
-                drawShape,
-                placeLocator
-            )
+        if (_options.hasUndoRedo) {
+            _elementMap.classList.add('has-undoredo')
+            customControls.push(drawRedo, drawUndo)
+        }
+        if (_options.hasDrawing) {
+            customControls.push(drawShape,placeLocator)
         }
         var controls = ol.control.defaults({
             zoom: false,
@@ -745,7 +741,7 @@ var Map = (function() {
         map.addOverlay(overlay)
 
         // Wrap bottom controls in container so position can be controlled with CSS
-        var elements = document.querySelectorAll('.ol-control-group')
+        var elements = document.querySelectorAll('.ol-control-group, .ol-zoom')
         if (elements.length) {
             var parent = elements[0].parentNode
             var wrapper = document.createElement('div')
