@@ -298,7 +298,8 @@ var Map = (function() {
             hasDrawing: false,
             hasUndoRedo: false,
             hasZoomReset: false,
-            hasKey: false
+            hasKey: false,
+            hasSearch: false
         }
         _options = Object.assign({}, defaults, options)
 
@@ -436,6 +437,14 @@ var Map = (function() {
         // Define buttons
         //
 
+        // Search component
+        var elementSearch = document.createElement('div')
+        elementSearch.innerHTML =
+            '<label for="map-search">Find location</label>' +
+            '<input id="map-search" type="search" title="Find location">' +
+            '<button type="submit">Search</button>'
+        elementSearch.className = 'map-search'
+        
         // Key toggle button
         if (_options.hasKey) {
             _elementKey = document.querySelector('.map-key')
@@ -682,6 +691,16 @@ var Map = (function() {
             enableRotation: false,
             zoom: _options.zoom
         })
+
+        // Add search control
+        if (_options.hasSearch) {
+            _elementMapContainerInner.appendChild(elementSearch)
+        }
+
+        // Add key control
+        else if (_options.hasKey) {
+            // Create key dynamically
+        }
 
         // Add controls to map
         var customControls = [fullScreen]
