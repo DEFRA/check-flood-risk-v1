@@ -443,8 +443,8 @@ var Map = (function() {
         // Search component
         var elementSearch = document.createElement('div')
         elementSearch.innerHTML =
-            '<label for="map-search">Find location</label>' +
-            '<input id="map-search" type="search" title="Find location">' +
+            '<label for="search">Find location</label>' +
+            '<input id="search" type="search" title="Find location">' +
             '<button type="submit">Search</button>'
         elementSearch.className = 'map-search'
         
@@ -698,7 +698,9 @@ var Map = (function() {
 
         // Add search control
         if (_options.hasSearch) {
-            elementMapContainerInner.appendChild(elementSearch)
+            if(elementPanel) {
+                elementPanel.insertBefore(elementSearch, elementPanel.firstChild)
+            }
         }
 
         // Add key control

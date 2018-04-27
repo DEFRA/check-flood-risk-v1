@@ -327,6 +327,19 @@ $path: "/public/";
 .map-panel-open .map-panel-container {
   display:block;
 }
+
+// Map search
+
+.map-search {
+  @include core-16;
+  position: absolute;
+  z-index:3;
+  left:10px;
+  top:10px;
+}
+
+// Map key toggle button
+
 .map-key-toggle {
   @include core-16;
   position: absolute;
@@ -396,23 +409,6 @@ $path: "/public/";
 .map-key-toggle:hover {
   background:$focus-colour;
 }
-.map-key-copyright {
-  @include core-16;
-  position: absolute;
-  bottom:0;
-  left:0;
-  right:0;
-  height:24px;
-  padding-top:20px;
-  padding-right:10px;
-  padding-left:10px;
-  @include media(tablet) {
-    padding-top:15px;
-    padding-right:15px;
-    padding-left:15px;
-    height:34px;
-  }
-}
 
 // Map key content
 
@@ -450,6 +446,26 @@ $path: "/public/";
   overflow:hidden;
   overflow:auto;
 }
+.map-key-copyright {
+  @include core-16;
+  position: absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  height:24px;
+  padding-top:20px;
+  padding-right:10px;
+  padding-left:10px;
+  @include media(tablet) {
+    padding-top:15px;
+    padding-right:15px;
+    padding-left:15px;
+    height:34px;
+  }
+}
+
+// Map key features 
+
 .key-features-section {
   border-top:1px solid $border-colour;
   padding-top:10px;

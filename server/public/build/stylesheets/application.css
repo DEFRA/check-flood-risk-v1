@@ -4487,6 +4487,25 @@ table.select-areas th {
   display: block;
 }
 
+.map-search {
+  font-family: "nta", Arial, sans-serif;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 14px;
+  line-height: 1.14286;
+  position: absolute;
+  z-index: 3;
+  left: 10px;
+  top: 10px;
+}
+
+@media (min-width: 641px) {
+  .map-search {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
 .map-key-toggle {
   font-family: "nta", Arial, sans-serif;
   font-weight: 400;
@@ -4585,38 +4604,6 @@ table.select-areas th {
   background: #ffbf47;
 }
 
-.map-key-copyright {
-  font-family: "nta", Arial, sans-serif;
-  font-weight: 400;
-  text-transform: none;
-  font-size: 14px;
-  line-height: 1.14286;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 24px;
-  padding-top: 20px;
-  padding-right: 10px;
-  padding-left: 10px;
-}
-
-@media (min-width: 641px) {
-  .map-key-copyright {
-    font-size: 16px;
-    line-height: 1.25;
-  }
-}
-
-@media (min-width: 641px) {
-  .map-key-copyright {
-    padding-top: 15px;
-    padding-right: 15px;
-    padding-left: 15px;
-    height: 34px;
-  }
-}
-
 .map-key-heading {
   position: absolute;
   left: 0;
@@ -4660,6 +4647,38 @@ table.select-areas th {
 @media (min-width: 641px) {
   .map-key-features {
     bottom: 49px;
+  }
+}
+
+.map-key-copyright {
+  font-family: "nta", Arial, sans-serif;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 14px;
+  line-height: 1.14286;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 24px;
+  padding-top: 20px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+@media (min-width: 641px) {
+  .map-key-copyright {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+@media (min-width: 641px) {
+  .map-key-copyright {
+    padding-top: 15px;
+    padding-right: 15px;
+    padding-left: 15px;
+    height: 34px;
   }
 }
 
