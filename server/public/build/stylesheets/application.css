@@ -4493,12 +4493,22 @@ table.select-areas th {
   z-index: 3;
   left: 10px;
   top: 10px;
+  right: 10px;
+  height: 40px;
+  max-width: 28em;
+  background-color: white;
 }
 
 @media (min-width: 641px) {
   .map-search {
     font-size: 16px;
     line-height: 1.25;
+  }
+}
+
+@media (min-width: 641px) {
+  .map-search {
+    width: 20em;
   }
 }
 

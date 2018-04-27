@@ -326,6 +326,13 @@ $path: "/public/";
   z-index:3;
   left:10px;
   top:10px;
+  right:10px;
+  height:40px;
+  max-width:28em;
+  background-color:white;
+  @include media(tablet){
+    width:20em;
+  }
 }
 
 // Map key toggle button
