@@ -7,7 +7,7 @@ var Map = (function() {
 
     var _sourceFloodZones, _sourceTargetAreas, _sourceRiverLevels, _sourceLocator, _sourceShape
     var _layerTile, _layerFloodZones, _layerTargetAreas, _layerRiverLevels, _layerLocator, _layerShape
-    var _elementMap, _elementMapContainer, _elementMapContainerInner, _elementKey
+    var elementMap, elementMapContainer, elementMapContainerInner, elementPanel
     var _options
     var _drawingStarted = false, _drawingFinished = false
     var map, overlay
@@ -307,9 +307,9 @@ var Map = (function() {
         // Map to DOM elements
         //
 
-        _elementMap = document.querySelector('.map')
-        _elementMapContainer = document.querySelector('#map').firstElementChild
-        _elementMapContainerInner = _elementMapContainer.firstElementChild
+        elementMap = document.querySelector('.map')
+        elementMapContainer = document.querySelector('#map').firstElementChild
+        elementMapContainerInner = elementMapContainer.firstElementChild
 
         //
         // Styles
@@ -437,6 +437,9 @@ var Map = (function() {
         // Define buttons
         //
 
+        // Panel
+        var elementPanel = document.querySelector('.map-panel')
+
         // Search component
         var elementSearch = document.createElement('div')
         elementSearch.innerHTML =
@@ -445,14 +448,15 @@ var Map = (function() {
             '<button type="submit">Search</button>'
         elementSearch.className = 'map-search'
         
-        // Key toggle button
-        if (_options.hasKey) {
-            _elementKey = document.querySelector('.map-key')
-            document.querySelector('.map-control-key').addEventListener('click', function(e) {
-                e.preventDefault()
-                _elementKey.classList.toggle('map-key-open')
-            })
-        }
+        // Key button
+        var elementKeyToggle = document.createElement('button')
+        elementKeyToggle.innerHTML = '<span>Key</span>'
+        elementKeyToggle.title = 'Find out what the features are'
+        elementKeyToggle.className = 'map-key-toggle'
+        elementKeyToggle.addEventListener('click', function(e) {
+            e.preventDefault()
+            elementPanel.classList.toggle('map-panel-open')
+        })
 
         // Zoom buttons
         var elementZoom = document.createElement('button')
@@ -481,13 +485,13 @@ var Map = (function() {
         elementFullScreen.addEventListener('click', function(e) {
             e.preventDefault()
             // Fullscreen view
-            if (_elementMapContainerInner.classList.contains('map-container-inner-fullscreen')) {
-                _elementMapContainerInner.classList.remove('map-container-inner-fullscreen')
+            if (elementMapContainerInner.classList.contains('map-container-inner-fullscreen')) {
+                elementMapContainerInner.classList.remove('map-container-inner-fullscreen')
                 history.back()
             }
             // Default view
             else {
-                _elementMapContainerInner.classList.add('map-container-inner-fullscreen')
+                elementMapContainerInner.classList.add('map-container-inner-fullscreen')
                 state = {'view':'map'}
                 url = addOrUpdateParameter(location.pathname + location.search, 'view', 'map')
                 title = document.title
@@ -694,12 +698,14 @@ var Map = (function() {
 
         // Add search control
         if (_options.hasSearch) {
-            _elementMapContainerInner.appendChild(elementSearch)
+            elementMapContainerInner.appendChild(elementSearch)
         }
 
         // Add key control
         else if (_options.hasKey) {
-            // Create key dynamically
+            if(elementPanel) {
+                elementPanel.insertBefore(elementKeyToggle, elementPanel.firstChild)
+            }
         }
 
         // Add controls to map
@@ -712,7 +718,7 @@ var Map = (function() {
             customControls.push(deleteFeature)
         }
         if (_options.hasUndoRedo) {
-            _elementMap.classList.add('has-undoredo')
+            elementMap.classList.add('has-undoredo')
             customControls.push(drawRedo, drawUndo)
         }
         if (_options.hasDrawing) {
@@ -744,7 +750,7 @@ var Map = (function() {
         
         // Add fullscreen class before map is rendered
         if (getParameterByName('view') == 'map') {
-            _elementMapContainerInner.classList.add('map-container-inner-fullscreen')
+            elementMapContainerInner.classList.add('map-container-inner-fullscreen')
         }
 
         // Render map
@@ -787,8 +793,8 @@ var Map = (function() {
         map.on('click', function(e) {
             // Close key
             if (_options.hasKey) {
-                if (_elementKey.classList.contains('map-key-open')) {
-                    _elementKey.classList.remove('map-key-open') 
+                if (elementPanel.classList.contains('map-panel-open')) {
+                    elementPanel.classList.remove('map-panel-open') 
                     return  
                 } 
             }
@@ -855,12 +861,12 @@ var Map = (function() {
 
                 var context
                 // Context is map key
-                if (_elementKey.classList.contains('map-key-open')) {
-                    context = _elementKey
+                if (elementPanel.classList.contains('map-panel-open')) {
+                    context = elementPanel
                 }
                 // Context is map fullscreen view
-                else if (_elementMapContainerInner.classList.contains('map-container-inner-fullscreen')) {
-                    context = _elementMapContainerInner
+                else if (elementMapContainerInner.classList.contains('map-container-inner-fullscreen')) {
+                    context = elementMapContainerInner
                 }
                 // Context is default
                 else {
@@ -894,7 +900,7 @@ var Map = (function() {
         // Set initial focus to first focusable element if map is fullscreen
         window.onload = function() {
             if (getParameterByName('view') == 'map') {
-                focusElement = _elementMapContainerInner.querySelectorAll('button:not(:disabled), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')[0]
+                focusElement = elementMapContainerInner.querySelectorAll('button:not(:disabled), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')[0]
                 focusElement.focus()
             }
         }
@@ -921,11 +927,11 @@ var Map = (function() {
         // Toggle fullscreen view on browser history change
         window.onpopstate = function(e) {    
             if (e && e.state) {
-                _elementMapContainerInner.classList.add('map-container-inner-fullscreen')
+                elementMapContainerInner.classList.add('map-container-inner-fullscreen')
                 elementFullScreen.classList.add('ol-full-screen-open')
             }
             else {
-                _elementMapContainerInner.classList.remove('map-container-inner-fullscreen')
+                elementMapContainerInner.classList.remove('map-container-inner-fullscreen')
                 elementFullScreen.classList.remove('ol-full-screen-open')
             }
             map.updateSize()

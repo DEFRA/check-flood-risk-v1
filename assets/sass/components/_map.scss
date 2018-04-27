@@ -45,7 +45,9 @@ $path: "/public/";
   background-color:white;
 }
 
-.map figcaption { // map-caption
+// Caption
+
+.map-caption {
   @include core-16;
   margin-top:0.5em;
   margin-bottom:2em;
@@ -113,7 +115,7 @@ $path: "/public/";
   @include media(tablet) {
     top:auto;
     bottom:10px;
-    height:30.25px;
+    height:30px;
     background-size:200%;
     span {
       display:inline;
@@ -262,9 +264,70 @@ $path: "/public/";
   z-index:2;
 }
 
-// Map key
+// Control group bottom
 
-.map-control-key {
+.ol-control-group {
+  position:absolute;
+  bottom:0;
+  width:100%;
+  @include media(tablet){
+    position:static;
+    bottom:auto;
+    width:auto;
+  }
+}
+
+//
+// Map caption/overlay
+//
+
+.ol-overlay {
+  position:static !important;
+  float:left;
+  clear:both;
+  background-color:white;
+  width:100%;
+  // Apply mobile media query for screen only
+  @include media(tablet){
+    position:absolute !important;
+    border: 1px solid $border-colour;
+    width:200px;
+    margin-left:-100px;
+    margin-bottom:45px;
+  }
+}
+.ol-overlay-inner {
+  padding:10px;
+  @include core-16;
+  p {
+    margin: 0;
+  }
+}
+
+//
+// Map panel
+//
+
+.map-panel-container {
+  display:none;
+  position:relative;
+  height:100%;
+  z-index:2;
+}
+.map-panel-open {
+  position:absolute;
+  z-index:3;
+  left:0;
+  top:0px;
+  bottom:0px;
+  width:100%;
+  max-width:16em;
+  background-color:white;
+}
+.map-panel-open .map-panel-container {
+  display:block;
+}
+.map-key-toggle {
   @include core-16;
   position: absolute;
   background:$link-colour;
@@ -291,7 +354,7 @@ $path: "/public/";
     }
   }
 }
-.map-control-key:after {
+.map-key-toggle:after {
   content: '';
   position: absolute;
   top:50%;
@@ -309,7 +372,7 @@ $path: "/public/";
     height: 10px;
   }
 }
-.map-key-open .map-control-key {
+.map-panel-open .map-key-toggle {
   right: 10px;
   left: auto;
   text-indent:-5000px;
@@ -324,24 +387,35 @@ $path: "/public/";
     width:30px;
   }
 }
-.map-key-open .map-control-key:after {
+.map-panel-open .map-key-toggle:after {
   background-position:bottom center; 
   @include media(tablet) {
     right:9px;
   }
 } 
-.map-control-key:hover {
+.map-key-toggle:hover {
   background:$focus-colour;
+}
+.map-key-copyright {
+  @include core-16;
+  position: absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  height:24px;
+  padding-top:20px;
+  padding-right:10px;
+  padding-left:10px;
+  @include media(tablet) {
+    padding-top:15px;
+    padding-right:15px;
+    padding-left:15px;
+    height:34px;
+  }
 }
 
 // Map key content
 
-.map-key-container {
-  display:none;
-  position:relative;
-  height:100%;
-  z-index:2;
-}
 .map-key-heading {
   position:absolute;
   left:0;
@@ -363,75 +437,6 @@ $path: "/public/";
     }
   }
 }
-.map-key-copyright {
-  @include core-16;
-  position: absolute;
-  bottom:0;
-  left:0;
-  right:0;
-  height:24px;
-  padding-top:20px;
-  padding-right:10px;
-  padding-left:10px;
-  @include media(tablet) {
-    padding-top:15px;
-    padding-right:15px;
-    padding-left:15px;
-    height:34px;
-  }
-}
-.map-key-open {
-  position:absolute;
-  z-index:3;
-  left:0;
-  top:0px;
-  bottom:0px;
-  width:100%;
-  max-width:16em;
-  background-color:white;
-}
-.map-key-open .map-key-container {
-  display:block;
-}
-
-// Control group bottom
-.ol-control-group {
-  position:absolute;
-  bottom:0;
-  width:100%;
-  @include media(tablet){
-    position:static;
-    bottom:auto;
-    width:auto;
-  }
-}
-
-// Map caption/overlay
-.ol-overlay {
-  position:static !important;
-  float:left;
-  clear:both;
-  background-color:white;
-  width:100%;
-  // Apply mobile media query for screen only
-  @include media(tablet){
-    position:absolute !important;
-    border: 1px solid $border-colour;
-    width:200px;
-    margin-left:-100px;
-    margin-bottom:45px;
-  }
-}
-.ol-overlay-inner {
-  padding:10px;
-  @include core-16;
-  p {
-    margin: 0;
-  }
-}
-
-// Map key features
-
 .map-key-features {
   position:absolute;
   top:61px;
@@ -445,7 +450,7 @@ $path: "/public/";
   overflow:hidden;
   overflow:auto;
 }
-.key-section {
+.key-features-section {
   border-top:1px solid $border-colour;
   padding-top:10px;
   padding-bottom:3px;
@@ -454,29 +459,29 @@ $path: "/public/";
     padding-bottom:5px;
   }
 }
-.key-feature {
+.key-features-item {
   display:block;
   padding:0 10px;
   @include media(tablet) {
     padding:0 15px;
   }
 }
-.key-feature:after {
+.key-features-item:after {
   content: "";
   display: table;
   clear: both;
 }
-.key-feature-group {
+.key-features-item-group {
   float:left;
   clear:left;
 }
-li .key-feature-group {
+li .key-features-item-group {
   padding-left:38px;
   @include media(tablet) {
     padding-left:40px;
   }
 }
-.key-feature-group li {
+.key-features-item-group li {
   margin-bottom:7px;
   padding: 7px 10px 5px 0;
   @include core-16;
@@ -485,11 +490,14 @@ li .key-feature-group {
     padding: 5px 10px 4px 0;
   }
 }
-.key-feature-label {
+.key-features-item-label {
   position:relative;
   display:block;
   margin-left:36px;
 }
+
+// Key symbols
+
 .key-symbol {
   position:absolute;
   top:0;
@@ -512,6 +520,9 @@ li .key-feature-group {
     margin-top:-4px;
   }
 }
+
+// Smaller checkboxes and radio buttons for key
+
 .multiple-choice-key {
   @extend .multiple-choice;
   padding-left:28px;
