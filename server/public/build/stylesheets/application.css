@@ -4140,37 +4140,11 @@ table.select-areas th {
   }
 }
 
-.ol-full-screen {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  z-index: 1;
-  border: 0;
-  height: 40px;
-  width: 40px;
-  text-indent: -5000px;
-  background: #005ea5 url("/public/icons-map-controls-2x.png") no-repeat;
-  background-position: 5px -85px;
-  background-size: 150%;
-  border-radius: 0;
-  outline: 0;
-  cursor: pointer;
-  overflow: hidden;
-}
-
-@media (min-width: 641px) {
-  .ol-full-screen {
-    background-size: 200%;
-    background-position: 0px -90px;
-    height: 30px;
-    width: 30px;
-  }
-}
-
 .ol-zoom {
   position: static;
 }
 
+.ol-full-screen,
 .ol-zoom-reset,
 .ol-zoom-in,
 .ol-zoom-out,
@@ -4197,6 +4171,7 @@ table.select-areas th {
   overflow: hidden;
 }
 
+.ol-full-screen span,
 .ol-zoom-reset span,
 .ol-zoom-in span,
 .ol-zoom-out span,
@@ -4209,6 +4184,7 @@ table.select-areas th {
 }
 
 @media (min-width: 641px) {
+  .ol-full-screen,
   .ol-zoom-reset,
   .ol-zoom-in,
   .ol-zoom-out,
@@ -4222,6 +4198,7 @@ table.select-areas th {
     height: 30px;
     background-size: 200%;
   }
+  .ol-full-screen span,
   .ol-zoom-reset span,
   .ol-zoom-in span,
   .ol-zoom-out span,
@@ -4234,10 +4211,26 @@ table.select-areas th {
   }
 }
 
+.ol-full-screen {
+  right: 10px;
+  width: 40px;
+  top: -50px;
+  text-indent: -5000px;
+  background-position: 5px -85px;
+}
+
+@media (min-width: 641px) {
+  .ol-full-screen {
+    background-position: 0px -90px;
+    width: 30px;
+    top: 10px;
+    bottom: auto;
+  }
+}
+
 .ol-zoom-reset {
   text-indent: -5000px;
   right: 10px;
-  bottom: 10px;
   width: 40px;
   background-position: 5px 5px;
   font-size: 16px;
@@ -4377,6 +4370,7 @@ table.select-areas th {
   }
 }
 
+.ol-full-screen:hover,
 .ol-zoom-in:hover,
 .ol-zoom-out:hover,
 .ol-zoom-reset:hover,
@@ -4389,6 +4383,7 @@ table.select-areas th {
   background-color: #ffbf47;
 }
 
+.ol-full-screen:disabled,
 .ol-zoom-in:disabled,
 .ol-zoom-out:disabled,
 .ol-zoom-reset:disabled,
@@ -4402,6 +4397,7 @@ table.select-areas th {
   cursor: default;
 }
 
+.ol-full-screen:focus,
 .ol-zoom-in:focus,
 .ol-zoom-out:focus,
 .ol-zoom-reset:focus,

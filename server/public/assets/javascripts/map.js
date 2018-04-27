@@ -481,17 +481,20 @@ var Map = (function() {
         // Fullscreen button
         var elementFullScreen = document.createElement('button')
         elementFullScreen.appendChild(document.createTextNode('Full screen'))
-        elementFullScreen.className = 'ol-full-screen'
+        elementFullScreen.className = 'ol-full-screen ol-control-group'
+        elementFullScreen.title = 'Make the map fill the screen'
         elementFullScreen.addEventListener('click', function(e) {
             e.preventDefault()
             // Fullscreen view
             if (elementMapContainerInner.classList.contains('map-container-inner-fullscreen')) {
                 elementMapContainerInner.classList.remove('map-container-inner-fullscreen')
+                document.querySelector('.ol-full-screen').title = 'Make the map fill the screen'
                 history.back()
             }
             // Default view
             else {
                 elementMapContainerInner.classList.add('map-container-inner-fullscreen')
+                document.querySelector('.ol-full-screen').title = 'Go back'
                 state = {'view':'map'}
                 url = addOrUpdateParameter(location.pathname + location.search, 'view', 'map')
                 title = document.title
@@ -753,6 +756,7 @@ var Map = (function() {
         // Add fullscreen class before map is rendered
         if (getParameterByName('view') == 'map') {
             elementMapContainerInner.classList.add('map-container-inner-fullscreen')
+            elementFullScreen.title = 'Go back'
         }
 
         // Render map

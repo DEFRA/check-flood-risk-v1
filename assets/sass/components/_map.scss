@@ -53,38 +53,13 @@ $path: "/public/";
   margin-bottom:2em;
 }
 
-// Openlayers controls: fullscreen
-
-.ol-full-screen {
-  position:absolute;
-  right:10px;
-  top:10px;
-  z-index:1;
-  border:0;
-  height: 40px;
-  width: 40px;
-  text-indent: -5000px;
-  background:$link-colour url('#{$path}icons-map-controls-2x.png') no-repeat;
-  background-position: 5px -85px;
-  background-size:150%;
-  border-radius: 0;
-  outline:0;
-  cursor:pointer;
-  overflow: hidden;
-  @include media(tablet) {
-    background-size:200%;
-    background-position: 0px -90px;
-    height: 30px;
-    width: 30px;
-  }
-}
-
 // Map control buttons
 
 .ol-zoom {
   position:static;
 }
 
+.ol-full-screen,
 .ol-zoom-reset,
 .ol-zoom-in,
 .ol-zoom-out,
@@ -122,10 +97,22 @@ $path: "/public/";
     }
   }
 }
+.ol-full-screen {
+  right:10px;
+  width: 40px;
+  top: -50px;
+  text-indent: -5000px;
+  background-position: 5px -85px;
+  @include media(tablet) {
+    background-position: 0px -90px;
+    width: 30px;
+    top:10px;
+    bottom:auto;
+  }
+}
 .ol-zoom-reset {
   text-indent:-5000px;
   right:10px;
-  bottom:10px;
   width:40px;
   background-position:5px 5px;
   font-size:16px;
@@ -228,6 +215,7 @@ $path: "/public/";
   }
 }
 
+.ol-full-screen:hover,
 .ol-zoom-in:hover,
 .ol-zoom-out:hover,
 .ol-zoom-reset:hover,
@@ -240,6 +228,7 @@ $path: "/public/";
   background-color:$focus-colour;
 }
 
+.ol-full-screen:disabled,
 .ol-zoom-in:disabled,
 .ol-zoom-out:disabled,
 .ol-zoom-reset:disabled,
@@ -253,6 +242,7 @@ $path: "/public/";
   cursor:default;
 }
 
+.ol-full-screen:focus,
 .ol-zoom-in:focus,
 .ol-zoom-out:focus,
 .ol-zoom-reset:focus,
