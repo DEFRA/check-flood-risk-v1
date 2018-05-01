@@ -4030,23 +4030,22 @@ table.select-areas th {
   }
 }
 
-@media (min-width: 641px) {
-  .feedback-inline-container .feedback-inline {
-    position: absolute;
-    width: 50%;
-    top: 0;
-    left: 100%;
-    margin-left: 30px;
-    padding: 0;
-  }
+/*
+.feedback-inline-container .feedback-inline {
+    @include media(tablet) {
+        position:absolute;
+        width:50%;
+        top:0;
+        left:100%;
+        margin-left:30px;
+        padding:0;
 }
-
-@media (min-width: 641px) {
-  .feedback-inline .feedback-inline-copy {
-    display: block;
-  }
+.feedback-inline .feedback-inline-copy {
+    @include media(tablet) {
+        display:block;
+    }
 }
-
+*/
 @media (min-width: 641px) {
   .feedback-inline p {
     margin-top: 0;
@@ -4060,8 +4059,7 @@ table.select-areas th {
 @media (min-width: 641px) {
   .feedback-inline .button-text-small {
     margin-top: 0.2em;
-    margin-left: 0;
-    margin-right: 0.4em;
+    margin-left: 0.3em;
   }
 }
 
