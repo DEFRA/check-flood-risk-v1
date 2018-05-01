@@ -56,15 +56,14 @@
 							<figure class="map" id="map">
 								<div class="map-container map-container-large">
 									<div class="map-container-inner" id="map-container-inner">
-										<div class="map-key">
-											<button title="Find out what the features are" class="map-control map-control-key"><span>Key</span></button>
-											<div class="map-key-container">
+										<div class="map-panel">
+											<div class="map-panel-container">
 												<div class="map-key-heading">
 													<h2 class="bold-medium">Key</h2>
 												</div>
 												<div class="map-key-features">
-													<ul class="key-section">
-														<li class="key-feature">
+													<ul class="key-features-section">
+														<li class="key-features-item">
 															<div class="multiple-choice-key">
 																<input id="map-view" name="view-type" type="radio" value="map-view" checked>
 																<label for="map-view">
@@ -72,7 +71,7 @@
 																</label>
 															</div>
 														</li>
-														<li class="key-feature">
+														<li class="key-features-item">
 															<div class="multiple-choice-key">
 																<input id="satellite-view" name="view-type" type="radio" value="satellite-view">
 																<label for="satellite-view">
@@ -81,15 +80,15 @@
 															</div>
 														</li>
 													</ul>
-													<ul class="key-section">
-														<li class="key-feature">
+													<ul class="key-features-section">
+														<li class="key-features-item">
 															<div class="multiple-choice-key">
 																<input id="flood-zones" name="flood-zones" type="checkbox" value="flood-zones" checked="">
 																<label for="flood-zones">Flood risk zones</label>
 															</div>
-															<ul class="key-feature-group">
+															<ul class="key-features-item-group">
 																<li>
-																	<span class="key-feature-label">
+																	<span class="key-features-item-label">
 																		<span class="key-symbol key-symbol-zone3">
 																			<svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
 																				<rect x="0" y="0" width="100%" height="100%" fill="#464D95"></rect>
@@ -99,7 +98,7 @@
 																	</span>
 																</li>
 																<li>
-																	<span class="key-feature-label">                            
+																	<span class="key-features-item-label">                            
 																		<span class="key-symbol key-symbol-zone3-benefitting">
 																			<svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
 																				<defs>
@@ -114,7 +113,7 @@
 																	</span>
 																</li>
 																<li>
-																	<span class="key-feature-label">
+																	<span class="key-features-item-label">
 																		<span class="key-symbol key-symbol-zone2">
 																			<svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
 																				<rect x="0" y="0" width="100%" height="100%" fill="#ABD6FF"></rect>
@@ -131,12 +130,12 @@
 															</ul>
 														</li>
 													</ul>
-													<ul class="key-section">
-														<li class="key-feature">
+													<ul class="key-features-section">
+														<li class="key-features-item">
 															<div class="multiple-choice-key">
 																<input id="flood-defence" name="flood-defence" type="checkbox" value="flood-defence" checked="">
 																<label for="flood-defence">
-																	<span class="key-feature-label">
+																	<span class="key-features-item-label">
 																		<span class="key-symbol key-symbol-flood-defence">
 																			<svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
 																				<rect x="0" y="6" width="100%" height="7" fill="#F47738"></rect>
@@ -147,11 +146,11 @@
 																</label>
 															</div>
 														</li>
-														<li class="key-feature">
+														<li class="key-features-item">
 															<div class="multiple-choice-key">
 																<input id="main-river" name="main-river" type="checkbox" value="main-river" checked="">
 																<label for="main-river">
-																	<span class="key-feature-label">
+																	<span class="key-features-item-label">
 																		<span class="key-symbol key-symbol-main-river">
 																			<svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
 																				<rect x="0" y="6" width="100%" height="7" fill="#2B8CC4"></rect>
@@ -162,11 +161,11 @@
 																</label>
 															</div>
 														</li>
-														<li class="key-feature">
+														<li class="key-features-item">
 															<div class="multiple-choice-key">
 																<input id="flood-storage" name="flood-storage" type="checkbox" value="flood-storage" checked="">
 																<label for="flood-storage">
-																	<span class="key-feature-label">
+																	<span class="key-features-item-label">
 																		<span class="key-symbol key-symbol-flood-storage">
 																			<svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
 																				<defs>
@@ -239,7 +238,7 @@
 		zoom: document.getElementById('zoom').value,
 		hasKey: true,
 		hasDrawing: true,
-		hasZoomReset: true,
+		//hasZoomReset: true,
 		floodZonesJSON: '/public/data/flood-zones.json',
 		zoom: 15
 	})

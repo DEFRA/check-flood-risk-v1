@@ -230,17 +230,16 @@
 			<!-- Map view -->
 
 			<figure class="map" id="map">
-				<div class="map-container map-container-planning">
+				<div class="map-container">
 					<div class="map-container-inner" id="map-container-inner">
-						<div class="map-key">
-							<button title="Find out what the features are" class="map-control map-control-key"><span>Key</span></button>
-							<div class="map-key-container">
+						<div class="map-panel">
+							<div class="map-panel-container">
 								<div class="map-key-heading">
 									<h2 class="bold-medium">Key</h2>
 								</div>
 								<div class="map-key-features">
-									<ul class="key-section">
-										<li class="key-feature">
+									<ul class="key-features-section">
+										<li class="key-features-item">
 											<div class="multiple-choice-key">
 												<input id="map-view" name="view-type" type="radio" value="map-view" checked>
 												<label for="map-view">
@@ -248,7 +247,7 @@
 												</label>
 											</div>
 										</li>
-										<li class="key-feature">
+										<li class="key-features-item">
 											<div class="multiple-choice-key">
 												<input id="satellite-view" name="view-type" type="radio" value="satellite-view">
 												<label for="satellite-view">
@@ -257,15 +256,15 @@
 											</div>
 										</li>
 									</ul>
-									<ul class="key-section">
-										<li class="key-feature">
+									<ul class="key-features-section">
+										<li class="key-features-item">
 											<div class="multiple-choice-key">
 												<input id="flood-zones" name="flood-zones" type="checkbox" value="flood-zones" checked="">
 												<label for="flood-zones">Flood warnings and alerts</label>
 											</div>
-											<ul class="key-feature-group">
+											<ul class="key-features-item-group">
 												<li>
-													<span class="key-feature-label">
+													<span class="key-features-item-label">
 														<span class="key-symbol key-symbol-flood-warning">
 															<svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
 																<rect x="0" y="0" width="100%" height="100%" fill="#e3000f"></rect>
@@ -275,7 +274,7 @@
 													</span>
 												</li>
 												<li>
-													<span class="key-feature-label">                            
+													<span class="key-features-item-label">                            
 														<span class="key-symbol key-symbol-flood-alert">
 															<svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
 																<rect x="0" y="0" width="100%" height="100%" fill="#f18700"></rect>
@@ -285,7 +284,7 @@
 													</span>
 												</li>
 												<li>
-													<span class="key-feature-label">
+													<span class="key-features-item-label">
 														<span class="key-symbol key-symbol-flood-warning-removed">
 															<svg width="100%" height="100%" viewBox="0 0 26 19" xmlns="http://www.w3.org/2000/svg">
 																<rect x="0" y="0" width="100%" height="100%" fill="#6f777b"></rect>
@@ -297,15 +296,15 @@
 											</ul>
 										</li>
 									</ul>
-									<ul class="key-section">
-										<li class="key-feature">
+									<ul class="key-features-section">
+										<li class="key-features-item">
 											<div class="multiple-choice-key">
 												<input id="river-levels" name="river-levels" type="checkbox" value="river-levels" checked="">
 												<label for="river-levels">River levels</label>
 											</div>
-											<ul class="key-feature-group">
+											<ul class="key-features-item-group">
 												<li>
-													<span class="key-feature-label">
+													<span class="key-features-item-label">
 														<span class="key-symbol key-symbol-portrait key-symbol-river-level-typical">
 															<svg width="100%" height="100%" viewBox="0 0 21 28" xmlns="http://www.w3.org/2000/svg">
 																<path d="M51.5,25.75 L51.4999489,25.75 C51.5314641,38.7189161 36.9799294,60.467041 25.75,70.2009277 C14.5200195,60.467041 -0.0315152421,38.7189161 1.03808292e-15,25.75 C1.03808292e-15,11.5286677 11.5286677,0 25.75,0 C39.9713323,0 51.5,11.5286677 51.5,25.75 Z M25.75,44.5 C36.1053391,44.5 44.5,36.1053391 44.5,25.75 C44.5,15.3946609 36.1053391,7 25.75,7 C15.3946609,7 7,15.3946609 7,25.75 C7,36.1053391 15.3946609,44.5 25.75,44.5 Z" fill="#006435" stroke="none" transform="scale(0.4)"/>
@@ -315,7 +314,7 @@
 													</span>
 												</li>
 												<li>
-													<span class="key-feature-label">
+													<span class="key-features-item-label">
 														<span class="key-symbol key-symbol-portrait key-symbol-river-level-above">
 															<svg width="100%" height="100%" viewBox="0 0 21 28" xmlns="http://www.w3.org/2000/svg">
 																<path d="M51.5,25.75 L51.4999489,25.75 C51.5314641,38.7189161 36.9799294,60.467041 25.75,70.2009277 C14.5200195,60.467041 -0.0315152421,38.7189161 1.03808292e-15,25.75 C1.03808292e-15,11.5286677 11.5286677,0 25.75,0 C39.9713323,0 51.5,11.5286677 51.5,25.75 Z M25.75,44.5 C36.1053391,44.5 44.5,36.1053391 44.5,25.75 C44.5,15.3946609 36.1053391,7 25.75,7 C15.3946609,7 7,15.3946609 7,25.75 C7,36.1053391 15.3946609,44.5 25.75,44.5 Z" fill="#B10E1E" stroke="none" transform="scale(0.4)"/>
@@ -325,7 +324,7 @@
 													</span>
 												</li>
 												<li>
-													<span class="key-feature-label">
+													<span class="key-features-item-label">
 														<span class="key-symbol key-symbol-portrait key-symbol-river-level-unavailable">
 															<svg width="100%" height="100%" viewBox="0 0 21 28" xmlns="http://www.w3.org/2000/svg">
 																<path d="M51.5,25.75 L51.4999489,25.75 C51.5314641,38.7189161 36.9799294,60.467041 25.75,70.2009277 C14.5200195,60.467041 -0.0315152421,38.7189161 1.03808292e-15,25.75 C1.03808292e-15,11.5286677 11.5286677,0 25.75,0 C39.9713323,0 51.5,11.5286677 51.5,25.75 Z M25.75,44.5 C36.1053391,44.5 44.5,36.1053391 44.5,25.75 C44.5,15.3946609 36.1053391,7 25.75,7 C15.3946609,7 7,15.3946609 7,25.75 C7,36.1053391 15.3946609,44.5 25.75,44.5 Z" fill="#6F777B" stroke="none" transform="scale(0.4)"/>
@@ -345,26 +344,6 @@
 				</div>
 				<figcaption class="visuallyhidden">Site boundary</figcaption>
 			</figure>
-
-			<!-- Related links -->
-
-			<!--
-			<div class="related">
-				<aside class="govuk-related-items">
-					<h2 class="heading-small">Flooding and extreme weather</h2>
-					<ul class="list">
-						<li><a href="">Related content</a></li>
-						<li class="related-items-more">
-							<a href="https://gov.uk/browse/environment-countryside/flooding-extreme-weather">
-								More <span class="visuallyhidden">in Flooding and extreme weather</span>
-							</a>            
-						</li>
-					</ul>
-				</aside>      
-			</div>  
-			-->
-
-			<!-- Rainfall forecast -->
 
 			<div class="rainfall">
 				<p class="font-xsmall">[Weather forecast, warnings and rainfall levels for the current week]</p>
