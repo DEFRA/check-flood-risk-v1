@@ -4459,7 +4459,36 @@ table.select-areas th {
   margin: 0;
 }
 
-.map-panel-container {
+.map-panel-controls {
+  font-family: "nta", Arial, sans-serif;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 14px;
+  line-height: 1.14286;
+  position: absolute;
+  z-index: 3;
+  left: 10px;
+  top: 10px;
+  right: 10px;
+  height: 40px;
+  max-width: 28em;
+  background-color: white;
+}
+
+@media (min-width: 641px) {
+  .map-panel-controls {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+@media (min-width: 641px) {
+  .map-panel-controls {
+    width: 20em;
+  }
+}
+
+.map-panel-content {
   display: none;
   position: relative;
   height: 100%;
@@ -4477,37 +4506,69 @@ table.select-areas th {
   background-color: white;
 }
 
-.map-panel-open .map-panel-container {
+.map-panel-open .map-panel-content {
   display: block;
 }
 
 .map-search {
-  font-family: "nta", Arial, sans-serif;
-  font-weight: 400;
-  text-transform: none;
-  font-size: 14px;
-  line-height: 1.14286;
+  position: relative;
+}
+
+.map-search-label {
   position: absolute;
-  z-index: 3;
-  left: 10px;
-  top: 10px;
-  right: 10px;
+  left: 0;
+  top: 0;
   height: 40px;
-  max-width: 28em;
-  background-color: white;
+  line-height: 40px;
+  padding-left: 12px;
+  color: #6f777b;
+  z-index: 1;
 }
 
-@media (min-width: 641px) {
-  .map-search {
-    font-size: 16px;
-    line-height: 1.25;
-  }
+.map-search-input-wrapper {
+  display: table;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  vertical-align: baseline;
 }
 
-@media (min-width: 641px) {
-  .map-search {
-    width: 20em;
-  }
+input[type="search"].map-search-input {
+  position: relative;
+  vertical-align: top;
+  display: table-cell;
+  width: 100%;
+  margin: 0;
+  padding: 6px;
+  height: 40px;
+  border: 0;
+  box-sizing: border-box;
+}
+
+.map-search-input:focus {
+  z-index: 1;
+}
+
+.map-search-submit-wrapper {
+  position: relative;
+  vertical-align: top;
+  display: table-cell;
+  width: 1%;
+}
+
+.map-search-submit {
+  position: relative;
+  border: 0;
+  text-indent: -5000px;
+  padding: 0;
+  height: 40px;
+  width: 40px;
+  cursor: pointer;
+  background-image: url("/public/icons-map-controls-2x.png");
+  background-color: transparent;
+  background-size: 150%;
+  background-position: 5px -115px;
+  background-repeat: no-repeat;
 }
 
 .map-key-toggle {
@@ -4517,7 +4578,6 @@ table.select-areas th {
   font-size: 14px;
   line-height: 1.14286;
   position: absolute;
-  background: #005ea5;
   z-index: 3;
   left: 10px;
   top: 10px;
@@ -4529,6 +4589,12 @@ table.select-areas th {
   padding: 0px;
   height: 40px;
   width: 40px;
+  text-indent: -5000px;
+  background-image: url("/public/icons-map-controls-2x.png");
+  background-color: #005ea5;
+  background-size: 150%;
+  background-position: 5px -145px;
+  background-repeat: no-repeat;
 }
 
 @media (min-width: 641px) {
@@ -4538,74 +4604,35 @@ table.select-areas th {
   }
 }
 
-.map-key-toggle span {
-  display: none;
-}
-
 @media (min-width: 641px) {
   .map-key-toggle {
+    background-size: 200%;
+    text-indent: 0;
     height: 30px;
-    width: 54px;
-    padding: 0px 22px 0px 7px;
-  }
-  .map-key-toggle span {
-    display: inline;
+    width: auto;
+    padding: 0px 8px;
+    background-position: 200%;
   }
 }
 
-.map-key-toggle:after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  margin-top: -6.5px;
-  right: 10px;
-  width: 17px;
-  height: 13px;
-  background: transparent url("/public/map-legend-2x.png") no-repeat;
-  background-size: 100%;
-  background-position: top center;
-}
-
-@media (min-width: 641px) {
-  .map-key-toggle:after {
-    margin-top: -5px;
-    right: 5px;
-    width: 13px;
-    height: 10px;
-  }
-}
-
-.map-panel-open .map-key-toggle {
+.map-key-toggle-open {
   right: 10px;
   left: auto;
-  text-indent: -5000px;
-  padding: 0;
-  width: 40px;
-  height: 40px;
-  background: white;
-  color: #005ea5;
+  background-color: white;
+  background-position: -25px -175px;
 }
 
 @media (min-width: 641px) {
-  .map-panel-open .map-key-toggle {
+  .map-key-toggle-open {
     right: 6px;
-    height: 30px;
-    width: 30px;
-  }
-}
-
-.map-panel-open .map-key-toggle:after {
-  background-position: bottom center;
-}
-
-@media (min-width: 641px) {
-  .map-panel-open .map-key-toggle:after {
-    right: 9px;
+    background-color: white;
+    color: #005ea5;
+    background-position: 200%;
   }
 }
 
 .map-key-toggle:hover {
-  background: #ffbf47;
+  background-color: #ffbf47;
 }
 
 .map-key-heading {

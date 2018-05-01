@@ -10,6 +10,7 @@ var Map = (function() {
     var elementMap, elementMapContainer, elementMapContainerInner, elementPanel
     var _options
     var _drawingStarted = false, _drawingFinished = false
+    var _hasKeyOpen = false
     var map, overlay
 
     //
@@ -299,6 +300,7 @@ var Map = (function() {
             hasUndoRedo: false,
             hasZoomReset: false,
             hasKey: false,
+            hasKeyOpen: false,
             hasSearch: false,
             fullScreenTitle: 'Make the map full screen',
             fullScreenTitleBack: 'Go back'
@@ -441,23 +443,40 @@ var Map = (function() {
 
         // Panel
         var elementPanel = document.querySelector('.map-panel')
-
+        var elementPanelControl = document.createElement('div')
+        elementPanelControl.className = 'map-panel-controls'
+        
         // Search component
         var elementSearch = document.createElement('div')
         elementSearch.innerHTML =
-            '<label for="search">Find location</label>' +
-            '<input id="search" type="search" title="Find location">' +
-            '<button type="submit">Search</button>'
+            '<label class="map-search-label" for="search">Find location</label>' +
+            '<div class="map-search-input-wrapper">' +
+            '<input class="map-search-input" id="search" type="search" title="Find location">' +
+            '<div class="map-search-submit-wrapper">' +
+            '<button class="map-search-submit" type="submit">Search</button>' +
+            '</div>'
         elementSearch.className = 'map-search'
         
         // Key button
         var elementKeyToggle = document.createElement('button')
-        elementKeyToggle.innerHTML = '<span>Key</span>'
+        elementKeyToggle.innerHTML = 'Key'
         elementKeyToggle.title = 'Find out what the features are'
         elementKeyToggle.className = 'map-key-toggle'
         elementKeyToggle.addEventListener('click', function(e) {
             e.preventDefault()
-            elementPanel.classList.toggle('map-panel-open')
+            _hasKeyOpen = !_hasKeyOpen
+            // Open key
+            if (_hasKeyOpen) {
+                elementPanel.classList.add('map-panel-open')
+                elementKeyToggle.classList.add('map-key-toggle-open')
+                elementKeyToggle.innerHTML = 'Close'
+            }
+            // Close key
+            else {
+                elementPanel.classList.remove('map-panel-open')
+                elementKeyToggle.classList.remove('map-key-toggle-open')
+                elementKeyToggle.innerHTML = 'Key'
+            }
         })
 
         // Zoom buttons
@@ -701,17 +720,19 @@ var Map = (function() {
             zoom: _options.zoom
         })
 
-        // Add search control
-        if (_options.hasSearch) {
+        // Add key control
+        if (_options.hasKey) {
             if(elementPanel) {
-                elementPanel.insertBefore(elementSearch, elementPanel.firstChild)
+                elementPanelControl.appendChild(elementKeyToggle)
+                elementPanel.insertBefore(elementPanelControl, elementPanel.firstChild)
             }
         }
 
-        // Add key control
-        else if (_options.hasKey) {
+        // Add search control
+        if (_options.hasSearch) {
             if(elementPanel) {
-                elementPanel.insertBefore(elementKeyToggle, elementPanel.firstChild)
+                elementPanelControl.appendChild(elementSearch)
+                elementPanel.insertBefore(elementPanelControl, elementPanel.firstChild)
             }
         }
 
@@ -800,11 +821,12 @@ var Map = (function() {
         // Close key or place locator if map is clicked
         map.on('click', function(e) {
             // Close key
-            if (_options.hasKey) {
-                if (elementPanel.classList.contains('map-panel-open')) {
-                    elementPanel.classList.remove('map-panel-open') 
-                    return  
-                } 
+            if (_options.hasKey && _hasKeyOpen) {
+                elementPanel.classList.remove('map-panel-open')
+                elementKeyToggle.innerHTML = 'Key'
+                elementKeyToggle.classList.remove('map-key-toggle-open')
+                _hasKeyOpen = false 
+                return  
             }
             // If doesnt have key or key is closed place locator
             if(_options.hasLocator || _options.hasDrawing) {
