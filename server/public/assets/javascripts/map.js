@@ -299,7 +299,9 @@ var Map = (function() {
             hasUndoRedo: false,
             hasZoomReset: false,
             hasKey: false,
-            hasSearch: false
+            hasSearch: false,
+            fullScreenTitle: 'Make the map full screen',
+            fullScreenTitleBack: 'Go back'
         }
         _options = Object.assign({}, defaults, options)
 
@@ -482,25 +484,25 @@ var Map = (function() {
         var elementFullScreen = document.createElement('button')
         elementFullScreen.appendChild(document.createTextNode('Full screen'))
         elementFullScreen.className = 'ol-full-screen ol-control-group'
-        elementFullScreen.title = 'Make the map fill the screen'
+        elementFullScreen.title = _options.fullScreenTitle
         elementFullScreen.addEventListener('click', function(e) {
             e.preventDefault()
             // Fullscreen view
             if (elementMapContainerInner.classList.contains('map-container-inner-fullscreen')) {
                 elementMapContainerInner.classList.remove('map-container-inner-fullscreen')
-                document.querySelector('.ol-full-screen').title = 'Make the map fill the screen'
+                document.querySelector('.ol-full-screen').title = _options.fullScreenTitle
                 history.back()
             }
             // Default view
             else {
                 elementMapContainerInner.classList.add('map-container-inner-fullscreen')
-                document.querySelector('.ol-full-screen').title = 'Go back'
+                document.querySelector('.ol-full-screen').title = _options.fullScreenTitleBack
                 state = {'view':'map'}
                 url = addOrUpdateParameter(location.pathname + location.search, 'view', 'map')
                 title = document.title
                 history.pushState(state, title, url)
             }
-            this.classList.toggle('ol-full-screen-open')
+            this.classList.toggle('ol-full-screen-back')
             map.updateSize()
         })
         var fullScreen = new ol.control.Control({ // Use fullscreen for HTML Fullscreen API
@@ -756,7 +758,7 @@ var Map = (function() {
         // Add fullscreen class before map is rendered
         if (getParameterByName('view') == 'map') {
             elementMapContainerInner.classList.add('map-container-inner-fullscreen')
-            elementFullScreen.title = 'Go back'
+            elementFullScreen.title = _options.fullScreenTitleBack
         }
 
         // Render map
@@ -934,11 +936,13 @@ var Map = (function() {
         window.onpopstate = function(e) {    
             if (e && e.state) {
                 elementMapContainerInner.classList.add('map-container-inner-fullscreen')
-                elementFullScreen.classList.add('ol-full-screen-open')
+                elementFullScreen.classList.add('ol-full-screen-back')
+                document.querySelector('.ol-full-screen').title = _options.fullScreenTitleBack
             }
             else {
                 elementMapContainerInner.classList.remove('map-container-inner-fullscreen')
-                elementFullScreen.classList.remove('ol-full-screen-open')
+                elementFullScreen.classList.remove('ol-full-screen-back')
+                document.querySelector('.ol-full-screen').title = _options.fullScreenTitle
             }
             map.updateSize()
         }
