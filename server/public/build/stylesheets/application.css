@@ -4459,7 +4459,7 @@ table.select-areas th {
   margin: 0;
 }
 
-.map-panel-controls {
+.map-search {
   font-family: "nta", Arial, sans-serif;
   font-weight: 400;
   text-transform: none;
@@ -4476,41 +4476,19 @@ table.select-areas th {
 }
 
 @media (min-width: 641px) {
-  .map-panel-controls {
+  .map-search {
     font-size: 16px;
     line-height: 1.25;
   }
 }
 
 @media (min-width: 641px) {
-  .map-panel-controls {
+  .map-search {
     width: 20em;
   }
 }
 
-.map-panel-content {
-  display: none;
-  position: relative;
-  height: 100%;
-  z-index: 2;
-}
-
-.map-panel-open {
-  position: absolute;
-  z-index: 3;
-  left: 0;
-  top: 0px;
-  bottom: 0px;
-  width: 100%;
-  max-width: 16em;
-  background-color: white;
-}
-
-.map-panel-open .map-panel-content {
-  display: block;
-}
-
-.map-search {
+.map-search-container {
   position: relative;
 }
 
@@ -4569,6 +4547,28 @@ input[type="search"].map-search-input {
   background-size: 150%;
   background-position: 5px -115px;
   background-repeat: no-repeat;
+}
+
+.map-key-open {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  top: 0px;
+  bottom: 0px;
+  width: 100%;
+  max-width: 16em;
+  background-color: white;
+}
+
+.map-key-open .map-key-content {
+  display: block;
+}
+
+.map-key-content {
+  display: none;
+  position: relative;
+  height: 100%;
+  z-index: 2;
 }
 
 .map-key-toggle {

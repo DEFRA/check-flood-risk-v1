@@ -295,9 +295,10 @@ $path: "/public/";
 }
 
 //
-// Map panel
+// Map search
 //
-.map-panel-controls {
+
+.map-search {
   @include core-16;
   position: absolute;
   z-index:3;
@@ -311,29 +312,7 @@ $path: "/public/";
     width:20em;
   }
 }
-.map-panel-content {
-  display:none;
-  position:relative;
-  height:100%;
-  z-index:2;
-}
-.map-panel-open {
-  position:absolute;
-  z-index:3;
-  left:0;
-  top:0px;
-  bottom:0px;
-  width:100%;
-  max-width:16em;
-  background-color:white;
-}
-.map-panel-open .map-panel-content {
-  display:block;
-}
-
-// Map search
-
-.map-search {
+.map-search-container {
   position:relative;
 }
 .map-search-label {
@@ -388,9 +367,29 @@ input[type="search"].map-search-input {
   background-repeat: no-repeat;
 }
 
+//
+// Map key
+//
 
-// Map key toggle button
-
+.map-key-open {
+  position:absolute;
+  z-index:3;
+  left:0;
+  top:0px;
+  bottom:0px;
+  width:100%;
+  max-width:16em;
+  background-color:white;
+}
+.map-key-open .map-key-content {
+  display:block;
+}
+.map-key-content {
+  display:none;
+  position:relative;
+  height:100%;
+  z-index:2;
+}
 .map-key-toggle {
   @include core-16;
   position: absolute;

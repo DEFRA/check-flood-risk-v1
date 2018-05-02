@@ -7,10 +7,11 @@ var Map = (function() {
 
     var _sourceFloodZones, _sourceTargetAreas, _sourceRiverLevels, _sourceLocator, _sourceShape
     var _layerTile, _layerFloodZones, _layerTargetAreas, _layerRiverLevels, _layerLocator, _layerShape
-    var elementMap, elementMapContainer, elementMapContainerInner, elementPanel
+    var elementMap, elementMapContainer, elementMapContainerInner
+    var elementKey, elementKeyToggle, elementFullScreen
     var _options
     var _drawingStarted = false, _drawingFinished = false
-    var _hasKeyOpen = false
+    var _isFullScreen = false, _isKeyOpen = false
     var map, overlay
 
     //
@@ -234,13 +235,13 @@ var Map = (function() {
 
     }
 
-    // Function to get query string parameter
+    // Get query string parameter
     var getParameterByName = function (name) {
         var v = window.location.search.match(new RegExp('(?:[\?\&]'+name+'=)([^&]+)'))
         return v ? v[1] : null
     }
 
-    // Function to add or update a querystring parameter
+    // Add or update a querystring parameter
     var addOrUpdateParameter = function (uri, paramKey, paramVal) {
         var re = new RegExp("([?&])" + paramKey + "=[^&#]*", "i");
         if (re.test(uri)) {
@@ -252,7 +253,7 @@ var Map = (function() {
         return uri;
     }
 
-    // Function applies greyscale to every pixel in canvas
+    // Apply greyscale to every pixel in canvas
     var applyGreyscale = function (context) {
         var canvas = context.canvas
         var width = canvas.width
@@ -276,6 +277,38 @@ var Map = (function() {
         context.putImageData(imageData,0,0)
     }
 
+    // Set fullscreen state
+    var setFullScreen = function () {
+        elementMapContainerInner.classList.add('map-container-inner-fullscreen')
+        elementFullScreen.classList.add('ol-full-screen-back')
+        elementFullScreen.title = 'Go back'
+        _isFullScreen = true
+    }
+
+    // Remove fullscreen state
+    var removeFullScreen = function () {
+        elementMapContainerInner.classList.remove('map-container-inner-fullscreen')
+        elementFullScreen.classList.remove('ol-full-screen-back')
+        elementFullScreen.title = 'Make the map fill the screen'
+        _isFullScreen = false
+    }
+
+    // Open key
+    var openKey = function () {
+        elementKey.classList.add('map-key-open')
+        elementKeyToggle.classList.add('map-key-toggle-open')
+        elementKeyToggle.innerHTML = 'Close'
+        _isKeyOpen = true
+    }
+
+    // Close key
+    var closeKey = function () {
+        elementKey.classList.remove('map-key-open')
+        elementKeyToggle.classList.remove('map-key-toggle-open')
+        elementKeyToggle.innerHTML = 'Key'
+        _isKeyOpen = false
+    }
+
     //
     // Public methods
     //
@@ -283,7 +316,7 @@ var Map = (function() {
     var init = function (options) {
 
         //
-        // Map to DOM elements
+        // Options
         //
 
         var defaults = {
@@ -301,19 +334,29 @@ var Map = (function() {
             hasZoomReset: false,
             hasKey: false,
             hasKeyOpen: false,
-            hasSearch: false,
-            fullScreenTitle: 'Make the map full screen',
-            fullScreenTitleBack: 'Go back'
+            hasSearch: false
         }
         _options = Object.assign({}, defaults, options)
 
         //
-        // Map to DOM elements
+        // Map to DOM container elements
         //
 
         elementMap = document.querySelector('.map')
         elementMapContainer = document.querySelector('#map').firstElementChild
         elementMapContainerInner = elementMapContainer.firstElementChild
+
+        //
+        // Set flags
+        //
+
+        if (getParameterByName('view') == 'map') {
+            _isFullScreen = true
+        }
+
+        if (options.hasKeyOpen) {
+            _isKeyOpen = true
+        }
 
         //
         // Styles
@@ -441,41 +484,34 @@ var Map = (function() {
         // Define buttons
         //
 
-        // Panel
-        var elementPanel = document.querySelector('.map-panel')
-        var elementPanelControl = document.createElement('div')
-        elementPanelControl.className = 'map-panel-controls'
-        
         // Search component
         var elementSearch = document.createElement('div')
         elementSearch.innerHTML =
+            '<div class="map-search-container">' +
             '<label class="map-search-label" for="search">Find location</label>' +
             '<div class="map-search-input-wrapper">' +
             '<input class="map-search-input" id="search" type="search" title="Find location">' +
             '<div class="map-search-submit-wrapper">' +
             '<button class="map-search-submit" type="submit">Search</button>' +
+            '</div>' +
             '</div>'
         elementSearch.className = 'map-search'
         
         // Key button
-        var elementKeyToggle = document.createElement('button')
+        elementKey = document.querySelector('.map-key')
+        elementKeyToggle = document.createElement('button')
         elementKeyToggle.innerHTML = 'Key'
         elementKeyToggle.title = 'Find out what the features are'
         elementKeyToggle.className = 'map-key-toggle'
         elementKeyToggle.addEventListener('click', function(e) {
             e.preventDefault()
-            _hasKeyOpen = !_hasKeyOpen
             // Open key
-            if (_hasKeyOpen) {
-                elementPanel.classList.add('map-panel-open')
-                elementKeyToggle.classList.add('map-key-toggle-open')
-                elementKeyToggle.innerHTML = 'Close'
+            if (!_isKeyOpen) {
+                openKey()
             }
             // Close key
             else {
-                elementPanel.classList.remove('map-panel-open')
-                elementKeyToggle.classList.remove('map-key-toggle-open')
-                elementKeyToggle.innerHTML = 'Key'
+                closeKey()
             }
         })
 
@@ -500,22 +536,20 @@ var Map = (function() {
         })
 
         // Fullscreen button
-        var elementFullScreen = document.createElement('button')
+        elementFullScreen = document.createElement('button')
         elementFullScreen.appendChild(document.createTextNode('Full screen'))
         elementFullScreen.className = 'ol-full-screen ol-control-group'
-        elementFullScreen.title = _options.fullScreenTitle
+        elementFullScreen.title = 'Make the map fill the screen'
         elementFullScreen.addEventListener('click', function(e) {
             e.preventDefault()
             // Fullscreen view
-            if (elementMapContainerInner.classList.contains('map-container-inner-fullscreen')) {
-                elementMapContainerInner.classList.remove('map-container-inner-fullscreen')
-                document.querySelector('.ol-full-screen').title = _options.fullScreenTitle
+            if (_isFullScreen ) {
+                removeFullScreen()
                 history.back()
             }
             // Default view
             else {
-                elementMapContainerInner.classList.add('map-container-inner-fullscreen')
-                document.querySelector('.ol-full-screen').title = _options.fullScreenTitleBack
+                setFullScreen()
                 state = {'view':'map'}
                 url = addOrUpdateParameter(location.pathname + location.search, 'view', 'map')
                 title = document.title
@@ -722,18 +756,14 @@ var Map = (function() {
 
         // Add key control
         if (_options.hasKey) {
-            if(elementPanel) {
-                elementPanelControl.appendChild(elementKeyToggle)
-                elementPanel.insertBefore(elementPanelControl, elementPanel.firstChild)
+            if(elementKey) {
+                elementKey.insertBefore(elementKeyToggle, elementKey.firstChild)
             }
         }
 
         // Add search control
         if (_options.hasSearch) {
-            if(elementPanel) {
-                elementPanelControl.appendChild(elementSearch)
-                elementPanel.insertBefore(elementPanelControl, elementPanel.firstChild)
-            }
+            elementMapContainerInner.appendChild(elementSearch)
         }
 
         // Add controls to map
@@ -776,10 +806,9 @@ var Map = (function() {
             layers.push(_layerLocator)
         }
         
-        // Add fullscreen class before map is rendered
-        if (getParameterByName('view') == 'map') {
-            elementMapContainerInner.classList.add('map-container-inner-fullscreen')
-            elementFullScreen.title = _options.fullScreenTitleBack
+        // Set fullscreen before map is rendered
+        if (_isFullScreen) {
+            setFullScreen()
         }
 
         // Render map
@@ -814,22 +843,32 @@ var Map = (function() {
             addFeatureLocator(coordinate, '<p><strong class="bold-small">Mytholmroyd</strong></p>')
         }
 
+        // Open key
+        if (_isKeyOpen) {
+            openKey()
+        }
+
         //
         // Map events
         //
 
+        // Set focus element if map is fullscreen
+        window.onload = function(e) {
+            if (_isFullScreen) {
+                focusElement = elementMapContainerInner.querySelectorAll('button:not(:disabled), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')[0]
+                focusElement.focus()
+            }
+        }
+
         // Close key or place locator if map is clicked
         map.on('click', function(e) {
             // Close key
-            if (_options.hasKey && _hasKeyOpen) {
-                elementPanel.classList.remove('map-panel-open')
-                elementKeyToggle.innerHTML = 'Key'
-                elementKeyToggle.classList.remove('map-key-toggle-open')
-                _hasKeyOpen = false 
+            if (_options.hasKey && _isKeyOpen) {
+                closeKey()
                 return  
             }
-            // If doesnt have key or key is closed place locator
-            if(_options.hasLocator || _options.hasDrawing) {
+            // Place locator if no key or key is closed
+            if (_options.hasLocator || _options.hasDrawing) {
                 if (_layerLocator.getVisible()) {
                     // locator object
                     addFeatureLocator(e.coordinate, '<p><strong class="bold-small">Flood zone 1</strong><br/>(<abbr title="Easting and northing">EN</abbr> 123456/123456)</p>')
@@ -891,11 +930,11 @@ var Map = (function() {
 
                 var context
                 // Context is map key
-                if (elementPanel.classList.contains('map-panel-open')) {
-                    context = elementPanel
+                if (_isKeyOpen) {
+                    context = elementKey
                 }
                 // Context is map fullscreen view
-                else if (elementMapContainerInner.classList.contains('map-container-inner-fullscreen')) {
+                else if (_isFullScreen) {
                     context = elementMapContainerInner
                 }
                 // Context is default
@@ -903,11 +942,21 @@ var Map = (function() {
                     context = null
                 }
 
+                console.log(context)
+
                 // If dialog context is open
                 if (context) {
                     var focusableElements = context.querySelectorAll('button:not(:disabled), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
-                    var firstFocusableElement = focusableElements[0]
-                    var lastFocusableElement = focusableElements[focusableElements.length - 1]
+                    // Filter only visible elements
+                    var visibleFocusableElements = []
+                    for (i = 0; i < focusableElements.length; i++) {
+                        if (getComputedStyle(focusableElements[i], null).display != 'none') {
+                            visibleFocusableElements.push(focusableElements[i])
+                        }
+                    }
+                    // Set first and last element
+                    var firstFocusableElement = visibleFocusableElements[0]
+                    var lastFocusableElement = visibleFocusableElements[visibleFocusableElements.length - 1]
                     // Shift tab (backwards)
                     if (e.shiftKey) {
                         if (document.activeElement === firstFocusableElement) {
@@ -920,20 +969,16 @@ var Map = (function() {
                         if (document.activeElement === lastFocusableElement) {
                             e.preventDefault()
                             firstFocusableElement.focus()
+                            console.log('set back to first')
                         }
+                        console.log(firstFocusableElement)
+                        console.log(document.activeElement)
+                        console.log(getComputedStyle(lastFocusableElement, null).display)
                     }
                 }
             }
 
         })
-
-        // Set initial focus to first focusable element if map is fullscreen
-        window.onload = function() {
-            if (getParameterByName('view') == 'map') {
-                focusElement = elementMapContainerInner.querySelectorAll('button:not(:disabled), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')[0]
-                focusElement.focus()
-            }
-        }
 
         // Update layer opacity setting for different map resolutions
         map.on('moveend', function(){
@@ -957,14 +1002,11 @@ var Map = (function() {
         // Toggle fullscreen view on browser history change
         window.onpopstate = function(e) {    
             if (e && e.state) {
-                elementMapContainerInner.classList.add('map-container-inner-fullscreen')
-                elementFullScreen.classList.add('ol-full-screen-back')
-                document.querySelector('.ol-full-screen').title = _options.fullScreenTitleBack
+                setFullScreen()
+                console.log('popstate')
             }
             else {
-                elementMapContainerInner.classList.remove('map-container-inner-fullscreen')
-                elementFullScreen.classList.remove('ol-full-screen-back')
-                document.querySelector('.ol-full-screen').title = _options.fullScreenTitle
+                removeFullScreen()
             }
             map.updateSize()
         }
