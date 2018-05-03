@@ -4608,12 +4608,13 @@ input[type="search"].map-search-input::-webkit-search-results-decoration {
   height: 40px;
   width: 40px;
   text-indent: -5000px;
+  text-align: center;
+  line-height: 40px;
   background-image: url("/public/icons-map-controls-2x.png");
   background-color: #005ea5;
   background-size: 150%;
   background-position: 5px -145px;
   background-repeat: no-repeat;
-  text-align: center;
 }
 
 @media (min-width: 641px) {
