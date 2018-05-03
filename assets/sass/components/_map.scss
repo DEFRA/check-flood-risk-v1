@@ -432,12 +432,11 @@ input[type="search"].map-search-input::-webkit-search-results-decoration {
   }
 }
 .map-key-toggle-open {
-  right: 10px;
+  right: 5px;
   left: auto;
   background-color:white;
   background-position:-25px -175px;
   @include media(tablet) {
-    right: 6px;
     width: 60px;
     background-color:white;
     color:$link-colour;
