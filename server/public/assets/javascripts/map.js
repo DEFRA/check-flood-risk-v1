@@ -346,6 +346,11 @@ var Map = (function() {
         elementMapContainer = document.querySelector('#map').firstElementChild
         elementMapContainerInner = elementMapContainer.firstElementChild
 
+        // Add styling class for when search and key are both enabled
+        if (_options.hasKey && _options.hasSearch) {
+            elementMap.classList.add('map-has-key-and-search')
+        }
+
         //
         // Set flags
         //
@@ -978,6 +983,17 @@ var Map = (function() {
                 }
             }
 
+        })
+
+        // Search input hide label
+        document.addEventListener('keyup', function(e) {
+            if (e.target.classList.contains('map-search-input')) {
+                if (e.target.value.length) {
+                    e.target.classList.add('map-search-input-has-value')
+                } else {
+                    e.target.classList.remove('map-search-input-has-value')
+                }
+            }
         })
 
         // Update layer opacity setting for different map resolutions

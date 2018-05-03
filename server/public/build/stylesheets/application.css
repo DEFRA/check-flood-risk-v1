@@ -4221,8 +4221,8 @@ table.select-areas th {
   .ol-full-screen {
     background-position: 0px -90px;
     width: 30px;
-    top: 10px;
-    bottom: auto;
+    top: auto;
+    bottom: 75px;
   }
 }
 
@@ -4466,7 +4466,7 @@ table.select-areas th {
   font-size: 14px;
   line-height: 1.14286;
   position: absolute;
-  z-index: 3;
+  z-index: 2;
   left: 10px;
   top: 10px;
   right: 10px;
@@ -4485,6 +4485,16 @@ table.select-areas th {
 @media (min-width: 641px) {
   .map-search {
     width: 20em;
+  }
+}
+
+.map-has-key-and-search .map-search {
+  left: 55px;
+}
+
+@media (min-width: 641px) {
+  .map-has-key-and-search .map-search {
+    left: 60px;
   }
 }
 
@@ -4523,7 +4533,15 @@ input[type="search"].map-search-input {
   box-sizing: border-box;
 }
 
-.map-search-input:focus {
+input[type="search"].map-search-input::-webkit-search-decoration,
+input[type="search"].map-search-input::-webkit-search-cancel-button,
+input[type="search"].map-search-input::-webkit-search-results-button,
+input[type="search"].map-search-input::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+}
+
+.map-search-input:focus,
+.map-search-input.map-search-input-has-value {
   z-index: 1;
 }
 
@@ -4595,6 +4613,7 @@ input[type="search"].map-search-input {
   background-size: 150%;
   background-position: 5px -145px;
   background-repeat: no-repeat;
+  text-align: center;
 }
 
 @media (min-width: 641px) {
@@ -4606,12 +4625,9 @@ input[type="search"].map-search-input {
 
 @media (min-width: 641px) {
   .map-key-toggle {
-    background-size: 200%;
     text-indent: 0;
-    height: 30px;
-    width: auto;
-    padding: 0px 8px;
-    background-position: 200%;
+    width: 45px;
+    background-image: none;
   }
 }
 
@@ -4625,6 +4641,7 @@ input[type="search"].map-search-input {
 @media (min-width: 641px) {
   .map-key-toggle-open {
     right: 6px;
+    width: 60px;
     background-color: white;
     color: #005ea5;
     background-position: 200%;

@@ -106,8 +106,8 @@ $path: "/public/";
   @include media(tablet) {
     background-position: 0px -90px;
     width: 30px;
-    top:10px;
-    bottom:auto;
+    top:auto;
+    bottom:75px;
   }
 }
 .ol-zoom-reset {
@@ -301,7 +301,7 @@ $path: "/public/";
 .map-search {
   @include core-16;
   position: absolute;
-  z-index:3;
+  z-index:2;
   left:10px;
   top:10px;
   right:10px;
@@ -310,6 +310,12 @@ $path: "/public/";
   background-color:white;
   @include media(tablet){
     width:20em;
+  }
+}
+.map-has-key-and-search .map-search {
+  left:55px;
+  @include media(tablet){
+    left:60px;
   }
 }
 .map-search-container {
@@ -343,7 +349,14 @@ input[type="search"].map-search-input {
   border:0;
   box-sizing: border-box;
 }
-.map-search-input:focus {
+input[type="search"].map-search-input::-webkit-search-decoration,
+input[type="search"].map-search-input::-webkit-search-cancel-button,
+input[type="search"].map-search-input::-webkit-search-results-button,
+input[type="search"].map-search-input::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+}
+.map-search-input:focus,
+.map-search-input.map-search-input-has-value {
   z-index: 1;
 }
 .map-search-submit-wrapper {
@@ -410,13 +423,11 @@ input[type="search"].map-search-input {
   background-size:150%;
   background-position:5px -145px;
   background-repeat: no-repeat;
+  text-align:center;
   @include media(tablet) {
-    background-size:200%;
     text-indent: 0;
-    height:30px;
-    width:auto;
-    padding: 0px 8px;
-    background-position:200%;
+    width: 45px;
+    background-image:none;
   }
 }
 .map-key-toggle-open {
@@ -426,6 +437,7 @@ input[type="search"].map-search-input {
   background-position:-25px -175px;
   @include media(tablet) {
     right: 6px;
+    width: 60px;
     background-color:white;
     color:$link-colour;
     background-position:200%;
