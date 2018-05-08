@@ -140,7 +140,7 @@ module.exports = [
 	},
 
 	//
-	// Preapring
+	// Plan ahead for flooding
 	//
 
 	{
@@ -159,10 +159,10 @@ module.exports = [
 	},
 
 	//
-	// Responding
+	// What to do in a flood
 	//
 
-	// What to do in a flood - Overview
+	// Overview
 	{
 		method: 'GET',
 		path: '/what-to-do-in-a-flood',
@@ -178,7 +178,7 @@ module.exports = [
 		}
 	},
 
-	// What to do in a flood - Getting a flood alert
+	// Getting a flood alert
 	{
 		method: 'GET',
 		path: '/what-to-do-in-a-flood/getting-a-flood-alert',
@@ -194,7 +194,7 @@ module.exports = [
 		}
 	},
 
-	// What to do in a flood - Getting a flood warning
+	// Getting a flood warning
 	{
 		method: 'GET',
 		path: '/what-to-do-in-a-flood/getting-a-flood-warning',
@@ -210,7 +210,7 @@ module.exports = [
 		}
 	},
 
-	// What to do in a flood - Getting a severe flood warning
+	// Getting a severe flood warning
 	{
 		method: 'GET',
 		path: '/what-to-do-in-a-flood/getting-a-severe-flood-warning',
@@ -227,7 +227,7 @@ module.exports = [
 	},
 
 	//
-	// Recover
+	// Recovering after a flood
 	//
 
 	{
@@ -256,6 +256,44 @@ module.exports = [
 			handler: function (request, reply) {
 				return reply.view('gov-uk/what-happens-after-a-flood', {
 					'pageTitle' : 'What happens after a flood - GOV.UK',
+					'pageDescription' : '',
+					'bodyClasses': 'guide',
+					'serviceName' : ''
+				})
+			}
+		}
+	},
+
+	//
+	// Cookies
+	//
+
+	{
+		method: 'GET',
+		path: '/cookies',
+		config: {
+			handler: function (request, reply) {
+				return reply.view('gov-uk/cookies', {
+					'pageTitle' : 'Cookies - Flood warning information service - GOV.UK',
+					'pageDescription' : '',
+					'bodyClasses': 'guide',
+					'serviceName' : ''
+				})
+			}
+		}
+	},
+
+	//
+	// Privacy policy
+	//
+
+	{
+		method: 'GET',
+		path: '/privacy-policy',
+		config: {
+			handler: function (request, reply) {
+				return reply.view('gov-uk/privacy-policy', {
+					'pageTitle' : 'Privacy policy - Flood warning information service - GOV.UK',
 					'pageDescription' : '',
 					'bodyClasses': 'guide',
 					'serviceName' : ''
