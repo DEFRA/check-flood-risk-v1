@@ -2640,24 +2640,25 @@ a.subsection-header:focus .font-small {
   }
 }
 
-/*
-table th, table td {
-    font-family: "ntatabularnumbers", "nta", Arial, sans-serif;
-    font-weight: 400;
-    text-transform: none;
-    font-size: 14px;
-    line-height: 1.14286;
-    vertical-align: top;
-    padding: .75em .5em .75em 0
+table.table-small th,
+table.table-small td {
+  font-family: "ntatabularnumbers", "nta", Arial, sans-serif;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 14px;
+  line-height: 1.14286;
+  vertical-align: top;
+  padding: .75em .5em .75em 0;
 }
 
 @media (min-width: 641px) {
-    table th, table td {
-        font-size: 16px;
-        line-height: 1.25
-    }
+  table.table-small th,
+  table.table-small td {
+    font-size: 16px;
+    line-height: 1.25;
+  }
 }
-*/
+
 table.select-areas .icon-tick {
   width: 16px;
   height: 16px;

@@ -1,5 +1,6 @@
-/*
-table th, table td {
+// Small font size
+table.table-small th,
+table.table-small td {
     font-family: "ntatabularnumbers", "nta", Arial, sans-serif;
     font-weight: 400;
     text-transform: none;
@@ -10,12 +11,12 @@ table th, table td {
 }
 
 @media (min-width: 641px) {
-    table th, table td {
+    table.table-small th,
+    table.table-small td {
         font-size: 16px;
         line-height: 1.25
     }
 }
-*/
 
 // Get flood warnings
 table.select-areas {
