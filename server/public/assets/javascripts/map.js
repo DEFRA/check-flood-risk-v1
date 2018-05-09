@@ -162,8 +162,6 @@ var Map = (function() {
     // Style interactions
     var styleInteractiveFeatures = function(feature, resolution) {
                 
-        var featureType = feature.getGeometry().getType()
-        
         // Complete polygon drawing style
         var styleDrawComplete = new ol.style.Style({
             fill: new ol.style.Fill({
@@ -207,12 +205,41 @@ var Map = (function() {
                 scale: 0.5
             })
         })
-
+        // locator style
+        var stylePointBuffer = new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: 'transparent'
+            }),
+            stroke: new ol.style.Stroke({
+                color: '#005EA5',
+                width: 3,
+                lineCap: 'square',
+                lineDash: [2, 8]
+            })
+        })
         // Return appropriate style
-        if (featureType == 'Polygon') {
+        if (feature.get('type') == 'locator') {
+            // Get coordinate of point
+            var coordinate = feature.getGeometry().getGeometries()[0].getCoordinates()
+            // Show locator icon
+            if (resolution >= _options.maxPointBufferResolution || parseInt(_options.pointBufferRadius) <= 0) {
+                // Correct position of overlay
+                overlay.setPosition(coordinate)
+                document.querySelector('.ol-overlay').classList.remove('ol-overlay-offset')
+                return [styleLocator]
+            }
+            // Show point buffer
+            else {
+                // Offset overlay to accomodate buffer
+                coordinate[1] = coordinate[1] + 20
+                overlay.setPosition(coordinate)
+                document.querySelector('.ol-overlay').classList.add('ol-overlay-offset')
+                return [stylePointBuffer]
+            }
+        }
+        // Don't have access to fetaure type here??
+        else if (feature.getGeometry().getType() == 'Polygon') {
             return [styleDrawComplete, styleDrawCompleteGeometry]
-        } else if (featureType == 'Point') {
-            return [styleLocator]
         }
 
     }
@@ -224,11 +251,23 @@ var Map = (function() {
         overlay.getElement().innerHTML = copy
         overlay.setPosition(coordinate)
         document.querySelector('.ol-overlay').style.display = 'block'
-
         // Add marker
-        var featureLocator = new ol.Feature()
-        var point = new ol.geom.Point(coordinate)
-        featureLocator.setGeometry(point)
+        var featureLocator = new ol.Feature({
+            'type': 'locator'
+        })
+        // Add point
+        if (parseInt(_options.pointBufferRadius) > 0) {
+            featureLocator.setGeometry(new ol.geom.GeometryCollection([
+                new ol.geom.Point(coordinate),
+                new ol.geom.Circle(coordinate,parseInt(_options.pointBufferRadius))
+            ]))
+        }
+        // Add point and buffer
+        else {
+            featureLocator.setGeometry(new ol.geom.GeometryCollection([
+                new ol.geom.Point(coordinate)
+            ]))
+        }
         _layerLocator.getSource().clear()
         _layerLocator.getSource().addFeature(featureLocator)
         _layerLocator.setVisible(true)
@@ -322,12 +361,14 @@ var Map = (function() {
         var defaults = {
             lonLat: [0,0],
             zoom: 12,
+            pointBufferRadius: -1,
             floodZonesJSON: '',
             targetAreasJSON: '',
             riverLevelsJSON: '',
             targetAreaStates: [],
             riverLevelStates: [],
             minIconResolution: 300,
+            maxPointBufferResolution: 1,
             hasLocator: false,
             hasDrawing: false,
             hasUndoRedo: false,
@@ -594,7 +635,9 @@ var Map = (function() {
             }
             // Add shape feature and interactions if shape has not yet been drawn
             else {
-                _layerShape.getSource().addFeature(new ol.Feature())
+                _layerShape.getSource().addFeature(new ol.Feature({
+                    'type': 'shape'
+                }))
                 map.addInteraction(draw)
             }
         })
@@ -691,7 +734,9 @@ var Map = (function() {
                 _drawingStarted = false
                 _drawingFinished = false
                 // Add shape feature and interactions
-                _layerShape.getSource().addFeature(new ol.Feature())
+                _layerShape.getSource().addFeature(new ol.Feature({
+                    'type': 'shape'
+                }))
                 map.addInteraction(draw)
                 map.addInteraction(snap)
                 map.addInteraction(modifyPolygon)
@@ -947,8 +992,6 @@ var Map = (function() {
                     context = null
                 }
 
-                console.log(context)
-
                 // If dialog context is open
                 if (context) {
                     var focusableElements = context.querySelectorAll('button:not(:disabled), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
@@ -974,11 +1017,7 @@ var Map = (function() {
                         if (document.activeElement === lastFocusableElement) {
                             e.preventDefault()
                             firstFocusableElement.focus()
-                            console.log('set back to first')
                         }
-                        console.log(firstFocusableElement)
-                        console.log(document.activeElement)
-                        console.log(getComputedStyle(lastFocusableElement, null).display)
                     }
                 }
             }
@@ -1019,7 +1058,6 @@ var Map = (function() {
         window.onpopstate = function(e) {    
             if (e && e.state) {
                 setFullScreen()
-                console.log('popstate')
             }
             else {
                 removeFullScreen()
