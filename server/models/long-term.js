@@ -1,120 +1,66 @@
 const utilities = require('../utilities/utilities.js')
 var data = require('../data/data.json')
+var fuse = require('fuse.js')
 
 // Get a location by its name
-exports.getProperty = function(path, premises, postcode, scenario, error) {
+exports.getProperty = function(address, error) {
 
-	premises = premises || ''
-	postcode = postcode.replace(/-/g, ' ') || ''
-	scenario = scenario || 'a'
+	address = address || ''
 	error = error || false
 
-	var model = {}, property = []
+	var model = {}, source = [], result = [], property = []
 
-	// Form values to model
-	model['premises'] = premises
-	model['postcode'] = postcode
-	model['scenario'] = scenario
-	model['path'] = path
+	// Define booleans
+	model['hasAddress'] = false
 
-	// Try to set postcode to object
-	postcode = data.postcode.find( x => x.path == postcode.replace(/ /g,'-').toLowerCase() )
-	
-	// Tidy inputs
-	premises = premises.toLowerCase()
-	scenario = scenario.toLowerCase()
-
-	// Set country properties if postcode exists
-	if (typeof postcode === 'object') {
-		var countryCode , countryName
-		switch(postcode.country) {
-			case 's':
-				countryCode = 's'
-				countryName = 'Scotland'
-				break
-			case 'w':
-				countryCode = 'w'
-				countryName = 'Wales'
-				break
-			case 'ni':
-				countryCode = 'ni'
-				countryName = 'Northern Ireland'
-				break
-			default:
-				countryCode = 'e'
-				countryName = 'England'
-		}
-		model['countryCode'] = countryCode
-		model['countryName'] = countryName
-
-		// Set is England boolean
-		if (countryCode == 'e') {
-			model['isEngland'] = true
-		} else {
-			model['isEngland'] = false
-		}
-
-		// FInd only firstlines that match the postcode
-		if (premises != '') {
-
-			// Filter first lines that match the premises
-			firstLine = data.firstLine.filter(function(x){
-				// If premises containes a name, flat or apartment
-				if (isNaN(x.premises)) {
-					var premisesStreet = x.premises.concat(', ' + x.street).toLowerCase()
-					return premisesStreet.includes(premises.toLowerCase()) ? true : false
-				} 
-				// If premises is a number
-				else {
-					return x.premises.toLowerCase() == premises.toLowerCase() ? true : false
-				}
-			})
-
-			// Filter first lines premises matches that match the postcode
-			firstLine = firstLine.filter(x => x.postcodeId == postcode.id)
-
-			// If firstLine(s) found build property/address list
-			if (firstLine.length) {
-				firstLine.forEach(function (item) {
-					// Add comma to non number premises
-					itemPremises = isNaN(item.premises) ? item.premises + ', ' : item.premises
-					// Get street
-					itemStreet = item.street
-					// Get postcode for address
-					itemPostcode = postcode.name
-					// Get town for postcode
-					itemTown = data.town.find( x => x.id == postcode.townId).name
-					// Concatenate the address
-					address = itemPremises + ' ' + itemStreet + ', ' + itemTown + ', ' + itemPostcode
-					// Create the path
-					path = address.replace(/,\s+/g,'/').replace(/\s+/g, '-').toLowerCase()
-					// Add item to list
-					property.push({ 'address' : address, 'path' : path })
-				})
-				model['property'] = property
+	// Create array of all address objects
+	for (var i = 0; i < data.firstLine.length; i++) {
+		postcode = data.postcode.find(x => x.id == data.firstLine[i].postcodeId)
+		town = data.town.find(x => x.id == postcode.townId)
+		county = data.county.find(x => x.id == town.countyId)
+		source.push(
+			{
+				'firstLine' : {
+					'premises' : data.firstLine[i].premises,
+					'street' : data.firstLine[i].street
+				},
+				'postcode' : postcode.name,
+				'town' : town.name,
+				'county' : county.name
 			}
+		)
+	}	
 
-		}
+	// Fuse fuzzy search
+	var options = {
+		shouldSort: true,
+		threshold: 0.2,
+		location: 0,
+		distance: 100,
+		maxPatternLength: 32,
+		minMatchCharLength: 1,
+		keys: [
+			'firstLine.premises',
+			'firstLine.street',
+			'postcode',
+			'town',
+			'county'
+		]
+	}
+	var f = new fuse(source, options)
+	result = f.search(address);
+
+	// Set has address flag
+	if (result.length) {
+		model['hasAddress'] = true
 	}
 
-	// Set has existing address boolean
-	if (model['property']) {
-		model['hasExistingAddress'] = true
-	} else {
-		model['hasExistingAddress'] = false
-	}
-	
-	// Set is single result boolean
-	if (model['property']) {
-		if (model.property.length == 1) {
-			model['isSingle'] = true
-		} 
-	} else {
-		model['isSingle'] = false
-	}
+	// Add input and results to model
+	model['address'] = address
+	model['result'] = result
 
 	// If no existing address add error details
-	if (!model.hasExistingAddress) {
+	if (!result.length) {
 		model['isError'] = true
 		model['errors'] = { 'address' : { 'type' : 'any.empty', 'message' : '' } }
 	}

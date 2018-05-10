@@ -128,7 +128,7 @@
             "id" : 1,
             "name" : "Mytholmroyd",
             "country" : "e",
-            "county" : 1,
+            "countyId" : 1,
             "path" : "mytholmroyd",
             "lonLat" : [-1.9837, 53.7309]
         },
@@ -136,7 +136,7 @@
             "id" : 2,
             "name" : "Richmond",
             "country" : "e",
-            "county" : 2,
+            "countyId" : 2,
             "path" : "richmond",
             "lonLat" : [-1.7326, 54.4035]
         },
@@ -144,7 +144,7 @@
             "id" : 3,
             "name" : "Richmond",
             "country" : "e",
-            "county" : 3,
+            "countyId" : 3,
             "path" : "richmond",
             "lonLat" : [-0.3037, 51.4613]
         },
@@ -152,7 +152,7 @@
             "id" : 4,
             "name" : "Kirkudbright",
             "country" : "s",
-            "county" : 4,
+            "countyId" : 4,
             "path" : "kirkudbright",
             "lonLat" : [-4.0488, 54.8376]
         }

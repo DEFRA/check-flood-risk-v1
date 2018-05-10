@@ -1,0 +1,91 @@
+<main {{#if model.isError}}class="js-error"{{/if }}>
+
+	<nav class="nav-back" style="display:none" hidden>
+		<a href="#" class="link-back">Back</a> 
+	</nav>
+		
+	<form action="{{ model.path }}" autocomplete="off" class="form" method="post">
+		<div class="grid-row no-bottom">
+			<div class="column-two-thirds no-bottom">
+				
+				{{#if model.isError}}
+				<div class="error-summary" role="alert" aria-labelledby="error-summary-heading" tabindex="-1">
+					<h1 class="heading-medium error-summary-heading" id="error-summary-heading">There was a problem</h1>
+					<ul class="error-summary-list">
+						{{#is model.errors.address.type 'any.empty'}}
+						<li><a href="#address">Please give an address</a></li>
+						{{/is }}
+					</ul>
+				</div>
+				{{/if }}
+
+				<h1 class="heading-large">Find a property</h1>
+
+				<fieldset>
+					<legend>
+						<span class="visuallyhidden">Address details</span>
+					</legend>
+					<div class="form-group{{#if model.errors.address}} form-group-error{{/if }}">
+						<label for="address">
+							<span class="font-small">Address</span>
+							<span class="form-hint">Start typing the address</span>
+							{{#is model.errors.address.type 'any.empty'}}
+							<span class="error-message" id="addressAnyEmpty">Please give an address</span>
+							{{/is }}
+						</label>
+						<input class="form-control{{#if model.errors.address }} form-control-error{{/if }}" id="address" type="text" name="address" value="{{ model.address }}">
+					</div>
+				</fieldset>
+
+				<div class="form-group">
+					<input class="button" type="submit" value="Continue"/>
+				</div>
+
+				<details>
+					<summary>
+						<span class="summary">Don't know the address?</span>
+					</summary>
+					<div class="panel panel-border-narrow">
+						<p>You can <a href="">look up the postcode at Royal Mail</a>.</p><p>Or you can <a href="">see a map showing areas at risk of flooding</a>.</p>
+					</div>
+				</details>
+
+			</div>
+		</div>
+	</form>
+		
+</main>
+
+{{#section 'bodyScripts'}}
+
+<!-- Add before closing body tag -->
+<!-- below uses GDS style guide javascript adapted to use html5 hidden instead of aria-hidden -->
+<script src="/public/javascripts/show-hide-content.js"></script>
+<script>
+$(document).ready(function () {
+
+	// Turn off jQuery animation
+	jQuery.fx.off = true
+
+	// If there is an error, set focus to the summary
+	$('.js-error .error-summary:visible').first().focus()
+
+	// Ajax typeahead
+	$('#address').keydown(function(e) {
+		$.ajax({
+			type: 'get',
+			url: '/get-address-results',
+			data: {
+				'address' : $(this).val()
+			},
+			success: function(){
+				console.log('success')
+			}
+		})
+	})
+
+})
+</script>
+<!-- end before closing body tag -->
+
+{{/section}}

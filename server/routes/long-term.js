@@ -4,13 +4,13 @@ var Joi = require('joi')
 module.exports = [
 	{
 		method: 'GET',
-		path: '/find-address',
+		path: '/find-property',
 		config: {
 			handler: function (request, reply) {
 
-				var model = { 'scenario' : request.query.s ? request.query.s : 'a' }
+				var model = {}
 
-				return reply.view('long-term/find-address', {
+				return reply.view('long-term/find-property', {
 					'pageTitle' : 'Find address - Long term flood risk - GOV.UK',
 					'model' : model
 				})
@@ -20,40 +20,25 @@ module.exports = [
 	},
 	{
 		method: 'POST',
-		path: '/find-address',
+		path: '/find-property',
 		config: {
 			handler: function (request, reply) {
 
 				var model = modelData.getProperty(
-					request.url.path,
-					request.payload.premises, 
-					request.payload.postcode, 
-					request.payload.scenario
+					request.payload.address
 				)	
 				
 				// If we have an one or more existing addresses
-				if (model.hasExistingAddress) {
-
-					// Postcode is England
-					if (model.isEngland) {
-						return reply.redirect(
-							'/confirm-address?premises=' + model.premises + '&postcode=' + model.postcode.replace(/ /g,'-') + '&s='+ model.scenario
-						)
-					}
-
-					// Postcode is in Scotland, Wales or Northern Ireland
-					else {
-						return reply.view('long-term/alternate-service', {
-							'pageTitle' : 'Error: Find address - Long term flood risk - GOV.UK',
-							'model' : model
-						})
-					}
-
+				if (model.hasAddress) {
+					return reply.view('long-term/confirm-address', {
+						'pageTitle' : 'Select address - Long term flood risk - GOV.UK',
+						'model' : model
+					})
 				}
 
 				// We don't have an existing address
 				else {
-					return reply.view('long-term/find-address', {
+					return reply.view('long-term/find-property', {
 						'pageTitle' : 'Error: Find address - Long term flood risk - GOV.UK',
 						'model' : model
 					}) // .code(error ? 400 : 200) // HTTP status code depending on error
@@ -65,22 +50,16 @@ module.exports = [
 					allowUnknown: true
 				},
 				payload: { 
-					premises: Joi.string().required(),
-					postcode: Joi.string().required()
+					address: Joi.string().required()
 				},
 				failAction: function (request, reply, source, error) {
 
 					// Pattern match validation fails
-
 					var model = modelData.getProperty(
-						request.url.path,
-						request.payload.premises, 
-						request.payload.postcode, 
-						request.payload.scenario, 
+						request.payload.address, 
 						error
 					)			
-					
-					return reply.view('long-term/find-address', {
+					return reply.view('long-term/find-property', {
 						'pageTitle' : 'Error: Find address - Long term flood risk - GOV.UK',
 						'model' : model
 					}) // .code(error ? 400 : 200) // HTTP status code depending on error
@@ -89,23 +68,28 @@ module.exports = [
 			}
 		}
 	},
+	// Ajax request
 	{
-		method: 'GET',
-		path: '/confirm-address',
+		method: 'POST',
+		path: '/get-address-results',
 		config: {
+
 			handler: function (request, reply) {
 
+				/*
 				var model = modelData.getProperty(
-					request.url.path,
-					request.query.premises ? request.query.premises : 'error', 
-					request.query.postcode ? request.query.postcode : 'error', 
-					request.query.s ? request.query.s : 'a'
-				)
+					request.query.address
+				)	
+				
+				// If we have an one or more existing addresses
+				if (model.hasAddress) {
+					return JSON.stringify(model.result)
+				}
+				*/
 
-				return reply.view('long-term/confirm-address', {
-					'pageTitle' : 'Select address - Long term flood risk - GOV.UK',
-					'model' : model
-				})
+				return {
+					'result' : 'true'
+				}
 
 			}
 		}
@@ -116,10 +100,8 @@ module.exports = [
 		config: {
 			handler: function (request, reply) {
 
-				const scenario = request.payload.scenario ? request.payload.scenario : 'a'
-				const property = request.payload.property
-
-				return reply.redirect('/long-term/' + property + '?s='+ scenario)
+				const address = request.payload.address
+				return reply.redirect('/long-term/' + address)
 
 			},
 			validate: {
@@ -127,15 +109,12 @@ module.exports = [
 					allowUnknown: true
 				},
 				payload: {
-					property: Joi.string().required()
+					address: Joi.string().required()
 				},
 				failAction: function (request, reply, source, error) {
 					
 					var model = modelData.getProperty(
-						request.url.path,
-						request.payload.premises, 
-						request.payload.postcode, 
-						request.payload.scenario, 
+						request.payload.address, 
 						error
 					)
 

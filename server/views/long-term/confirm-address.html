@@ -13,53 +13,34 @@
 					<h1 class="heading-medium error-summary-heading" id="error-summary-heading">There was a problem</h1>
 					<ul class="error-summary-list">
 						{{#is model.errors.property.type 'any.required' }}
-						{{#if model.isSingle }}
-						<li><a href="#address">Please confirm the address</a></li>
-						{{else }}
 						<li><a href="#address">Please select the address</a></li>
-						{{/if }}
 						{{/is }}
 					</ul>
 				</div>
 				{{/if }}
 
 				<fieldset>
-					{{#if model.isSingle }}
 					<legend>
-						<h1 class="heading-large">Confirm the address</h1>
+						<h1 class="heading-large">Select address</h1>
+						<p class="bold-small">{{ model.result.length }} addresses found for '{{ model.address }}'. <a href="/find-property" title="Change address details">Change</a></p>
 					</legend>
 					<div class="form-group{{#is model.errors.property.type 'any.required' }} form-group-error{{/is }}" id="address">
 						{{#is model.errors.property.type 'any.required' }}
-						<span class="error-message" id="addressAnyRequird">Please confirm the address</span>
+						<span class="error-message" id="addressAnyRequird">Please select an address</span>
 						{{/is }}
+						{{#each model.result as |item|}}
 						<div class="multiple-choice">
-							<input id="property" name="property" type="checkbox" value="{{ model.property.[0].path }}">
-							<label for="property">{{ model.property.[0].address }}</label>
-						</div>
-					</div>
-					{{else }}
-					<legend>
-						<h1 class="heading-large">Select your address</h1>
-						<p class="bold-small">{{ model.property.length }} addresses found for '{{ model.premises }}' and '{{ model.postcode }}'. <a href="/find-address" title="Change address details">Change</a></p>
-					</legend>
-					<div class="form-group{{#is model.errors.property.type 'any.required' }} form-group-error{{/is }}" id="address">
-						{{#is model.errors.property.type 'any.required' }}
-						<span class="error-message" id="addressAnyRequird">Please select the address</span>
-						{{/is }}
-						{{#each model.property as |item|}}
-						<div class="multiple-choice">
-							<input id="property-{{ @index }}" type="radio" name="property" value="{{ item.path }}">
-							<label for="property-{{ @index }}">{{ item.address }}</label>
+							<input id="address-{{ @index }}" type="radio" name="address" value="">
+							<label for="address-{{ @index }}">
+								{{ item.firstLine.premises }} {{ item.firstLine.street }} {{ item.postcode }}, {{ item.town }}, {{ item.county }}
+							</label>
 						</div>
 						{{/each }}
 					</div>
-					{{/if }}
 				</fieldset>
 
 				<div class="form-group">
-					<input id="scenario" name="scenario" type="hidden" value="{{ model.scenario }}"/>
-					<input id="premises" name="premises" type="hidden" value="{{ model.premises }}"/>
-					<input id="postcode" name="postcode" type="hidden" value="{{ model.postcode }}"/>
+					<input id="address" name="address" type="hidden" value="{{ model.address }}"/>
 					<input class="button" type="submit" value="Continue">
 				</div>
 
