@@ -4501,8 +4501,8 @@ table.select-areas th {
 @media (min-width: 641px) {
   .ol-overlay {
     position: absolute !important;
-    width: 200px;
-    margin-left: -100px;
+    width: 240px;
+    margin-left: -120px;
     margin-bottom: 50px;
   }
 }
@@ -4531,6 +4531,7 @@ table.select-areas th {
 
 .ol-overlay-inner p {
   margin: 0;
+  line-height: 1.25em;
 }
 
 @media (min-width: 641px) {
@@ -4587,6 +4588,7 @@ table.select-areas th {
   height: 40px;
   max-width: 28em;
   background-color: white;
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 @media (min-width: 641px) {

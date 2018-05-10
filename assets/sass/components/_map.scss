@@ -272,16 +272,15 @@ $path: "/public/";
 //
 
 .ol-overlay {
-  position:static !important;
+  position:static !important; // Important needed to overide openlayers styling
   float:left;
   clear:both;
   background-color:white;
   width:100%;
-  // Apply mobile media query for screen only
   @include media(tablet){
-    position:absolute !important;
-    width:200px;
-    margin-left:-100px;
+    position:absolute !important; // Important needed to overide openlayers styling
+    width:240px;
+    margin-left:-120px;
     margin-bottom:50px;
   }
 }
@@ -295,6 +294,7 @@ $path: "/public/";
   @include core-16;
   p {
     margin: 0;
+    line-height:1.25em;
   }
   @include media(tablet) {
     position:relative;
@@ -350,6 +350,7 @@ $path: "/public/";
   @include media(tablet){
     width:20em;
   }
+  box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.1);
 }
 .map-has-key-and-search .map-search {
   left:55px;

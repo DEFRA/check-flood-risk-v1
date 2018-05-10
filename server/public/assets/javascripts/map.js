@@ -921,7 +921,7 @@ var Map = (function() {
             if (_options.hasLocator || _options.hasDrawing) {
                 if (_layerLocator.getVisible()) {
                     // locator object
-                    addFeatureLocator(e.coordinate, '<p><strong class="bold-small">Flood zone 1</strong><br/>(<abbr title="Easting and northing">EN</abbr> 123456/123456)</p>')
+                    addFeatureLocator(e.coordinate, '<p><strong class="bold-small">Feature or query result</strong><br/>Easting and northing and buffer<br/><a href="http://www.abc.com">Optional link</a></p>')
                 }
                 // Enable delete
                 elementDeleteFeature.disabled = false
