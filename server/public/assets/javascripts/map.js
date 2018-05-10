@@ -222,7 +222,7 @@ var Map = (function() {
             // Get coordinate of point
             var coordinate = feature.getGeometry().getGeometries()[0].getCoordinates()
             // Show locator icon
-            if (resolution >= _options.maxPointBufferResolution || parseInt(_options.pointBufferRadius) <= 0) {
+            if (resolution >= _options.minPointBufferIconResolution || parseInt(_options.pointBufferRadius) <= 0) {
                 // Correct position of overlay
                 overlay.setPosition(coordinate)
                 document.querySelector('.ol-overlay').classList.remove('ol-overlay-offset')
@@ -320,6 +320,7 @@ var Map = (function() {
     var setFullScreen = function () {
         elementMapContainerInner.classList.add('map-container-inner-fullscreen')
         elementFullScreen.classList.add('ol-full-screen-back')
+        console.log(elementFullScreen)
         elementFullScreen.title = 'Go back'
         _isFullScreen = true
     }
@@ -328,6 +329,7 @@ var Map = (function() {
     var removeFullScreen = function () {
         elementMapContainerInner.classList.remove('map-container-inner-fullscreen')
         elementFullScreen.classList.remove('ol-full-screen-back')
+        console.log(elementFullScreen)
         elementFullScreen.title = 'Make the map fill the screen'
         _isFullScreen = false
     }
@@ -368,7 +370,7 @@ var Map = (function() {
             targetAreaStates: [],
             riverLevelStates: [],
             minIconResolution: 300,
-            maxPointBufferResolution: 1,
+            minPointBufferIconResolution: 2,
             hasLocator: false,
             hasDrawing: false,
             hasUndoRedo: false,
@@ -590,7 +592,7 @@ var Map = (function() {
             e.preventDefault()
             // Fullscreen view
             if (_isFullScreen ) {
-                removeFullScreen()
+                //removeFullScreen()
                 history.back()
             }
             // Default view
@@ -600,9 +602,9 @@ var Map = (function() {
                 url = addOrUpdateParameter(location.pathname + location.search, 'view', 'map')
                 title = document.title
                 history.pushState(state, title, url)
+                this.classList.add('ol-full-screen-back')
+                map.updateSize()
             }
-            this.classList.toggle('ol-full-screen-back')
-            map.updateSize()
         })
         var fullScreen = new ol.control.Control({ // Use fullscreen for HTML Fullscreen API
             element: elementFullScreen
@@ -921,7 +923,7 @@ var Map = (function() {
             if (_options.hasLocator || _options.hasDrawing) {
                 if (_layerLocator.getVisible()) {
                     // locator object
-                    addFeatureLocator(e.coordinate, '<p><strong class="bold-small">Feature or query result</strong><br/>Easting and northing and buffer<br/><a href="http://www.abc.com">Optional link</a></p>')
+                    addFeatureLocator(e.coordinate, '<p><strong class="bold-small">Feature or query result</strong><br/>Easting and northing plus buffer<br/><a href="http://www.abc.com">Optional link</a></p>')
                 }
                 // Enable delete
                 elementDeleteFeature.disabled = false
