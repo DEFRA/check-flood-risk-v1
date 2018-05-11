@@ -300,6 +300,25 @@ module.exports = [
 				})
 			}
 		}
+	},
+
+	//
+	// Terms and conditions
+	//
+
+	{
+		method: 'GET',
+		path: '/terms-conditions',
+		config: {
+			handler: function (request, reply) {
+				return reply.view('gov-uk/terms-conditions', {
+					'pageTitle' : 'Terms and conditions - Flood warning information service - GOV.UK',
+					'pageDescription' : '',
+					'bodyClasses': 'guide',
+					'serviceName' : ''
+				})
+			}
+		}
 	}
 
 ]
