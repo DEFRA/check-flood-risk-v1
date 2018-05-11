@@ -277,7 +277,7 @@ module.exports = [
 					'pageTitle' : 'Cookies - Flood warning information service - GOV.UK',
 					'pageDescription' : '',
 					'bodyClasses': 'guide',
-					'serviceName' : ''
+					'serviceName' : 'Flood information service'
 				})
 			}
 		}
@@ -296,7 +296,7 @@ module.exports = [
 					'pageTitle' : 'Privacy policy - Flood warning information service - GOV.UK',
 					'pageDescription' : '',
 					'bodyClasses': 'guide',
-					'serviceName' : ''
+					'serviceName' : 'Flood information service'
 				})
 			}
 		}
@@ -315,7 +315,7 @@ module.exports = [
 					'pageTitle' : 'Terms and conditions - Flood warning information service - GOV.UK',
 					'pageDescription' : '',
 					'bodyClasses': 'guide',
-					'serviceName' : ''
+					'serviceName' : 'Flood information service'
 				})
 			}
 		}
