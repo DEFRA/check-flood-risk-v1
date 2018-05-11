@@ -274,7 +274,7 @@ module.exports = [
 		config: {
 			handler: function (request, reply) {
 				return reply.view('gov-uk/cookies', {
-					'pageTitle' : 'Cookies - Flood warning information service - GOV.UK',
+					'pageTitle' : 'Cookies - Flood information service - GOV.UK',
 					'pageDescription' : '',
 					'bodyClasses': 'guide',
 					'serviceName' : 'Flood information service'
@@ -293,7 +293,7 @@ module.exports = [
 		config: {
 			handler: function (request, reply) {
 				return reply.view('gov-uk/privacy-policy', {
-					'pageTitle' : 'Privacy policy - Flood warning information service - GOV.UK',
+					'pageTitle' : 'Privacy policy - Flood information service - GOV.UK',
 					'pageDescription' : '',
 					'bodyClasses': 'guide',
 					'serviceName' : 'Flood information service'
@@ -312,7 +312,7 @@ module.exports = [
 		config: {
 			handler: function (request, reply) {
 				return reply.view('gov-uk/terms-conditions', {
-					'pageTitle' : 'Terms and conditions - Flood warning information service - GOV.UK',
+					'pageTitle' : 'Terms and conditions - Flood information service - GOV.UK',
 					'pageDescription' : '',
 					'bodyClasses': 'guide',
 					'serviceName' : 'Flood information service'
