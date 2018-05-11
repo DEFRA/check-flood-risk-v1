@@ -76,20 +76,14 @@ module.exports = [
 
 			handler: function (request, reply) {
 
-				/*
 				var model = modelData.getProperty(
-					request.query.address
+					request.payload.address
 				)	
 				
-				// If we have an one or more existing addresses
-				if (model.hasAddress) {
-					return JSON.stringify(model.result)
-				}
-				*/
-
-				return {
-					'result' : 'true'
-				}
+				// Return array of result objects
+				reply ({
+					'result' : model.result
+				})
 
 			}
 		}

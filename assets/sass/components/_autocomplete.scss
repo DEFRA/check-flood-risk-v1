@@ -1,0 +1,29 @@
+.autocomplete-menu {
+    @media (min-width: 641px) {
+        width:75%;
+    }
+}
+.autocomplete-menu .form-control {
+    width:100%;
+}
+.autocomplete-menu-list {
+    position:relative;
+    z-index:1;
+    box-sizing: border-box;
+    border:2px solid $black;
+    margin-top:-4px;
+}
+.autocomplete-menu-option {
+    border-bottom: 1px solid $grey-2;
+    padding: 4px;
+    color: $black;
+    cursor: pointer;
+}
+.autocomplete-menu-option:last-child {
+    border-bottom: 0;
+}
+.autocomplete-menu-option-focussed {
+    background-color:$link-colour;
+    color:white;
+    border-bottom: 0;
+}

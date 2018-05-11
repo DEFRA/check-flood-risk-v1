@@ -5029,6 +5029,41 @@ li .key-features-item-group {
   }
 }
 
+@media (min-width: 641px) {
+  .autocomplete-menu {
+    width: 75%;
+  }
+}
+
+.autocomplete-menu .form-control {
+  width: 100%;
+}
+
+.autocomplete-menu-list {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  border: 2px solid #0b0c0c;
+  margin-top: -4px;
+}
+
+.autocomplete-menu-option {
+  border-bottom: 1px solid #bfc1c3;
+  padding: 4px;
+  color: #0b0c0c;
+  cursor: pointer;
+}
+
+.autocomplete-menu-option:last-child {
+  border-bottom: 0;
+}
+
+.autocomplete-menu-option-focussed {
+  background-color: #005ea5;
+  color: white;
+  border-bottom: 0;
+}
+
 .flood-zone-location-edit {
   display: block;
   margin-top: -1.75em;
