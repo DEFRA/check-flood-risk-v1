@@ -4,4 +4,8 @@
     {{ this.firstLine.premises }} {{ this.firstLine.street }} {{ this.town }} {{ this.postcode }},  {{ this.county }}
 </li>
 {{/each }}
+{{else }}
+<li class="autocomplete-menu-option" aria-selected="false" role="option" tabindex="-1">
+    No results found
+</li>
 {{/if }}

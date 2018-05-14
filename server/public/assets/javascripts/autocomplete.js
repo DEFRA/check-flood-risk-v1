@@ -45,7 +45,7 @@ var Autocomplete = (function() {
             xhr.open('POST', '/get-address-results')
             xhr.onload = function(data) {
                 var result = this.responseText
-                if (result.length) {
+                if (elementInput.value.length && result.length) {
                     elementList.removeAttribute('hidden')
                     elementList.style.display = 'block'
                     elementList.innerHTML = result
@@ -54,6 +54,7 @@ var Autocomplete = (function() {
                     elementList.style.display = 'none'
                     elementList.innerHTML = ''
                 }
+                console.log(result.length)
             }
             xhr.setRequestHeader('Content-Type', 'application/json')
             xhr.send(JSON.stringify(data))
