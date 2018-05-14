@@ -80,10 +80,10 @@ module.exports = [
 					request.payload.address
 				)	
 				
-				// Return array of result objects
-				reply ({
-					'result' : model.result
-				})
+				// Return paertial view
+				reply.view ('partials/autocompleteListItems', {
+					'model' : model
+				}, { layout: false })
 
 			}
 		}

@@ -7,15 +7,17 @@
     width:100%;
 }
 .autocomplete-menu-list {
+    @include core-16;
     position:relative;
     z-index:1;
     box-sizing: border-box;
     border:2px solid $black;
+    background-color:white;
     margin-top:-4px;
 }
 .autocomplete-menu-option {
     border-bottom: 1px solid $grey-2;
-    padding: 4px;
+    padding: 6px 4px;
     color: $black;
     cursor: pointer;
 }

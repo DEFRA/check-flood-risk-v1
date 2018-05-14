@@ -35,8 +35,6 @@
 								{{/is }}
 							</label>
 							<input class="form-control{{#if model.errors.address }} form-control-error{{/if }}" id="address" type="text" name="address" value="{{ model.address }}">
-							<ul class="autocomplete-menu-list" style="display:none" hidden>
-							</ul>
 						</div>
 					</div>
 				</fieldset>
@@ -64,7 +62,8 @@
 
 <!-- Add before closing body tag -->
 <!-- below uses GDS style guide javascript adapted to use html5 hidden instead of aria-hidden -->
-<script src="/public/javascripts/show-hide-content.js"></script>
+<script src="/public/javascripts/autocomplete.js"></script>
+
 <script>
 
 // If there is an error, set focus to the summary
@@ -74,27 +73,7 @@ if (errorSummary) {
 }
 
 // Ajax typeahead
-var address = document.querySelector('#address')
-var options = document.querySelector('.autocomplete-menu-list')
-address.addEventListener('keyup', function(e) {
-	var xhr = new XMLHttpRequest()
-	var data = { 'address' : address.value }
-	xhr.open('POST', '/get-address-results')
-	xhr.onload = function(data) {
-		var result = JSON.parse(this.responseText).result
-		if (result.length) {
-			options.removeAttribute('hidden')
-			options.style.display = 'block'
-			options.innerHTML = '<li class="autocomplete-menu-option" aria-selected="false" role="option" tabindex="-1">Get this from a partial</li>'
-		} else {
-			options.setAttribute('hidden', true)
-			options.style.display = 'none'
-			options.innerHTML = ''
-		}
-	}
-	xhr.setRequestHeader('Content-Type', 'application/json')
-	xhr.send(JSON.stringify(data))
-})
+Autocomplete.init()
 
 </script>
 <!-- end before closing body tag -->

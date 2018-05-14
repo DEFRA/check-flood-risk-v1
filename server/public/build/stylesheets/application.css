@@ -5040,16 +5040,29 @@ li .key-features-item-group {
 }
 
 .autocomplete-menu-list {
+  font-family: "nta", Arial, sans-serif;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 14px;
+  line-height: 1.14286;
   position: relative;
   z-index: 1;
   box-sizing: border-box;
   border: 2px solid #0b0c0c;
+  background-color: white;
   margin-top: -4px;
+}
+
+@media (min-width: 641px) {
+  .autocomplete-menu-list {
+    font-size: 16px;
+    line-height: 1.25;
+  }
 }
 
 .autocomplete-menu-option {
   border-bottom: 1px solid #bfc1c3;
-  padding: 4px;
+  padding: 6px 4px;
   color: #0b0c0c;
   cursor: pointer;
 }
