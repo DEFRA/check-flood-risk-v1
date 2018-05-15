@@ -3,9 +3,9 @@ var data = require('../data/data.json')
 var fuse = require('fuse.js')
 
 // Get a location by its name
-exports.getProperty = function(address, error) {
+exports.getProperty = function(addressInput, error) {
 
-	address = address || ''
+	addressInput = addressInput || ''
 	error = error || false
 
 	var model = {}, source = [], result = [], property = []
@@ -48,7 +48,15 @@ exports.getProperty = function(address, error) {
 		]
 	}
 	var f = new fuse(source, options)
-	result = f.search(address);
+	result = f.search(addressInput);
+
+	// Create full address line
+	/*
+	for (var i = 0; i < result.length; i++) {
+		var addressLine = result[i].firstLine.premises + ' ' + result[i].firstLine.street + ', ' + result[i].postcode + ', ' + result[i].town + ', ' + result[i].county
+		result[i]['addressLine'] = addressLine
+	}
+	*/
 
 	// Set has address flag
 	if (result.length) {
@@ -56,7 +64,7 @@ exports.getProperty = function(address, error) {
 	}
 
 	// Add input and results to model
-	model['address'] = address
+	model['address'] = addressInput
 	model['result'] = result
 
 	// If no existing address add error details

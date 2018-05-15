@@ -275,7 +275,7 @@ module.exports = [
 			handler: function (request, reply) {
 				return reply.view('gov-uk/cookies', {
 					'pageTitle' : 'Cookies - Flood information service - GOV.UK',
-					'pageDescription' : '',
+					'pageDescription' : 'Flood information service uses cookies to collect information about how users browse the site',
 					'bodyClasses': 'guide',
 					'serviceName' : 'Flood information service'
 				})

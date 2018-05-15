@@ -5029,6 +5029,10 @@ li .key-features-item-group {
   }
 }
 
+.autocomplete-menu {
+  box-sizing: border-box;
+}
+
 @media (min-width: 641px) {
   .autocomplete-menu {
     width: 75%;
@@ -5062,8 +5066,14 @@ li .key-features-item-group {
 
 .autocomplete-menu-option {
   border-bottom: 1px solid #bfc1c3;
+  display: block;
   padding: 6px 4px;
   color: #0b0c0c;
+  height: 1.5em;
+  line-height: 1.5em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
   cursor: pointer;
 }
 

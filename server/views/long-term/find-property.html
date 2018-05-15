@@ -21,23 +21,18 @@
 
 				<h1 class="heading-large">Find a property</h1>
 
-				<fieldset>
-					<legend>
-						<span class="visuallyhidden">Address details</span>
-					</legend>
-					<div class="form-group{{#if model.errors.address}} form-group-error{{/if }}">
-						<div class="autocomplete-menu" role="combobox">
-							<label for="address">
-								<span class="font-small">Address</span>
-								<span class="form-hint">Start typing the address</span>
-								{{#is model.errors.address.type 'any.empty'}}
-								<span class="error-message" id="addressAnyEmpty">Please give an address</span>
-								{{/is }}
-							</label>
-							<input class="form-control{{#if model.errors.address }} form-control-error{{/if }}" id="address" type="text" name="address" value="{{ model.address }}">
-						</div>
+				<div class="form-group{{#if model.errors.address}} form-group-error{{/if }}">
+					<div class="autocomplete-menu" role="combobox">
+						<label for="address">
+							<span class="font-small">Address</span>
+							<span class="form-hint">Start typing the address</span>
+							{{#is model.errors.address.type 'any.empty'}}
+							<span class="error-message" id="addressAnyEmpty">Please give an address</span>
+							{{/is }}
+						</label>
+						<input class="form-control{{#if model.errors.address }} form-control-error{{/if }}" id="address" type="text" name="address" value="{{ model.address }}">
 					</div>
-				</fieldset>
+				</div>
 
 				<div class="form-group">
 					<input class="button" type="submit" value="Continue"/>

@@ -19,7 +19,7 @@ var Autocomplete = (function() {
 
         var defaults = {
             elementInput: '#address',
-            maxListLength: 6
+            maxListLength: 10
         }
         _options = Object.assign({}, defaults, options)
 
