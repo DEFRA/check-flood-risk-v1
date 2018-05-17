@@ -5054,6 +5054,7 @@ li .key-features-item-group {
   box-sizing: border-box;
   border: 2px solid #0b0c0c;
   background-color: white;
+  padding-top: 1px;
   margin-top: -4px;
 }
 
@@ -5065,6 +5066,7 @@ li .key-features-item-group {
 }
 
 .autocomplete-menu-option {
+  position: relative;
   border-bottom: 1px solid #bfc1c3;
   display: block;
   padding: 6px 4px;
@@ -5077,14 +5079,20 @@ li .key-features-item-group {
   cursor: pointer;
 }
 
+.autocomplete-menu-option:focus {
+  outline: none;
+}
+
 .autocomplete-menu-option:last-child {
   border-bottom: 0;
 }
 
 .autocomplete-menu-option-focussed {
+  margin-top: -1px;
   background-color: #005ea5;
   color: white;
-  border-bottom: 0;
+  border-top: 1px solid;
+  border-color: #005ea5;
 }
 
 .flood-zone-location-edit {

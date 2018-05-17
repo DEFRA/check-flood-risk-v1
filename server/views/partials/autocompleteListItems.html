@@ -1,11 +1,14 @@
 {{#if model.hasAddress}}
 {{#each model.result }}
-<li class="autocomplete-menu-option{{#if @first}} autocomplete-menu-option-focussed{{/if}}" title="{{ this.addressLine }}" aria-selected="false" role="option" tabindex="-1">
-    {{ this.addressLine }}
+<li class="autocomplete-menu-option{{#if @first}} autocomplete-menu-option-focussed{{/if}}" id="autocomplete-menu-option-{{this.item.id}}" {{#if @first}}aria-selected="true" {{/if}}role="option" tabindex="-1">
+{{ this.item.addressLine }}
+<!--
+<span class="autocomplete-menu-option-more">4 results</span>
+-->
 </li>
 {{/each }}
 {{else }}
-<li class="autocomplete-menu-option" aria-selected="false" role="option" tabindex="-1">
-    No results found
+<li class="autocomplete-menu-option" role="option" tabindex="-1">
+No results found
 </li>
 {{/if }}
