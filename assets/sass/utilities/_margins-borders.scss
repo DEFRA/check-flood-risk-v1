@@ -37,3 +37,12 @@
         margin-bottom: em(15, 24);
     }
 }
+
+// Privacy policy notice
+.notice-privacy {
+    margin-bottom:1.25em;
+    @include media(tablet) {
+        padding-top:0.5em;
+        padding-bottom:0.5em;
+    }
+}

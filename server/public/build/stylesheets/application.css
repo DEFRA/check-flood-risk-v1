@@ -5131,3 +5131,14 @@ li .key-features-item-group {
     margin-bottom: 0.625em;
   }
 }
+
+.notice-privacy {
+  margin-bottom: 1.25em;
+}
+
+@media (min-width: 641px) {
+  .notice-privacy {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+  }
+}

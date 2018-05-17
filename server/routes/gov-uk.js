@@ -275,7 +275,7 @@ module.exports = [
 			handler: function (request, reply) {
 				return reply.view('gov-uk/cookies', {
 					'pageTitle' : 'Cookies - Flood information service - GOV.UK',
-					'pageDescription' : 'Flood information service uses cookies to collect information about how users browse the site',
+					'pageDescription' : 'The Environment Agency uses cookies to collect data about how users browse the site. This page explains what they do and how long they stay on your device.',
 					'bodyClasses': 'guide',
 					'serviceName' : 'Flood information service'
 				})
@@ -294,7 +294,7 @@ module.exports = [
 			handler: function (request, reply) {
 				return reply.view('gov-uk/privacy-policy', {
 					'pageTitle' : 'Privacy policy - Flood information service - GOV.UK',
-					'pageDescription' : '',
+					'pageDescription' : 'The Environment Agency collects certain information or data about you when you use the service. This policy explains how we handle your information.',
 					'bodyClasses': 'guide',
 					'serviceName' : 'Flood information service'
 				})
@@ -313,7 +313,7 @@ module.exports = [
 			handler: function (request, reply) {
 				return reply.view('gov-uk/terms-conditions', {
 					'pageTitle' : 'Terms and conditions - Flood information service - GOV.UK',
-					'pageDescription' : '',
+					'pageDescription' : 'This page explains the terms and conditions for using this site, our linking policy and the disclaimers attached to the information.',
 					'bodyClasses': 'guide',
 					'serviceName' : 'Flood information service'
 				})
