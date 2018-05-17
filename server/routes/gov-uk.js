@@ -294,7 +294,7 @@ module.exports = [
 			handler: function (request, reply) {
 				return reply.view('gov-uk/privacy-policy', {
 					'pageTitle' : 'Privacy policy - Flood information service - GOV.UK',
-					'pageDescription' : 'The Environment Agency collects certain information or data about you when you use the service. This policy explains how we handle your information.',
+					'pageDescription' : 'What data is collected when you use GOV.UK - how it\'s used, where it\'s stored, your rights.',
 					'bodyClasses': 'guide',
 					'serviceName' : 'Flood information service'
 				})
