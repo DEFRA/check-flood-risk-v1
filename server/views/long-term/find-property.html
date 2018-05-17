@@ -30,7 +30,9 @@
 							<span class="error-message" id="addressAnyEmpty">Please give an address</span>
 							{{/is }}
 						</label>
-						<input class="form-control{{#if model.errors.address }} form-control-error{{/if }}" id="address" type="text" name="address" value="{{ model.address }}">
+						<div id="autocomplete-container">
+							<input class="form-control{{#if model.errors.address }} form-control-error{{/if }}" id="address" type="text" name="address" value="{{ model.address }}">
+						</div>
 					</div>
 				</div>
 

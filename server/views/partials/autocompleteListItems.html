@@ -1,7 +1,7 @@
 {{#if model.hasAddress}}
 {{#each model.result }}
-<li class="autocomplete-menu-option{{#if @first}} autocomplete-menu-option-focussed{{/if}}" aria-selected="false" role="option" tabindex="-1">
-    {{ this.firstLine.premises }} {{ this.firstLine.street }} {{ this.town }} {{ this.postcode }},  {{ this.county }}
+<li class="autocomplete-menu-option{{#if @first}} autocomplete-menu-option-focussed{{/if}}" title="{{ this.addressLine }}" aria-selected="false" role="option" tabindex="-1">
+    {{ this.addressLine }}
 </li>
 {{/each }}
 {{else }}

@@ -18,6 +18,7 @@ exports.getProperty = function(addressInput, error) {
 		postcode = data.postcode.find(x => x.id == data.firstLine[i].postcodeId)
 		town = data.town.find(x => x.id == postcode.townId)
 		county = data.county.find(x => x.id == town.countyId)
+		/*
 		source.push(
 			{
 				'firstLine' : {
@@ -29,16 +30,26 @@ exports.getProperty = function(addressInput, error) {
 				'county' : county.name
 			}
 		)
+		*/
+		source.push({ 'addressLine' :
+			data.firstLine[i].premises + ' ' +
+			data.firstLine[i].street + ', ' +
+			postcode.name + ', ' +
+			town.name + ', ' +
+			county.name
+		})
 	}	
 
 	// Fuse fuzzy search
 	var options = {
 		shouldSort: true,
-		threshold: 0.2,
+		tokenize: false,
+		threshold: 0.3,
 		location: 0,
 		distance: 100,
 		maxPatternLength: 32,
 		minMatchCharLength: 1,
+		/*
 		keys: [
 			'firstLine.premises',
 			'firstLine.street',
@@ -46,17 +57,11 @@ exports.getProperty = function(addressInput, error) {
 			'town',
 			'county'
 		]
+		*/
+		keys: [ 'addressLine' ]
 	}
 	var f = new fuse(source, options)
 	result = f.search(addressInput);
-
-	// Create full address line
-	/*
-	for (var i = 0; i < result.length; i++) {
-		var addressLine = result[i].firstLine.premises + ' ' + result[i].firstLine.street + ', ' + result[i].postcode + ', ' + result[i].town + ', ' + result[i].county
-		result[i]['addressLine'] = addressLine
-	}
-	*/
 
 	// Set has address flag
 	if (result.length) {

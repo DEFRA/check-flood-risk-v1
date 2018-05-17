@@ -49,6 +49,7 @@ var Autocomplete = (function() {
                     elementList.removeAttribute('hidden')
                     elementList.style.display = 'block'
                     elementList.innerHTML = result
+                    //elementList.firstChild.focus()
                 } else {
                     elementList.setAttribute('hidden', true)
                     elementList.style.display = 'none'

@@ -32,7 +32,7 @@
 						<div class="multiple-choice">
 							<input id="address-{{ @index }}" type="radio" name="address" value="">
 							<label for="address-{{ @index }}">
-								{{ item.firstLine.premises }} {{ item.firstLine.street }} {{ item.postcode }}, {{ item.town }}, {{ item.county }}
+								{{ item.addressLine }}
 							</label>
 						</div>
 						{{/each }}
