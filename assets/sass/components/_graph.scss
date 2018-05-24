@@ -66,7 +66,7 @@
         height:16px;
     }
     li.normal:before {
-        background-color:rgba($govuk-blue, 0.3);
+        background-color:rgba($green, 0.3);
         height:16px;
     }
     li.measured:before {
@@ -238,7 +238,8 @@ table.table-levels {
     }
     .normal-band {
         stroke-width: 0;
-        fill: #b3deff; // 85% of 25% shade (darker) of #005EA5 (govuk-blue)
+        //fill: #b3deff; // 85% of 25% shade (darker) of #005EA5 (govuk-blue)
+        fill: rgba($green, 0.2);
     }
     .observed-line { 
         stroke: $govuk-blue;

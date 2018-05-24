@@ -5131,7 +5131,7 @@ li .key-features-item-group {
 }
 
 .graph-legend li.normal:before {
-  background-color: rgba(0, 94, 165, 0.3);
+  background-color: rgba(0, 100, 53, 0.3);
   height: 16px;
 }
 
@@ -5399,7 +5399,7 @@ table.table-levels tbody .error:before {
 
 .graph svg .normal-band {
   stroke-width: 0;
-  fill: #b3deff;
+  fill: rgba(0, 100, 53, 0.2);
 }
 
 .graph svg .observed-line {
@@ -5620,4 +5620,8 @@ table.table-levels tbody .error:before {
     padding-top: 0.5em;
     padding-bottom: 0.5em;
   }
+}
+
+.heading-river-level {
+  margin-top: 0;
 }
