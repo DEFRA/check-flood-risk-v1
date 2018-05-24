@@ -5029,6 +5029,477 @@ li .key-features-item-group {
   }
 }
 
+.column-full {
+  display: inline-block;
+  width: 100%;
+}
+
+.graph {
+  position: relative;
+  margin-top: 1.57895em;
+  margin-bottom: 2em;
+}
+
+@media (min-width: 641px) {
+  .graph {
+    margin-bottom: 1em;
+  }
+}
+
+@media (min-width: 769px) {
+  .graph {
+    margin-bottom: 0.5em;
+    width: 81%;
+  }
+}
+
+.graph-legend {
+  margin-bottom: 1.57895em;
+  font-family: "nta", Arial, sans-serif;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 14px;
+  line-height: 1.14286;
+}
+
+@media (min-width: 641px) {
+  .graph-legend {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
+@media (min-width: 769px) {
+  .graph-legend {
+    position: absolute;
+    left: 100%;
+    top: 0;
+    width: 19.6%;
+    margin-left: 3.85%;
+  }
+}
+
+.graph-legend li {
+  padding-left: 1.75em;
+  padding-right: 0em;
+  margin-bottom: 1.5em;
+  box-sizing: border-box;
+}
+
+@media (min-width: 641px) {
+  .graph-legend li {
+    display: inline-block;
+    margin-right: 1.5em;
+  }
+}
+
+@media (min-width: 769px) {
+  .graph-legend li {
+    max-width: 16em;
+    margin-right: 0;
+  }
+}
+
+.graph-legend li:before {
+  position: relative;
+  content: ' ';
+  float: left;
+  display: block;
+  width: 18px;
+  height: 4px;
+  margin-left: -1.75em;
+  border: 0;
+  top: -1px;
+  left: 1px;
+  background-color: #0b0c0c;
+}
+
+@media (min-width: 641px) {
+  .graph-legend li:before {
+    top: 2px;
+  }
+}
+
+.graph-legend li.property:before {
+  background-color: rgba(177, 14, 30, 0.3);
+  height: 16px;
+}
+
+.graph-legend li.land:before {
+  background-color: rgba(244, 119, 56, 0.3);
+  height: 16px;
+}
+
+.graph-legend li.normal:before {
+  background-color: rgba(0, 94, 165, 0.3);
+  height: 16px;
+}
+
+.graph-legend li.measured:before {
+  background-color: transparent;
+  border-bottom: #005ea5 4px solid;
+  top: 1px;
+}
+
+@media (min-width: 641px) {
+  .graph-legend li.measured:before {
+    top: 3px;
+  }
+}
+
+.graph-legend li.forecast:before {
+  background-color: transparent;
+  border-bottom: #52585a 4px dotted;
+  top: 1px;
+}
+
+@media (min-width: 641px) {
+  .graph-legend li.forecast:before {
+    top: 3px;
+  }
+}
+
+.graph-legend li.max.max-off {
+  padding-left: 0;
+}
+
+.graph-legend li.max.max-off:before {
+  display: none;
+}
+
+.graph-legend li.max:before {
+  background-color: transparent;
+  border-bottom: #0b0c0c 4px solid;
+  top: 1px;
+}
+
+@media (min-width: 641px) {
+  .graph-legend li.max:before {
+    top: 3px;
+  }
+}
+
+.graph-legend .list-graph-labels li {
+  display: inline-block;
+}
+
+@media (min-width: 641px) {
+  .graph-legend .list-graph-labels li {
+    display: block;
+  }
+}
+
+.graph-legend .data-level {
+  margin-top: 0;
+  margin-bottom: 1.57895em;
+}
+
+.graph-legend .data-level-item-heading {
+  border-bottom: 1px solid #dee0e2;
+  line-height: 1.5;
+  margin-bottom: 0.5em;
+  padding-left: 1.5em;
+}
+
+@media (min-width: 641px) {
+  .graph-legend .graph-legend-normal-level {
+    max-width: 14em;
+  }
+}
+
+.button-hide-threshold {
+  display: inline-block;
+}
+
+table.table-levels {
+  margin-bottom: 1.5em;
+}
+
+table.table-levels thead th {
+  font-family: "nta", Arial, sans-serif;
+  font-weight: bold;
+  text-transform: none;
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+@media (min-width: 641px) {
+  table.table-levels thead th {
+    font-size: 19px;
+    line-height: 1.31579;
+  }
+}
+
+table.table-levels thead th:first-child {
+  width: 50%;
+}
+
+table.table-levels thead .numeric {
+  padding-right: 100px;
+}
+
+table.table-levels tbody td {
+  position: relative;
+}
+
+table.table-levels tbody .numeric {
+  padding-right: 100px;
+  vertical-align: top;
+}
+
+table.table-levels tbody .error {
+  border: 0;
+  position: absolute;
+  padding-top: inherit;
+  padding-bottom: inherit;
+  padding-left: 0;
+  bottom: 0;
+  right: 0;
+  width: 80px;
+  text-align: left;
+}
+
+table.table-levels tbody .error:before {
+  background-color: #0b0c0c;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  content: '!';
+  color: #fff;
+  line-height: 1;
+  display: inline-block;
+  font-family: arial;
+  font-weight: bold;
+  height: 1em;
+  margin-left: 7px;
+  margin-right: 2px;
+  padding: 2px;
+  text-align: center;
+  width: 1em;
+}
+
+.graph svg {
+  position: relative;
+  overflow: visible;
+  height: 300px;
+  width: 100%;
+  /*
+    .observed-focus .observed-line {
+        stroke: rgba($govuk-blue, 1);
+        stroke-width: 4;
+    }
+    .observed-focus .observed-area {
+        fill: rgba($govuk-blue, 0.3);
+    }
+    */
+  /*
+    .forecast-focus .forecast-line {
+        stroke: rgba($grey-1, 1);
+        stroke-width: 4;
+    }
+    .forecast-focus .forecast-area {
+        fill: rgba($grey-1, 0.4);
+    }
+    .forecast-focus .forecast-buffer {
+        stroke: rgba($grey-1, 0.4);
+    }
+    */
+}
+
+@media (min-width: 769px) {
+  .graph svg {
+    height: 450px;
+  }
+}
+
+.graph svg .axis.y {
+  font-family: "ntatabularnumbers", "nta", Arial, sans-serif;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+@media (min-width: 641px) {
+  .graph svg .axis.y {
+    font-size: 14px;
+    line-height: 1.42857;
+  }
+}
+
+.graph svg .axis.x {
+  font-family: "nta", Arial, sans-serif;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+@media (min-width: 641px) {
+  .graph svg .axis.x {
+    font-size: 14px;
+    line-height: 1.42857;
+  }
+}
+
+.graph svg .axis path,
+.graph svg .axis line {
+  fill: none;
+  stroke: #bfc1c3;
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.graph svg .axis.x .tick line {
+  visibility: hidden;
+}
+
+.graph svg .axis.x .tick-today {
+  font-weight: bold;
+}
+
+.graph svg .grid line {
+  fill: none;
+  stroke: #dee0e2;
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.graph svg .grid path {
+  visibility: hidden;
+}
+
+.graph svg .highest {
+  stroke: #0b0c0c;
+  stroke-width: 2;
+  shape-rendering: crispEdges;
+}
+
+.graph svg .warning {
+  stroke: #b10e1e;
+  stroke-width: 2;
+  shape-rendering: crispEdges;
+}
+
+.graph svg .warning-band {
+  stroke-width: 0;
+  fill: #fab8be;
+}
+
+.graph svg .alert {
+  stroke: #f47738;
+  stroke-width: 2;
+  shape-rendering: crispEdges;
+}
+
+.graph svg .alert-band {
+  stroke-width: 0;
+  fill: #fbcdb6;
+}
+
+.graph svg .normal-band {
+  stroke-width: 0;
+  fill: #b3deff;
+}
+
+.graph svg .observed-line {
+  stroke: #005ea5;
+  stroke-width: 3;
+  fill: none;
+}
+
+.graph svg .observed-area {
+  fill: rgba(0, 94, 165, 0.1);
+}
+
+.graph svg .forecast-line {
+  stroke-dasharray: 4, 2;
+  stroke: #6f777b;
+  stroke-width: 3;
+  fill: none;
+}
+
+.graph svg .forecast-area {
+  fill: #bfc1c3;
+}
+
+.graph svg .forecast-buffer {
+  stroke: #bfc1c3;
+  stroke-width: 30;
+  fill: none;
+}
+
+.graph svg .locator-point {
+  stroke-width: 3;
+  stroke: #005ea5;
+  fill: white;
+}
+
+.graph svg .locator-point-forecast {
+  stroke: #6f777b;
+}
+
+.graph svg .tool-tip-hidden {
+  display: none;
+}
+
+.graph svg .tool-tip-bg {
+  fill: white;
+  stroke-width: 1;
+  stroke: rgba(11, 12, 12, 0.1);
+}
+
+.graph svg .tool-tip-level {
+  font-family: "nta", Arial, sans-serif;
+  font-weight: bold;
+  text-transform: none;
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+@media (min-width: 641px) {
+  .graph svg .tool-tip-level {
+    font-size: 19px;
+    line-height: 1.31579;
+  }
+}
+
+.graph svg .tool-tip-date {
+  font-family: "nta", Arial, sans-serif;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+@media (min-width: 641px) {
+  .graph svg .tool-tip-date {
+    font-size: 14px;
+    line-height: 1.42857;
+  }
+}
+
+.graph svg .time-line {
+  stroke-width: 1;
+  stroke: rgba(11, 12, 12, 0.5);
+  shape-rendering: crispEdges;
+}
+
+.graph svg .time-now {
+  font-family: "nta", Arial, sans-serif;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 14px;
+  line-height: 1.14286;
+}
+
+@media (min-width: 641px) {
+  .graph svg .time-now {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+
 .autocomplete-menu {
   box-sizing: border-box;
 }
