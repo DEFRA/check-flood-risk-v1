@@ -1,0 +1,142 @@
+<main>
+
+	<div class="grid-row no-bottom">
+		<div class="column-full no-bottom">
+
+			<nav class="nav-back" style="display:none" hidden>
+				<a href="*" class="link-back">Back</a> 
+			</nav>
+
+			<div class="visualisation">
+	
+				<h1 class="heading-xlarge">
+					River level
+					<span class="heading-secondary">Irk at Collyhurst Weir</span>
+				</h1>
+			
+				<div class="visualisation-device panel panel-border-narrow" aria-hidden="true">
+					<p>
+						A graph is available with JavaScript enabled and a modern browser.
+					</p>
+				</div>
+
+				<section class="visualisation" id="visualisation" aria-labelledby="visualisation-heading" aria-live="polite">
+
+					<div class="grid-row">
+						<div class="column-full">
+							<h2 class="heading-medium heading-river-level" id="visualisation-heading">
+								Levels: last 5 days and next 36 hours
+							</h2>   
+							<div class="visualisation-device panel panel-border-narrow" aria-hidden="true">
+								<p>
+									A graph is available with JavaScript enabled and a modern browser
+								</p>
+							</div>
+							<div class="visualisation-summary" id="visualisation-summary">
+								<p>The water level has risen from 1.50m at <time datetime="2017-05-11T14:00:00">2pm on 11 May</time> to 2.42m at <time datetime="2017-05-16T12:00:00">12pm today</time> (latest recording). The forecast is for the level to rise sharply to 4.65m at <time datetime="2017-05-17T05:00:00">5:00am on 17 May</time> (forecast highest) and then fall to 2.95m at <time datetime="2017-05-18T02:00:00">2am on 18 May</time>. <a href="#low-lying-land" rel="nofollow">Low lying land may flood</a> from <time datetime="2017-05-16T07:00:00">7pm on 16 May</time> and <a href="#property" rel="nofollow">property flooding is possible</a> from <time datetime="2017-05-17T01:00:00">1am on 17 May</time>.</p>
+							</div>
+							<!--
+								If D3 available (Javascript, SVG or VML)
+								remove hidden class and hidden attribute
+							-->
+							<div class="visualisation-inner hidden" hidden>
+								<figure class="graph" role="presentation" aria-hidden="true">
+									<div id="graph"></div>
+									<figcaption class="graph-legend">
+										<ul>
+											<li class="measured">
+												<span>Measured level</span>
+											</li>
+											<li class="forecast">
+												<span>Forecast level</span>
+											</li>
+											<li class="property">
+												<span>Property flooding possible</span>
+											</li>
+											<li class="land">
+												<span>Low lying land may flood</span>
+											</li>
+											<li class="normal">
+												<span>Typical range</span>
+											</li>
+											<li class="max max-off">
+												<span>
+													<a href="" class="button-hide-threshold" role="button" aria-controls="graph" onclick="return false">
+														Show highest recorded level
+													</a>
+												</span>
+											</li>
+										</ul>
+									</figcaption>
+								</figure>
+							</div>
+							<!--
+								End D3 available
+							-->
+						</div>
+					</div>
+				
+					<details>
+						<summary>
+							<span class="summary">Why there may be a gap between now and the latest recording?</span>
+						</summary>
+						<div class="panel panel-border-narrow">
+							<p>For most river levels the data we collect is fed into this service once or twice a day. We often increase this frequency whenever there is a greater risk of flooding.</p>
+						</div>
+					</details>
+
+				</section>
+				
+				<div class="form-group">
+					<input id="scenario" name="scenario" type="hidden" value=""/>
+				</div>
+
+				<p>Other ways to find river level information</p>
+
+				<p>
+					<strong class="bold-small">Environment Agency (National Customer Contact Centre)</strong></br>
+					Telephone: 03708 506 506</br>
+					Mon to Fri, 8am to 6pm</br>
+					<a href="">Learn more about call charges</a>
+				</p>
+				
+			</div>
+
+		</div>
+	
+	</main>
+	
+{{#section 'bodyScripts' }}
+<!-- Add before closing body tag -->
+<script src="/public/javascripts/d3.v3.min.js"></script>
+<script src="/public/javascripts/graph.js"></script>
+
+<!-- Add to graph javascript -->
+<script>
+	var visualisation = document.getElementsByClassName('visualisation')
+	for (i=0; i<visualisation.length; i++){
+		//var table = visualisation[i].getElementsByClassName('visualisation-table')[0]
+		var inner = visualisation[i].getElementsByClassName('visualisation-inner')[0]
+		var summary = visualisation[i].getElementsByClassName('visualisation-summary')[0]
+		var device = visualisation[i].getElementsByClassName('visualisation-device')[0]
+		//table.className += ' visuallyhidden'
+		summary.className += ' visuallyhidden'
+		device.className += ' visuallyhidden'
+		inner.className = 'visualisation-inner'
+		// Remove taindex from summary links
+		summaryLinks = summary.getElementsByTagName('a')
+		for (var i=0; i < summaryLinks.length; i++) {
+			summaryLinks[i].setAttribute('tabindex', '-1');
+		}
+		inner.removeAttribute('hidden')
+	}
+</script>
+
+<script>
+	Graph.init({
+		data: '/public/data/shrewsbury-probabilistic-a.json'
+	})
+</script>
+
+<!-- end before closing body tag -->
+{{/section }}

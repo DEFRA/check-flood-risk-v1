@@ -18,7 +18,6 @@ exports.getProperty = function(addressInput, error) {
 		postcode = data.postcode.find(x => x.id == data.firstLine[i].postcodeId)
 		town = data.town.find(x => x.id == postcode.townId)
 		county = data.county.find(x => x.id == town.countyId)
-		/*
 		source.push(
 			{
 				'firstLine' : {
@@ -27,17 +26,10 @@ exports.getProperty = function(addressInput, error) {
 				},
 				'postcode' : postcode.name,
 				'town' : town.name,
-				'county' : county.name
+				'county' : county.name,
+				'addressLine' : data.firstLine[i].premises + ' ' + data.firstLine[i].street + ', ' + postcode.name + ', ' + town.name + ', ' + county.name
 			}
 		)
-		*/
-		source.push({ 'addressLine' :
-			data.firstLine[i].premises + ' ' +
-			data.firstLine[i].street + ', ' +
-			postcode.name + ', ' +
-			town.name + ', ' +
-			county.name
-		})
 	}	
 
 	// Fuse fuzzy search
@@ -49,6 +41,8 @@ exports.getProperty = function(addressInput, error) {
 		distance: 100,
 		maxPatternLength: 32,
 		minMatchCharLength: 1,
+		findAllMatches: false,
+		includeScore: true,
 		/*
 		keys: [
 			'firstLine.premises',
@@ -62,6 +56,13 @@ exports.getProperty = function(addressInput, error) {
 	}
 	var f = new fuse(source, options)
 	result = f.search(addressInput);
+
+	// Add id's to each result item
+	if (result.length) {
+		for (var i = 0; i < result.length; i++) {
+			result[i].item['id'] = i+1
+		}
+	}
 
 	// Set has address flag
 	if (result.length) {
