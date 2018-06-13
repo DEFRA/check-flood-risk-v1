@@ -319,6 +319,25 @@ module.exports = [
 				})
 			}
 		}
+	},
+
+	//
+	// SMS auto opt in
+	//
+
+	{
+		method: 'GET',
+		path: '/sms-auto-opt-in-info',
+		config: {
+			handler: function (request, reply) {
+				return reply.view('gov-uk/sms-auto-opt-in', {
+					'pageTitle' : 'SMS opt-in to flood warnings by phone information - GOV.UK',
+					'pageDescription' : '',
+					'bodyClasses': 'guide',
+					'serviceName' : 'Flood information service'
+				})
+			}
+		}
 	}
 
 ]
