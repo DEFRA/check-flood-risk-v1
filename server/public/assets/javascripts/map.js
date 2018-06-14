@@ -320,7 +320,6 @@ var Map = (function() {
     var setFullScreen = function () {
         elementMapContainerInner.classList.add('map-container-inner-fullscreen')
         elementFullScreen.classList.add('ol-full-screen-back')
-        console.log(elementFullScreen)
         elementFullScreen.title = 'Go back'
         _isFullScreen = true
     }
@@ -329,7 +328,6 @@ var Map = (function() {
     var removeFullScreen = function () {
         elementMapContainerInner.classList.remove('map-container-inner-fullscreen')
         elementFullScreen.classList.remove('ol-full-screen-back')
-        console.log(elementFullScreen)
         elementFullScreen.title = 'Make the map fill the screen'
         _isFullScreen = false
     }

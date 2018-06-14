@@ -64,7 +64,6 @@
   </head>
 
   <body class="{{ bodyClasses }}">
-    <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
 
     {{> bodyStart }}
 
@@ -199,12 +198,13 @@
 
     <div id="global-app-error" class="app-error hidden"></div>
 
-    <script src="{{{ assetPath }}}javascripts/govuk-template.js?0.22.2"></script>
+    <script src="{{{assetPath}}}javascripts/jquery.min.js"></script>
+    <script src="{{{assetPath}}}javascripts/govuk-template.js?0.22.2"></script>
 
     {{> bodyEnd }}
 
     <script>if (typeof window.GOVUK === 'undefined') document.body.className = document.body.className.replace('js-enabled', '');</script>
-    <script src="{{{ assetPath }}}javascripts/application.js"></script>
+    <script src="{{{assetPath}}}javascripts/application.js"></script>
 
     {{{_sections.bodyScripts}}}
 

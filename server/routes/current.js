@@ -49,6 +49,12 @@ module.exports = [
 				const scenario = request.query.s ? request.query.s : 'a'
 				const model = modelData.getSummary(path, scenario)
 				const pageTitle = model.location + ' - Current flood risk - GOV.UK'
+				// Single detail page
+				return reply.view('current/detail', {
+					'model': model,
+					'pageTitle' : pageTitle
+				})
+				/*
 				if (model.hasAlertOrWarning) {
 					return reply.view('current/summary-warning', {
 						'model': model,
@@ -60,6 +66,7 @@ module.exports = [
 						'pageTitle' : pageTitle
 					})
 				}
+				*/
 			}
 		}
 	}

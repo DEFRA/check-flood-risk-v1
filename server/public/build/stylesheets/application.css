@@ -3686,6 +3686,79 @@ table.select-areas th {
   height: 120%;
 }
 
+@media (max-width: 640px) {
+  .nav-tabs ol, .nav-tabs ul, .nav-tabs .tabs-nav {
+    margin: 0 -16px;
+  }
+}
+
+.nav-tabs li, .nav-tabs .tabs-nav li {
+  font-size: 14px;
+}
+
+@media (min-width: 641px) {
+  .nav-tabs li, .nav-tabs .tabs-nav li {
+    font-size: 16px;
+  }
+}
+
+.nav-tabs li a, .nav-tabs .tabs-nav li a {
+  border: solid 1px #fff;
+  border-bottom: none;
+  float: left;
+  line-height: 2.25em;
+  margin-bottom: -1px;
+  padding: 0 1em 0 1em;
+}
+
+.nav-tabs li a:hover, .nav-tabs .tabs-nav li a:hover {
+  background-color: #bfc1c3;
+}
+
+@media (max-width: 640px) {
+  .nav-tabs li a, .nav-tabs .tabs-nav li a {
+    display: block;
+    float: none;
+    line-height: 3.5em;
+    padding: 0 16px;
+    text-align: left;
+    margin-bottom: 0;
+    border-bottom: 1px solid #bfc1c3;
+  }
+}
+
+.nav-tabs li.active a, .nav-tabs .tabs-nav li.active a {
+  background-color: #fff;
+  border: solid 1px #bfc1c3;
+  border-bottom: solid 1px #fff;
+  color: #0b0c0c;
+  position: relative;
+  text-decoration: none;
+}
+
+@media (max-width: 640px) {
+  .nav-tabs li.active a, .nav-tabs .tabs-nav li.active a {
+    border-bottom: 1px solid #bfc1c3;
+  }
+}
+
+.tab-content .tab-pane {
+  padding: 30px 0 0 0;
+  border-top: solid 1px #bfc1c3;
+  clear: both;
+}
+
+@media (max-width: 640px) {
+  .tab-content .tab-pane {
+    border-top: none;
+    padding: 1em 0 0 0;
+  }
+}
+
+.tab-content .tab-pane > .heading-medium:first-child {
+  margin-top: 0.5em;
+}
+
 .govuk-govspeak .address,
 .govuk-govspeak .contact {
   border-left: 1px solid #bfc1c3;
