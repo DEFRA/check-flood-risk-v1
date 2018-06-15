@@ -489,41 +489,47 @@ var Map = (function() {
 
         // Background map layer
         _layerTile = new ol.layer.Tile({
-            source: new ol.source.OSM()
+            source: new ol.source.OSM(),
+            zIndex : 0
         })
 
         // Flood zones layer
         _layerFloodZones = new ol.layer.Vector({
             renderMode: 'image',
             source: _sourceFloodZones,
-            style: styleFeatures
+            style: styleFeatures,
+            zIndex : 1
         })
 
         // Target areas layer
         _layerTargetAreas = new ol.layer.Vector({
             renderMode: 'hybrid',
             source: _sourceTargetAreas,
-            style: styleFeatures
+            style: styleFeatures,
+            zIndex : 1
         })
 
         // River levels layer
         _layerRiverLevels = new ol.layer.Vector({
             source: _sourceRiverLevels,
-            style: styleFeatures
+            style: styleFeatures,
+            zIndex : 2
         })
 
         // Locator layer
         _layerLocator = new ol.layer.Vector({
             source: _sourceLocator,
             style: styleInteractiveFeatures,
-            visible: true
+            visible: true,
+            zIndex : 3
         })
 
         // Shape layer
         _layerShape = new ol.layer.Vector({
             source: _sourceShape,
             style: styleInteractiveFeatures,
-            visible: false
+            visible: false,
+            zIndex : 4
         })
 
         //
@@ -1035,9 +1041,13 @@ var Map = (function() {
             }
         })
 
-        // Update layer opacity setting for different map resolutions
+        
+        // Map resolution settings
         map.on('moveend', function(){
+            
             resolution = map.getView().getResolution()
+
+            // Update layer opacity setting for different map resolutions
             if (resolution > 20) { 
                 layerOpacity = 1 
             }
@@ -1052,6 +1062,18 @@ var Map = (function() {
             } 
             _layerFloodZones.setOpacity(layerOpacity)
             _layerTargetAreas.setOpacity(layerOpacity)
+
+            // Move warning icons above river level icons
+            if (resolution <= _options.minIconResolution) {
+                _layerTargetAreas.setZIndex(1)
+                _layerRiverLevels.setZIndex(2)
+                console.log('Target areas behind')
+            } else {
+                console.log('Target areas in front')
+                _layerTargetAreas.setZIndex(2)
+                _layerRiverLevels.setZIndex(1)
+            }
+
         })
 
         // Toggle fullscreen view on browser history change
