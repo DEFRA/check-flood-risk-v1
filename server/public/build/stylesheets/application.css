@@ -3688,7 +3688,7 @@ table.select-areas th {
 
 @media (max-width: 640px) {
   .nav-tabs ol, .nav-tabs ul, .nav-tabs .tabs-nav {
-    margin: 0 -16px;
+    margin: 0 -15px;
   }
 }
 
@@ -3738,6 +3738,8 @@ table.select-areas th {
 
 @media (max-width: 640px) {
   .nav-tabs li.active a, .nav-tabs .tabs-nav li.active a {
+    border-left: 0;
+    border-right: 0;
     border-bottom: 1px solid #bfc1c3;
   }
 }

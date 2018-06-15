@@ -34,7 +34,7 @@
 
 	<div class="grid-row">
 		
-		<div class="column-two-thirds">
+		<div class="column-full">
 
 			<div class="js-tabs nav-tabs">
 				<ul>
@@ -43,8 +43,18 @@
 				</ul>
 			</div>
 
-			<div class="js-tab-content tab-content">
-				<div class="js-tab-pane tab-pane" id="today">
+		</div>
+
+	</div>
+
+	<div class="grid-row">
+
+		<div class="js-tab-content tab-content">
+			
+			<div class="js-tab-pane tab-pane" id="today">
+			
+				<div class="column-two-thirds">
+
 					<figure class="map" id="map">
 						<div class="map-container map-container-large">
 							<div class="map-container-inner" id="map-container-inner">
@@ -160,14 +170,37 @@
 						</div>
 						<figcaption class="visuallyhidden">Site boundary</figcaption>
 					</figure>
+
 				</div>
-				<div class="js-tab-pane tab-pane" id="outlook">
-					<p>Outlook</p>
+
+				<div class="column-one-third">
+
+					<h2 class="heading-small" style="margin-top:0">Summary</h2>
+					<p>No food warnings or alerts are in force nearby. Local river levels are within typical range.</p>
+
 				</div>
+
 			</div>
 			
+			<div class="js-tab-pane tab-pane" id="outlook">
+			
+				<div class="column-two-thirds">
+
+					<p>Outlook</p>
+
+				</div>
+
+				<div class="column-one-third">
+
+					<h2 class="heading-small" style="margin-top:0">Outlook 19th to 23rd</h2>
+					<p>Localised fooding possible in the north of England.</p>
+
+				</div>
+
+			</div>
+		
 		</div>
-	
+
 	</div>
 
 </main>
@@ -191,7 +224,7 @@
 		zoom: 12,
 		hasLocator: true,
 		hasKey: true,
-		hasSearch: true,
+		hasSearch: false,
 		targetAreasJSON: '/public/data/target-areas.json',
 		riverLevelsJSON: '/public/data/river-levels.json',
 		targetAreaStates: {{{ json model.targetAreaStates }}},

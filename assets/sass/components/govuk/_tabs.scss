@@ -6,7 +6,8 @@ $mobile-max-width: $desktop-min-width - 1;
 .nav-tabs {
   ol, ul, .tabs-nav {
     @media (max-width: $mobile-max-width) {
-      margin: 0 -16px;
+      //margin: 0 -16px;
+      margin: 0 -15px;
     }
   }
   li, .tabs-nav li {
@@ -43,6 +44,8 @@ $mobile-max-width: $desktop-min-width - 1;
     position: relative;
     text-decoration: none;
     @media (max-width: $mobile-max-width) {
+      border-left: 0;
+      border-right: 0;
       border-bottom: 1px solid $border-colour;
     }
   }
