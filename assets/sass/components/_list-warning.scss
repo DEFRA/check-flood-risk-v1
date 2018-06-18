@@ -1,0 +1,33 @@
+.column-warning-map {
+    @include media(desktop) {
+        width:66.6667%
+    }
+}
+.column-warning-list {
+    @include media(desktop) {
+        width:33.3333%
+    }
+}
+.list-warning-section {
+    position:relative;
+    padding-left:58px;
+    background-color:yellow;
+    border-bottom:1px solid $grey-2;
+}
+.list-warning-section img {
+    position:absolute;
+    left:0;
+    top:0;
+    @include media(tablet) {
+        height:48px;
+        width:auto;
+    }
+}
+.list-warning-items {
+    @include core-16;
+    height:425px;
+    background-color:#eee;
+}
+.list-warning-item {
+    //margin-top:0.5em;
+}

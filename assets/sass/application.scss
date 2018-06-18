@@ -10,7 +10,7 @@ $path: "/public/";
 @import 'rainfall';
 @import 'filter';
 @import 'accordion';
-@import 'notices';
+//@import 'notices';
 
 @import 'objects/tables';
 @import 'objects/forms';
@@ -33,5 +33,6 @@ $path: "/public/";
 @import 'components/map';
 @import 'components/graph';
 @import 'components/autocomplete';
+@import 'components/list-warning';
 
 @import 'utilities/margins-borders';

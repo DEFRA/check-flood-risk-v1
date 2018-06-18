@@ -51,3 +51,11 @@
 .heading-river-level {
     margin-top: 0;
 }
+
+// Location detail page
+.risk-summary {
+    margin-top:1em;
+    @include media(tablet) {
+        margin-top:0;
+    }
+}

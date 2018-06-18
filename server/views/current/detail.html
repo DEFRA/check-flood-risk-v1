@@ -53,7 +53,44 @@
 			
 			<div class="js-tab-pane tab-pane" id="today">
 			
-				<div class="column-two-thirds">
+				<div class="column-half column-warning-list">
+
+					<div class="risk-summary">
+						{{#if model.hasAlertOrWarning }}
+						<ul class="list-warning">
+							<li class="list-warning-section">
+								<img src="/public/icon-flood-warning-severe-2x.gif" alt="" />
+								<strong class="bold-small">1 Severe flood warning</strong><br/>Danger to life
+							</li>
+							<li class="list-warning-section">
+								<img src="/public/icon-flood-warning-2x.gif" alt="" />
+								<strong class="bold-small">3 Flood warnings</strong><br/>Immedate action required
+								<ul class="list-warning-items">
+									<li class="list-warning-item">
+										<a href="">River Kennet and its tributaries from Berwick Bassett down to Newbury</a>
+									</li>
+									<li class="list-warning-item">
+										<a href="">River Lambourn and its tributaries from Upper Lambourn down to Newbury</a>
+									</li>
+									<li class="list-warning-item">
+										<a href="">Coast at North Morecambe Bay</a>
+									</li>
+								</ul>
+							</li>
+							<li class="list-warning-section">
+								<img src="/public/icon-flood-alert-2x.gif" alt="" />
+								<strong class="bold-small">12 Flood alerts</strong><br/>Be prepared
+							</li>
+						</ul>
+						{{else }}
+						<h2 class="heading-small" style="margin-top:0">Summary</h2>
+						<p>No food warnings or alerts are in force nearby. Local river levels are within typical range.</p>
+						{{/if }}
+					</div>
+
+				</div>
+
+				<div class="column-half column-warning-map">
 
 					<figure class="map" id="map">
 						<div class="map-container map-container-large">
@@ -173,13 +210,6 @@
 
 				</div>
 
-				<div class="column-one-third">
-
-					<h2 class="heading-small" style="margin-top:0">Summary</h2>
-					<p>No food warnings or alerts are in force nearby. Local river levels are within typical range.</p>
-
-				</div>
-
 			</div>
 			
 			<div class="js-tab-pane tab-pane" id="outlook">
@@ -221,8 +251,8 @@
 
 	Map.init({
 		lonLat: JSON.parse('[' + {{{ json model.lonLat }}} + ']'),
-		zoom: 12,
-		hasLocator: true,
+		zoom: 10,
+		hasLocator: false,
 		hasKey: true,
 		hasSearch: false,
 		targetAreasJSON: '/public/data/target-areas.json',
