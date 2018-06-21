@@ -5451,6 +5451,12 @@ table.table-levels tbody .error:before {
   border-color: #005ea5;
 }
 
+@media (min-width: 641px) {
+  .risk-summary {
+    height: 576px;
+  }
+}
+
 @media (min-width: 769px) {
   .column-warning-map {
     width: 66.6667%;
@@ -5464,10 +5470,10 @@ table.table-levels tbody .error:before {
 }
 
 .list-warning-section {
-  position: relative;
-  padding-left: 58px;
-  background-color: yellow;
+  display: block;
+  padding-left: 48px;
   border-bottom: 1px solid #bfc1c3;
+  padding-top: 10px;
 }
 
 .list-warning-section img {
@@ -5478,9 +5484,22 @@ table.table-levels tbody .error:before {
 
 @media (min-width: 641px) {
   .list-warning-section img {
-    height: 48px;
+    height: 38px;
+    left: -48px;
     width: auto;
   }
+}
+
+.list-warning-section-heading {
+  position: relative;
+  height: 50px;
+}
+
+.list-warning-section p {
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .list-warning-items {
@@ -5489,8 +5508,6 @@ table.table-levels tbody .error:before {
   text-transform: none;
   font-size: 14px;
   line-height: 1.14286;
-  height: 425px;
-  background-color: #eee;
 }
 
 @media (min-width: 641px) {
@@ -5498,6 +5515,10 @@ table.table-levels tbody .error:before {
     font-size: 16px;
     line-height: 1.25;
   }
+}
+
+.list-warning-item {
+  margin-bottom: 0.65em;
 }
 
 .flood-zone-location-edit {

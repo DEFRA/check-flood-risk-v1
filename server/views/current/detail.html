@@ -59,27 +59,41 @@
 						{{#if model.hasAlertOrWarning }}
 						<ul class="list-warning">
 							<li class="list-warning-section">
-								<img src="/public/icon-flood-warning-severe-2x.gif" alt="" />
-								<strong class="bold-small">1 Severe flood warning</strong><br/>Danger to life
+								<div class="list-warning-section-heading">
+									<img src="/public/icon-flood-warning-severe-2x.gif" alt="" />
+									<p class="font-xsmall">
+										<strong class="bold-xsmall">1 Severe flood warning</strong><br/>Danger to life
+									</p>
+								</div>
 							</li>
 							<li class="list-warning-section">
-								<img src="/public/icon-flood-warning-2x.gif" alt="" />
-								<strong class="bold-small">3 Flood warnings</strong><br/>Immedate action required
-								<ul class="list-warning-items">
-									<li class="list-warning-item">
-										<a href="">River Kennet and its tributaries from Berwick Bassett down to Newbury</a>
-									</li>
-									<li class="list-warning-item">
-										<a href="">River Lambourn and its tributaries from Upper Lambourn down to Newbury</a>
-									</li>
-									<li class="list-warning-item">
-										<a href="">Coast at North Morecambe Bay</a>
-									</li>
-								</ul>
+								<div class="list-warning-section-heading">
+									<img src="/public/icon-flood-warning-2x.gif" alt="" />
+									<p class="font-xsmall">
+										<strong class="bold-xsmall">3 Flood warnings</strong><br/>Immedate action required
+									</p>
+								</div>
+								<div class="list-warning-section-items">
+									<ul class="list-warning-items">
+										<li class="list-warning-item">
+											<a href="">River Kennet and its tributaries from Berwick Bassett down to Newbury</a>
+										</li>
+										<li class="list-warning-item">
+											<a href="">River Lambourn and its tributaries from Upper Lambourn down to Newbury</a>
+										</li>
+										<li class="list-warning-item">
+											<a href="">Coast at North Morecambe Bay</a>
+										</li>
+									</ul>
+								</div>
 							</li>
 							<li class="list-warning-section">
-								<img src="/public/icon-flood-alert-2x.gif" alt="" />
-								<strong class="bold-small">12 Flood alerts</strong><br/>Be prepared
+								<div class="list-warning-section-heading">
+									<img src="/public/icon-flood-alert-2x.gif" alt="" />
+									<p class="font-xsmall">
+										<strong class="bold-xsmall">12 Flood alerts</strong><br/>Be prepared
+									</p>
+								</div>
 							</li>
 						</ul>
 						{{else }}

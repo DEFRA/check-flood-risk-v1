@@ -1067,9 +1067,7 @@ var Map = (function() {
             if (resolution <= _options.minIconResolution) {
                 _layerTargetAreas.setZIndex(1)
                 _layerRiverLevels.setZIndex(2)
-                console.log('Target areas behind')
             } else {
-                console.log('Target areas in front')
                 _layerTargetAreas.setZIndex(2)
                 _layerRiverLevels.setZIndex(1)
             }
