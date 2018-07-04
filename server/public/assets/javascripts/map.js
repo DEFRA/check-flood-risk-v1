@@ -982,9 +982,11 @@ var Map = (function() {
             }
 
             // Constrain tab key to 'key' when its open
-            else if (e.keyCode === 9) {
+            else if (e.keyCode === 9 || e.keyCode === 37 || e.keyCode === 38 || e.keyCode === 39 || e.keyCode === 40) {
 
+                // Context is default
                 var context
+
                 // Context is map key
                 if (_isKeyOpen) {
                     context = elementKey
@@ -993,13 +995,10 @@ var Map = (function() {
                 else if (_isFullScreen) {
                     context = elementMapContainerInner
                 }
-                // Context is default
-                else {
-                    context = null
-                }
 
                 // If dialog context is open
                 if (context) {
+
                     var focusableElements = context.querySelectorAll('button:not(:disabled), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
                     // Filter only visible elements
                     var visibleFocusableElements = []
@@ -1012,7 +1011,7 @@ var Map = (function() {
                     var firstFocusableElement = visibleFocusableElements[0]
                     var lastFocusableElement = visibleFocusableElements[visibleFocusableElements.length - 1]
                     // Shift tab (backwards)
-                    if (e.shiftKey) {
+                    if (e.shiftKey || e.keyCode === 37 || e.keyCode === 38 ) {
                         if (document.activeElement === firstFocusableElement) {
                             e.preventDefault()
                             lastFocusableElement.focus()
